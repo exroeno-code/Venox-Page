@@ -1,106 +1,60 @@
-# VEXON TECH — Landing Page
+# VEXON TECH — Internal Site Overview
 
-> **This repository is the website for VEXON TECH. It is not a product, a software library or an open-source project.**
+> Internal reference for the VEXON TECH website. This site represents the VEXON TECH brand and its current work; it is not a software product for public installation or reuse.
 
-This is the official promotional landing page for **VEXON TECH**, a proposed technology brand in concept
-development, built by Enosh Yeswa and Vince Odhiambo in Kenya (Nairobi and Kakamega). It introduces the
-brand and lets visitors get in touch, join a waitlist, apply for online computer classes and find our
-WhatsApp community.
+## What VEXON TECH does
 
-## What this is, and what it is not
+VEXON TECH is a proposed technology brand in concept development, built by Enosh Yeswa and Vince Odhiambo in Kenya. Its focus is useful ideas and real-world progress. The website explains the brand, its workstreams, and ways people can express interest or get in touch.
 
-- **It is** a single website that presents VEXON TECH and collects enquiries.
-- **It is not** a product you can install, run for your own use or build on. Nothing here is sold or offered as software.
-- **It is not** an open-source or community project. We are not accepting contributions, issues or pull requests, and no licence to copy, reuse or redistribute the code, design, name or images is granted.
-- **The brand is at concept stage.** The name, structure and launch timing are still subject to founder
-  confirmation. Roadmap items, the AI assistant, Goods Trade and the learning classes are plans, not live offerings.
-  Classes, fees, accreditation and start dates are not confirmed.
+The roadmap distinguishes live website features from ideas that are not yet operating services. In particular, the AI assistant, Goods Trade, learning classes, and trading education are concepts or planned offerings unless their current roadmap status says otherwise. An application or waitlist submission is an expression of interest, not confirmation of a class, service, fee, accreditation, or start date.
 
-The code is kept in this repository only so the site can be built and deployed to Vercel.
+## How the site works
 
-## What is on the site
+| Area | What visitors can do | Current behavior |
+| --- | --- | --- |
+| Home (`/`) | Learn about the VEXON TECH brand, its principles, and workstreams. | Brand and information page. |
+| Roadmap (`/roadmap`) | Review progress and updates. | Items are marked Idea, Prototype, Pilot, or Live; keep the label aligned with actual status. |
+| Learning (`/learning`) | Browse computing programmes by level and submit an application of interest. | Applications are validated and saved in Supabase. They do not guarantee a place or indicate confirmed course details. |
+| AI Assistant (`/assistant`) | Read about the assistant concept and join its waitlist. | The future assistant is not itself a live offering; sign-ups are stored in Supabase. |
+| VEXON Guide | Ask questions about the website and its information. | The `/api/guide` endpoint checks and limits chat input, then tries NVIDIA-hosted chat, then Anthropic, and finally built-in rule-based answers. It is constrained to site facts and must not provide investment advice or invent unconfirmed details. |
+| Trading (`/trading`) | Read about the proposed trading-education workstream and its risk notice. | Education only; no investment advice, trade signals, money management, deposits, or broker endorsements. |
+| Goods Trade (`/goods-trade`) | Read about the goods-commerce concept. | No goods are represented as currently for sale. |
+| Community (`/community`) | Follow links to VEXON WhatsApp groups and channel. | External community links. |
+| Contact (`/contact`) | Send an enquiry. | The form validates the message and stores it in Supabase. |
+| Accounts (`/auth`, `/profile`) | Create an account, sign in, and update a display name. | Supabase Auth manages sessions; profile names are stored in Supabase. |
+| Leadership (`/leadership`) | Meet the people behind VEXON TECH. | Information page. |
+| Privacy (`/privacy`) | Read the site's privacy information. | Describes the site's data practices. |
 
-| Page | Purpose |
-| --- | --- |
-| `/` | Landing page: brand, foundation, workstreams, principles |
-| `/assistant` | AI assistant concept and waitlist |
-| `/roadmap` | Roadmap and updates, each item labelled with its true stage |
-| `/goods-trade` | Goods Trade "coming soon" page |
-| `/learning` | Online computer classes: choose a level and programme, then apply |
-| `/trading` | Trading education (concept stage): topics, risk and compliance notice, link to the trading group |
-| `/community` | Links to our WhatsApp community group, channel and trading group |
-| `/leadership` | The people behind VEXON TECH |
-| `/contact` | Contact form and public channels |
-| `/privacy` | Privacy notice (what we collect and why) |
-| `/auth`, `/profile` | Visitor accounts (sign up, sign in, change name) |
+## Data and AI behavior
 
-Every page also has the **VEXON Guide**, a floating "Ask AI for guides" chat that helps visitors find their way around the site. It only answers from facts about the site (kept in `src/lib/guide-core.ts`) and does not give financial advice.
+Supabase provides authentication and the Postgres-backed `profiles`, `contact_messages`, `waitlist`, and `course_applications` records. The site validates form values before inserting them. Database migrations under `supabase/migrations/` define the corresponding tables and access policies.
 
-## Contact
+The Guide works without an AI provider by using local, built-in responses. When configured, it tries NVIDIA's OpenAI-compatible chat API first and Anthropic second; provider failures fall through to the next option. The API key stays server-side. The endpoint imposes message-size/history checks and a best-effort in-memory rate limit. The Guide answers only from maintained site facts; it is not a general-purpose or financial assistant.
 
-Contact details are on the site's Contact page and kept in `src/lib/site-config.ts`.
+## Technology stack
 
-## Technical notes (for the site's maintainers)
+- **Language and UI:** TypeScript, React 19.
+- **Application framework and routing:** TanStack Start and TanStack Router, with server-side rendering.
+- **Build and server output:** Vite and Nitro.
+- **Styling and components:** Tailwind CSS 4, Radix UI primitives, and shared UI components.
+- **Data and identity:** Supabase JavaScript client, Supabase Auth, and Supabase Postgres.
+- **Guide providers:** NVIDIA hosted chat and Anthropic Messages API, with a built-in local fallback.
+- **Hosting target:** Vercel (configured through Nitro/Vercel output).
+- **Quality checks:** ESLint, Prettier, and Vitest.
 
-Built with [TanStack Start](https://tanstack.com/start) (React, SSR) on Vite and Nitro, Tailwind CSS and
-shadcn/ui, Lenis smooth scrolling, [Supabase](https://supabase.com) (Auth and Postgres) and
-[Vercel](https://vercel.com) hosting.
+## Code map
 
-### 1. Supabase
+- `routes/` — page routes and the server endpoint for the Guide.
+- `components/vexon/` — VEXON-specific page shell, navigation, effects, and guide UI.
+- `components/ui/` — reusable interface components.
+- `lib/` — feature logic, validation, Supabase access, programme data, site facts, and configuration.
+- `supabase/migrations/` — database schema and row-level security policies.
+- `public/` — site icons, leader images, and social preview images.
+- `test/` — tests for routing and feature logic.
 
-1. Create a project at supabase.com.
-2. In *SQL Editor*, run the files in `supabase/migrations/` in this order:
-   1. `20261123000000_vexon_profiles.sql` (accounts)
-   2. `20261123010000_vexon_contact_messages.sql` (contact form)
-   3. `20261123020000_vexon_waitlist.sql` (AI assistant waitlist)
-   4. `20261123030000_vexon_course_applications.sql` (learning applications)
-3. In *Project Settings → API*, copy the Project URL and the publishable (anon) key.
-4. In *Authentication → URL Configuration*, set *Site URL* to the live address and add
-   `https://your-site.vercel.app/**` and `http://localhost:3000/**` under *Redirect URLs*
-   (plus the custom domain, if any).
-5. Optional Google sign-in: enable *Authentication → Providers → Google*, then set `VITE_ENABLE_GOOGLE_AUTH=true`.
+## Operational boundaries
 
-Visitors can only add rows to the contact, waitlist and applications tables; nobody can read them through
-the public API. Read them in Supabase under *Table Editor*: `contact_messages`, `waitlist`,
-`course_applications`. The publishable key is public by design; data is protected by the row-level security
-rules in the migrations. Never put a `service_role` key in this project.
-
-### 2. AI guide (optional)
-
-The guide works out of the box with built-in answers. To make it answer with AI, add a server-side
-`NVIDIA_API_KEY` (from build.nvidia.com; optionally `NVIDIA_MODEL`, default `meta/llama-3.1-70b-instruct`) in Vercel *Environment Variables* and redeploy. Never
-prefix it with `VITE_`, which would expose it to visitors. The `/api/guide` route limits message length and
-rate-limits each visitor; set a spending limit on the key as well. If the key is missing or the AI service
-fails, the guide falls back to the built-in answers.
-
-### 3. Run locally
-
-Requires [Bun](https://bun.sh) (or Node.js 22.12+).
-
-```sh
-cp .env.example .env.local   # then fill in the Supabase URL and key
-bun install                  # refreshes bun.lock; commit the updated file
-bun run dev
-```
-
-Other scripts: `bun run build`, `bun run preview`, `bun run lint`, `bun run test`.
-
-### 4. Deploy to Vercel
-
-1. Import the repository in Vercel (*Add New → Project*).
-2. Add `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY` and `VITE_SITE_URL` (your live address, used for share-preview images and the sitemap), plus `VITE_ENABLE_GOOGLE_AUTH` if used, for
-   Production and Preview. They are read at build time, so redeploy after changing them.
-3. Deploy. `vercel.json` already sets the install and build commands.
-
-### Where things live
-
-- `src/routes/` — one file per page
-- `src/lib/site-config.ts` — public emails, phone, WhatsApp, Instagram and community links
-- `src/lib/programmes.ts` — learning levels and programmes
-- `src/lib/guide-core.ts` and `src/routes/api/guide.ts` — the AI guide (facts, fallback answers, API route)
-- `src/components/vexon/` — brand visuals (particle field, loader, word reveals, top bar, smooth scroll)
-- `src/lib/seo.ts` — share-preview image tags, `/sitemap.xml` and `/robots.txt` (generated by routes); images in `public/og/`
-- `supabase/migrations/` — database schema
+Keep the roadmap truthful and update the Guide's facts when site behavior changes. Do not describe concepts as launched services or promise unconfirmed fees, dates, accreditation, partnerships, or outcomes. Trading content is educational only and must retain its risk disclaimer. Treat submissions and account data as private; do not copy user records or secrets into documentation or source control.
 
 ---
 
