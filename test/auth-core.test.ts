@@ -12,6 +12,7 @@ import {
   signOut,
   signUp,
   startAuth,
+  updateDisplayName,
 } from "@/lib/auth-core";
 
 // A small in-memory stand-in for Supabase Auth so the tests never touch the network.
@@ -66,6 +67,17 @@ function makeFakeSupabase(opts: { confirmEmails: boolean }) {
           maybeSingle: async () => ({ data: profiles.has(id) ? { display_name: profiles.get(id) } : null, error: null }),
         }),
       }),
+      update: ({ display_name }: { display_name: string }) => ({
+        eq: (_column: string, id: string) => ({
+          select: () => ({
+            maybeSingle: async () => {
+              if (!profiles.has(id)) return { data: null, error: null };
+              profiles.set(id, display_name);
+              return { data: { display_name }, error: null };
+            },
+          }),
+        }),
+      }),
     }),
   };
   return {
@@ -109,6 +121,20 @@ describe("Vexon accounts (Supabase)", () => {
     fake.confirm("vince@example.com");
     fake.setProfileName("vince@example.com", "Vince Odhiambo");
     await signIn({ email: "vince@example.com", password: "password123" });
+    await flush();
+    expect(getAuthState()).toMatchObject({ status: "signed-in", user: { name: "Vince Odhiambo" } });
+  });
+
+  it("saves profile name changes and restores them from the profile record", async () => {
+    await signUp({ name: "Vince", email: "vince@example.com", password: "password123" });
+    fake.confirm("vince@example.com");
+    await signIn({ email: "vince@example.com", password: "password123" });
+
+    await updateDisplayName("Vince Odhiambo");
+    expect(getAuthState()).toMatchObject({ status: "signed-in", user: { name: "Vince Odhiambo" } });
+
+    resetAuthForTesting(fake.client);
+    startAuth();
     await flush();
     expect(getAuthState()).toMatchObject({ status: "signed-in", user: { name: "Vince Odhiambo" } });
   });

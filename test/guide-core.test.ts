@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { MAX_CHARS, MAX_MESSAGES, createRateLimiter, localAnswer, sanitizeMessages } from "@/lib/guide-core";
+import { MAX_CHARS, MAX_MESSAGES, SITE_FACTS, SYSTEM_PROMPT, createRateLimiter, localAnswer, sanitizeMessages } from "@/lib/guide-core";
 
 describe("sanitizeMessages", () => {
   it("accepts a normal chat that ends with a user message", () => {
@@ -50,5 +50,15 @@ describe("localAnswer", () => {
     ["gibberish zzz", "/contact"],
   ])("answers %s with a link to %s", (q, path) => {
     expect(localAnswer(q)).toContain(`(${path})`);
+  });
+});
+
+describe("company context", () => {
+  it("grounds the AI Guide in VEXON's company identity, principles, and current-stage boundaries", () => {
+    expect(SITE_FACTS).toContain("builder-led venture");
+    expect(SITE_FACTS).toContain("responsible goods-based commerce");
+    expect(SITE_FACTS).toContain("Nairobi and Kakamega");
+    expect(SYSTEM_PROMPT).toContain("company-aware guide");
+    expect(SYSTEM_PROMPT).toContain("do not imply planned services are available now");
   });
 });

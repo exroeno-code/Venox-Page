@@ -16,7 +16,7 @@ The roadmap distinguishes live website features from ideas that are not yet oper
 | Roadmap (`/roadmap`) | Review progress and updates. | Items are marked Idea, Prototype, Pilot, or Live; keep the label aligned with actual status. |
 | Learning (`/learning`) | Browse computing programmes by level and submit an application of interest. | Applications are validated and saved in Supabase. They do not guarantee a place or indicate confirmed course details. |
 | AI Assistant (`/assistant`) | Read about the assistant concept and join its waitlist. | The future assistant is not itself a live offering; sign-ups are stored in Supabase. |
-| VEXON Guide | Ask questions about the website and its information. | The `/api/guide` endpoint checks and limits chat input, then tries NVIDIA-hosted chat, then Anthropic, and finally built-in rule-based answers. It is constrained to site facts and must not provide investment advice or invent unconfirmed details. |
+| VEXON Guide | Ask about VEXON TECH, its workstreams, the roadmap, or site information. | The `/api/guide` endpoint sends requests to NVIDIA when configured, then uses built-in company-aware answers if NVIDIA is unavailable. It is constrained to site facts and must not provide investment advice or invent unconfirmed details. |
 | Trading (`/trading`) | Read about the proposed trading-education workstream and its risk notice. | Education only; no investment advice, trade signals, money management, deposits, or broker endorsements. |
 | Goods Trade (`/goods-trade`) | Read about the goods-commerce concept. | No goods are represented as currently for sale. |
 | Community (`/community`) | Follow links to VEXON WhatsApp groups and channel. | External community links. |
@@ -29,7 +29,7 @@ The roadmap distinguishes live website features from ideas that are not yet oper
 
 Supabase provides authentication and the Postgres-backed `profiles`, `contact_messages`, `waitlist`, and `course_applications` records. The site validates form values before inserting them. Database migrations under `supabase/migrations/` define the corresponding tables and access policies.
 
-The Guide works without an AI provider by using local, built-in responses. When configured, it tries NVIDIA's OpenAI-compatible chat API first and Anthropic second; provider failures fall through to the next option. The API key stays server-side. The endpoint imposes message-size/history checks and a best-effort in-memory rate limit. The Guide answers only from maintained site facts; it is not a general-purpose or financial assistant.
+The Guide uses NVIDIA's OpenAI-compatible chat API as its only external AI provider. If NVIDIA is not configured or is unavailable, the site uses built-in company-aware responses. `NVIDIA_API_KEY` remains server-side; the endpoint imposes message-size/history checks and a best-effort in-memory rate limit. The Guide answers only from maintained VEXON facts; it is not a general-purpose or financial assistant.
 
 ## Technology stack
 
@@ -38,7 +38,7 @@ The Guide works without an AI provider by using local, built-in responses. When 
 - **Build and server output:** Vite and Nitro.
 - **Styling and components:** Tailwind CSS 4, Radix UI primitives, and shared UI components.
 - **Data and identity:** Supabase JavaScript client, Supabase Auth, and Supabase Postgres.
-- **Guide providers:** NVIDIA hosted chat and Anthropic Messages API, with a built-in local fallback.
+- **Guide provider:** NVIDIA hosted chat, with a built-in local fallback.
 - **Hosting target:** Vercel (configured through Nitro/Vercel output).
 - **Quality checks:** ESLint, Prettier, and Vitest.
 

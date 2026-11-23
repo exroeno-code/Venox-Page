@@ -14,7 +14,7 @@ function json(body: unknown, status = 200): Response {
 
 type Msg = { role: "user" | "assistant"; content: string };
 
-/** Asks NVIDIA's hosted models (OpenAI-compatible API). Returns null on any problem. */
+/** Uses NVIDIA's hosted chat API. Returns null on any problem so the local VEXON answers can take over. */
 async function askNvidia(messages: Msg[]): Promise<string | null> {
   const key = process.env["NVIDIA_API_KEY"];
   if (!key) return null;
@@ -42,35 +42,6 @@ async function askNvidia(messages: Msg[]): Promise<string | null> {
   }
 }
 
-/** Asks Claude. Returns null on any problem so the caller can fall back to the built-in answers. */
-async function askClaude(messages: Msg[]): Promise<string | null> {
-  const key = process.env["ANTHROPIC_API_KEY"];
-  if (!key) return null;
-  try {
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: { "content-type": "application/json", "x-api-key": key, "anthropic-version": "2023-06-01" },
-      body: JSON.stringify({
-        model: process.env["ANTHROPIC_MODEL"] || "claude-haiku-5-5",
-        max_tokens: 400,
-        system: SYSTEM_PROMPT,
-        messages,
-      }),
-      signal: AbortSignal.timeout(15_000),
-    });
-    if (!res.ok) {
-      console.error("Guide: AI request failed", res.status);
-      return null;
-    }
-    const data = (await res.json()) as { content?: { type?: string; text?: string }[] };
-    const text = data.content?.find((c) => c.type === "text")?.text?.trim();
-    return text || null;
-  } catch (error) {
-    console.error("Guide: AI request error", error);
-    return null;
-  }
-}
-
 export const Route = createFileRoute("/api/guide")({
   server: {
     handlers: {
@@ -87,7 +58,7 @@ export const Route = createFileRoute("/api/guide")({
         const messages = sanitizeMessages((body as { messages?: unknown } | null)?.messages);
         if (!messages) return json({ error: "Invalid request." }, 400);
 
-        const reply = (await askNvidia(messages)) ?? (await askClaude(messages)) ?? localAnswer(messages[messages.length - 1]!.content);
+        const reply = (await askNvidia(messages)) ?? localAnswer(messages[messages.length - 1]!.content);
         return json({ reply });
       },
     },
