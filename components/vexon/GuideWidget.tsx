@@ -1,5 +1,5 @@
-import { Link } from "@tanstack/react-router";
-import { ArrowUp, X } from "lucide-react";
+import { Link, useLocation } from "@tanstack/react-router";
+import { ArrowUp, Layers3, X } from "lucide-react";
 import {
   Fragment,
   useEffect,
@@ -60,17 +60,26 @@ function renderReply(text: string, onNavigate: () => void): ReactNode[] {
 
 /** Floating "Ask AI for guides" button and chat panel, shown on every page. */
 export function GuideWidget() {
-  const [open, setOpen] = useState(false);
+  const pathname = useLocation({ select: (location) => location.pathname });
+  const [open, setOpen] = useState(pathname === "/");
   const [messages, setMessages] = useState<GuideMessage[]>([]);
   const [input, setInput] = useState("");
   const [pending, setPending] = useState(false);
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const openButton = useRef<HTMLButtonElement>(null);
+  const shouldFocusInput = useRef(false);
+
+  useEffect(() => {
+    setOpen(pathname === "/");
+  }, [pathname]);
 
   useEffect(() => {
     if (!open) return;
-    inputRef.current?.focus();
+    if (shouldFocusInput.current) {
+      inputRef.current?.focus();
+      shouldFocusInput.current = false;
+    }
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setOpen(false);
@@ -124,22 +133,22 @@ export function GuideWidget() {
         <section
           role="dialog"
           aria-label="VEXON Guide"
-          className="pointer-events-auto mb-3 flex max-h-[min(36rem,calc(100dvh-5.5rem))] w-full max-w-[26rem] flex-col overflow-hidden rounded-2xl border border-foreground/25 bg-background/55 text-foreground shadow-2xl shadow-black/40 backdrop-blur-2xl animate-in fade-in slide-in-from-bottom-4"
+          className="pointer-events-auto mb-3 flex max-h-[min(34rem,calc(100dvh-5.5rem))] w-full max-w-[24rem] flex-col overflow-hidden rounded-[1.6rem] border border-white/20 bg-[#111111]/85 text-foreground shadow-[0_24px_90px_-24px_rgba(0,0,0,.8)] backdrop-blur-2xl animate-in fade-in slide-in-from-bottom-4"
         >
-          <header className="flex shrink-0 items-center justify-between border-b border-foreground/20 bg-background/20 px-4 py-3">
+          <header className="flex shrink-0 items-center justify-between border-b border-white/10 bg-white/[0.035] px-4 py-3">
             <div className="flex items-center gap-3">
               <span
                 aria-hidden="true"
-                className="grid size-9 place-items-center rounded-md border border-foreground/15 bg-background/60 font-display text-lg font-extrabold leading-none text-chrome"
+                className="grid size-9 place-items-center rounded-xl border border-white/10 bg-white/[0.08] text-foreground shadow-inner"
               >
-                V
+                <Layers3 className="size-4" />
               </span>
               <div>
                 <h2 className="font-display text-sm font-semibold">
-                  VEXON Guide
+                  VEXON AI Guide
                 </h2>
                 <p className="font-mono text-[0.6rem] uppercase tracking-[0.2em] text-foreground/70">
-                  NVIDIA AI · answers may be imperfect
+                  Here to help you explore
                 </p>
               </div>
             </div>
@@ -160,21 +169,24 @@ export function GuideWidget() {
             ref={listRef}
             data-lenis-prevent
             aria-live="polite"
-            className="min-h-0 flex-1 space-y-3 overflow-y-auto px-4 py-4 text-sm leading-relaxed text-foreground"
+            className="min-h-0 flex-1 space-y-3 overflow-y-auto px-4 py-4 text-sm leading-relaxed text-white/90"
           >
-            <p className="rounded-xl border border-foreground/25 bg-foreground/[0.09] px-3 py-2.5 text-foreground">
+            <p className="rounded-xl border border-white/[0.08] bg-white/[0.055] px-3 py-2.5 text-white/80">
               {GREETING}
             </p>
             {messages.length === 0 && (
-              <div className="flex flex-wrap gap-2">
-                {SUGGESTIONS.map((s) => (
+              <div className="space-y-1.5">
+                {SUGGESTIONS.map((s, index) => (
                   <button
                     key={s}
                     type="button"
                     onClick={() => void ask(s)}
-                    className="min-h-10 rounded-full border border-foreground/30 bg-background/55 px-3 py-2 text-left text-xs text-foreground transition-colors hover:border-glow/70 hover:bg-background/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-glow/60"
+                    className="group flex min-h-11 w-full items-start gap-3 rounded-xl px-2.5 py-2 text-left text-xs text-white/70 transition-colors hover:bg-white/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-glow/60"
                   >
-                    {s}
+                    <span className="mt-0.5 font-mono text-[0.6rem] text-white/35">
+                      0{index + 1}
+                    </span>
+                    <span className="leading-relaxed">{s}</span>
                   </button>
                 ))}
               </div>
@@ -183,14 +195,14 @@ export function GuideWidget() {
               m.role === "user" ? (
                 <p
                   key={i}
-                  className="ml-auto w-fit max-w-[88%] rounded-xl border border-glow/70 bg-glow/30 px-3 py-2.5 text-foreground shadow-sm shadow-glow/10"
+                  className="ml-auto w-fit max-w-[88%] rounded-xl border border-glow/60 bg-glow/20 px-3 py-2.5 text-white shadow-sm shadow-glow/10"
                 >
                   {m.content}
                 </p>
               ) : (
                 <p
                   key={i}
-                  className="max-w-[92%] rounded-xl border border-foreground/30 bg-foreground/[0.1] px-3 py-2.5 text-foreground shadow-sm"
+                  className="max-w-[92%] rounded-xl border border-white/[0.1] bg-white/[0.06] px-3 py-2.5 text-white/90 shadow-sm"
                 >
                   {renderReply(m.content, () => setOpen(false))}
                 </p>
@@ -198,7 +210,7 @@ export function GuideWidget() {
             )}
             {pending && (
               <p
-                className="w-fit rounded-xl border border-foreground/25 bg-background/60 px-3 py-2 text-foreground"
+                className="w-fit rounded-xl border border-white/10 bg-white/[0.06] px-3 py-2 text-white/80"
                 role="status"
               >
                 Thinking…
@@ -208,22 +220,22 @@ export function GuideWidget() {
 
           <form
             onSubmit={onSubmit}
-            className="flex shrink-0 items-center gap-2 border-t border-foreground/20 bg-background/25 p-3"
+            className="flex shrink-0 items-center gap-2 border-t border-white/10 bg-white/[0.025] p-3"
           >
             <input
               ref={inputRef}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               maxLength={MAX_CHARS}
-              placeholder="Ask about VEXON TECH…"
+              placeholder="Ask about the venture, anything…"
               aria-label="Ask the VEXON Guide"
-              className="min-h-11 min-w-0 flex-1 rounded-md border border-foreground/30 bg-background/65 px-4 py-2.5 text-base text-foreground outline-none transition-colors placeholder:text-foreground/70 focus:border-glow/70 focus-visible:ring-2 focus-visible:ring-glow/40"
+              className="min-h-11 min-w-0 flex-1 rounded-full border border-white/[0.14] bg-white/[0.045] px-4 py-2.5 text-base text-white outline-none transition-colors placeholder:text-white/45 focus:border-glow/70 focus-visible:ring-2 focus-visible:ring-glow/40"
             />
             <button
               type="submit"
               disabled={pending || !input.trim()}
               aria-label="Send question"
-              className="grid size-11 shrink-0 place-items-center rounded-full border border-foreground/35 text-foreground transition-colors hover:border-glow hover:bg-glow/15 hover:text-glow disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-glow/60"
+              className="grid size-11 shrink-0 place-items-center rounded-full border border-white/15 bg-white/[0.07] text-white transition-colors hover:border-glow hover:bg-glow/15 hover:text-glow disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-glow/60"
             >
               <ArrowUp className="size-4" />
             </button>
@@ -235,7 +247,10 @@ export function GuideWidget() {
         <button
           ref={openButton}
           type="button"
-          onClick={() => setOpen(true)}
+          onClick={() => {
+            shouldFocusInput.current = true;
+            setOpen(true);
+          }}
           aria-haspopup="dialog"
           className="bracket-btn pointer-events-auto flex min-h-12 items-center gap-3 rounded-full bg-background/55 px-5 py-3 font-mono text-xs uppercase tracking-[0.14em] text-foreground shadow-xl shadow-black/30 backdrop-blur-2xl transition-all hover:-translate-y-0.5 hover:bg-background/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 sm:px-6"
         >
