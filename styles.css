@@ -44,6 +44,7 @@
   html { background: var(--background); }
   body { background: var(--background); color: var(--foreground); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
 }
+.guide-widget-dock { bottom: calc(1rem + env(safe-area-inset-bottom)); }
 
 @utility text-chrome {
   background: var(--text-chrome);

@@ -64,10 +64,17 @@ export function TopBar({ tag, onAnchor }: Props) {
   return (
     <header className="relative z-10 flex items-start justify-between">
       <div>
-        <Link to="/" className="font-display text-3xl font-extrabold tracking-tight md:text-4xl">
+        <Link
+          to="/"
+          className="font-display text-3xl font-extrabold tracking-tight md:text-4xl"
+        >
           <Wordmark />
         </Link>
-        {tag && <div className="mt-6 font-mono text-[0.7rem] tracking-[0.3em] text-muted-foreground">{tag}</div>}
+        {tag && (
+          <div className="mt-6 font-mono text-[0.7rem] tracking-[0.3em] text-muted-foreground">
+            {tag}
+          </div>
+        )}
       </div>
 
       <div className="flex items-center gap-5 md:gap-8">
@@ -96,12 +103,19 @@ export function TopBar({ tag, onAnchor }: Props) {
             aria-modal="true"
             aria-label="Site menu"
             data-lenis-prevent
-            className="fixed inset-0 z-[60] overflow-y-auto bg-background/95 px-5 pb-10 pt-6 backdrop-blur-xl md:px-10"
+            className="fixed inset-0 z-[60] overflow-y-auto bg-background/95 px-4 pb-8 pt-5 backdrop-blur-xl sm:px-5 sm:pb-10 sm:pt-6 md:px-10"
           >
-            <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_80%_20%,var(--glow)_0%,transparent_45%)] opacity-20" />
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_80%_20%,var(--glow)_0%,transparent_45%)] opacity-20"
+            />
             <div className="relative mx-auto flex min-h-full max-w-6xl flex-col">
               <div className="flex items-start justify-between">
-                <Link to="/" onClick={close} className="font-display text-3xl font-extrabold tracking-tight md:text-4xl">
+                <Link
+                  to="/"
+                  onClick={close}
+                  className="font-display text-3xl font-extrabold tracking-tight md:text-4xl"
+                >
                   <Wordmark />
                 </Link>
                 <button
@@ -117,25 +131,37 @@ export function TopBar({ tag, onAnchor }: Props) {
                 </button>
               </div>
 
-              <nav aria-label="Main" className="my-auto grid gap-12 py-16 md:grid-cols-[2fr_1fr]">
+              <nav
+                aria-label="Main"
+                className="my-auto grid gap-12 py-16 md:grid-cols-[2fr_1fr]"
+              >
                 <ul className="space-y-2">
                   {PAGES.map((p, i) => (
                     <li key={p.to}>
                       <Link
                         to={p.to}
                         onClick={close}
-                        className="group flex items-baseline gap-4 font-display text-5xl font-extrabold uppercase leading-[1.05] text-muted-foreground transition-colors hover:text-foreground md:text-7xl"
-                        activeProps={{ className: "group flex items-baseline gap-4 font-display text-5xl font-extrabold uppercase leading-[1.05] text-foreground md:text-7xl" }}
+                        className="group flex items-baseline gap-2 font-display text-3xl font-extrabold uppercase leading-[1.05] text-muted-foreground transition-colors hover:text-foreground sm:gap-4 sm:text-5xl md:text-7xl"
+                        activeProps={{
+                          className:
+                            "group flex items-baseline gap-2 font-display text-3xl font-extrabold uppercase leading-[1.05] text-foreground sm:gap-4 sm:text-5xl md:text-7xl",
+                        }}
                       >
-                        <span className="font-mono text-xs tracking-[0.2em] text-muted-foreground">0{i + 1}</span>
-                        <span className="transition-transform duration-500 group-hover:translate-x-2">{p.label}</span>
+                        <span className="shrink-0 font-mono text-[0.65rem] tracking-[0.1em] text-muted-foreground sm:text-xs sm:tracking-[0.2em]">
+                          0{i + 1}
+                        </span>
+                        <span className="transition-transform duration-500 group-hover:translate-x-2">
+                          {p.label}
+                        </span>
                       </Link>
                     </li>
                   ))}
                 </ul>
 
                 <div>
-                  <span className="font-mono text-xs tracking-[0.3em] text-muted-foreground">[ ON THE HOME PAGE ]</span>
+                  <span className="font-mono text-xs tracking-[0.3em] text-muted-foreground">
+                    [ ON THE HOME PAGE ]
+                  </span>
                   <ul className="mt-6 space-y-3 font-mono text-sm uppercase tracking-[0.2em] text-muted-foreground">
                     {SECTIONS.map(([label, id]) => (
                       <li key={id}>
@@ -152,7 +178,12 @@ export function TopBar({ tag, onAnchor }: Props) {
                             <ArrowUpRight className="size-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                           </a>
                         ) : (
-                          <Link to="/" hash={id} onClick={close} className="group flex items-center gap-1 transition-colors hover:text-foreground">
+                          <Link
+                            to="/"
+                            hash={id}
+                            onClick={close}
+                            className="group flex items-center gap-1 transition-colors hover:text-foreground"
+                          >
                             {label}
                             <ArrowUpRight className="size-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                           </Link>

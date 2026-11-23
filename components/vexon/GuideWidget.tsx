@@ -1,10 +1,23 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowUp, X } from "lucide-react";
-import { Fragment, useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
+import {
+  Fragment,
+  useEffect,
+  useRef,
+  useState,
+  type FormEvent,
+  type ReactNode,
+} from "react";
 
-import { MAX_CHARS, SUGGESTIONS, localAnswer, type GuideMessage } from "@/lib/guide-core";
+import {
+  MAX_CHARS,
+  SUGGESTIONS,
+  localAnswer,
+  type GuideMessage,
+} from "@/lib/guide-core";
 
-const GREETING = "Hi, I'm the VEXON Guide. I can explain what VEXON TECH does, what is still a concept, and help you find information or contact the team.";
+const GREETING =
+  "Hi, I'm the VEXON Guide. I can explain what VEXON TECH does, what is still a concept, and help you find information or contact the team.";
 const LINK_RE = /\[([^\]]+)\]\(([^)\s]+)\)/g;
 
 /** Renders [label](/path) as a site link and [label](https://…whatsapp…) as an external link. Everything else is plain text. */
@@ -22,9 +35,17 @@ function renderReply(text: string, onNavigate: () => void): ReactNode[] {
           {label}
         </Link>,
       );
-    } else if (/^https:\/\/(chat\.whatsapp\.com|whatsapp\.com|wa\.me)\//.test(href)) {
+    } else if (
+      /^https:\/\/(chat\.whatsapp\.com|whatsapp\.com|wa\.me)\//.test(href)
+    ) {
       out.push(
-        <a key={i++} href={href} target="_blank" rel="noreferrer noopener" className={cls}>
+        <a
+          key={i++}
+          href={href}
+          target="_blank"
+          rel="noreferrer noopener"
+          className={cls}
+        >
           {label}
         </a>,
       );
@@ -79,7 +100,10 @@ export function GuideWidget() {
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ messages: next.slice(-8) }),
       });
-      const data = (await res.json().catch(() => null)) as { reply?: string; error?: string } | null;
+      const data = (await res.json().catch(() => null)) as {
+        reply?: string;
+        error?: string;
+      } | null;
       reply = data?.reply ?? data?.error ?? localAnswer(text);
     } catch {
       // Offline or the server is unreachable: the built-in answers still work.
@@ -95,21 +119,28 @@ export function GuideWidget() {
   }
 
   return (
-    <div className="fixed inset-x-0 bottom-4 z-50 flex flex-col items-center px-4 pointer-events-none">
+    <div className="guide-widget-dock fixed inset-x-0 z-50 flex flex-col items-end px-3 pointer-events-none sm:px-5">
       {open && (
         <section
           role="dialog"
           aria-label="VEXON Guide"
-          className="pointer-events-auto mb-3 flex max-h-[min(34rem,calc(100svh-6rem))] w-full max-w-md flex-col overflow-hidden rounded-2xl border border-foreground/20 bg-card/35 text-foreground shadow-2xl backdrop-blur-2xl animate-in fade-in slide-in-from-bottom-4"
+          className="pointer-events-auto mb-3 flex max-h-[min(36rem,calc(100dvh-5.5rem))] w-full max-w-[26rem] flex-col overflow-hidden rounded-2xl border border-foreground/25 bg-background/55 text-foreground shadow-2xl shadow-black/40 backdrop-blur-2xl animate-in fade-in slide-in-from-bottom-4"
         >
-          <header className="flex items-center justify-between border-b border-foreground/15 bg-background/10 px-4 py-3">
+          <header className="flex shrink-0 items-center justify-between border-b border-foreground/20 bg-background/20 px-4 py-3">
             <div className="flex items-center gap-3">
-              <span aria-hidden="true" className="grid size-9 place-items-center rounded-md border border-foreground/15 bg-background/60 font-display text-lg font-extrabold leading-none text-chrome">
+              <span
+                aria-hidden="true"
+                className="grid size-9 place-items-center rounded-md border border-foreground/15 bg-background/60 font-display text-lg font-extrabold leading-none text-chrome"
+              >
                 V
               </span>
               <div>
-                <h2 className="font-display text-sm font-semibold">VEXON Guide</h2>
-                <p className="font-mono text-[0.6rem] uppercase tracking-[0.2em] text-foreground/70">NVIDIA AI · answers may be imperfect</p>
+                <h2 className="font-display text-sm font-semibold">
+                  VEXON Guide
+                </h2>
+                <p className="font-mono text-[0.6rem] uppercase tracking-[0.2em] text-foreground/70">
+                  NVIDIA AI · answers may be imperfect
+                </p>
               </div>
             </div>
             <button
@@ -119,14 +150,21 @@ export function GuideWidget() {
                 setOpen(false);
                 openButton.current?.focus();
               }}
-              className="grid size-8 place-items-center rounded-full text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-glow/60"
+              className="grid size-11 place-items-center rounded-full text-foreground/85 transition-colors hover:bg-foreground/10 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-glow/60"
             >
               <X className="size-4" />
             </button>
           </header>
 
-          <div ref={listRef} data-lenis-prevent aria-live="polite" className="flex-1 space-y-3 overflow-y-auto px-4 py-4 text-sm leading-relaxed text-foreground">
-            <p className="rounded-xl border border-foreground/15 bg-background/45 px-3 py-2 text-foreground">{GREETING}</p>
+          <div
+            ref={listRef}
+            data-lenis-prevent
+            aria-live="polite"
+            className="min-h-0 flex-1 space-y-3 overflow-y-auto px-4 py-4 text-sm leading-relaxed text-foreground"
+          >
+            <p className="rounded-xl border border-foreground/25 bg-foreground/[0.09] px-3 py-2.5 text-foreground">
+              {GREETING}
+            </p>
             {messages.length === 0 && (
               <div className="flex flex-wrap gap-2">
                 {SUGGESTIONS.map((s) => (
@@ -134,7 +172,7 @@ export function GuideWidget() {
                     key={s}
                     type="button"
                     onClick={() => void ask(s)}
-                    className="rounded-full border border-foreground/20 bg-background/20 px-3 py-1.5 text-left text-xs text-foreground/85 transition-colors hover:border-glow/60 hover:bg-background/45 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-glow/60"
+                    className="min-h-10 rounded-full border border-foreground/30 bg-background/55 px-3 py-2 text-left text-xs text-foreground transition-colors hover:border-glow/70 hover:bg-background/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-glow/60"
                   >
                     {s}
                   </button>
@@ -143,23 +181,35 @@ export function GuideWidget() {
             )}
             {messages.map((m, i) =>
               m.role === "user" ? (
-                <p key={i} className="ml-auto w-fit max-w-[85%] rounded-xl border border-glow/40 bg-glow/15 px-3 py-2 text-foreground shadow-sm">
+                <p
+                  key={i}
+                  className="ml-auto w-fit max-w-[88%] rounded-xl border border-glow/70 bg-glow/30 px-3 py-2.5 text-foreground shadow-sm shadow-glow/10"
+                >
                   {m.content}
                 </p>
               ) : (
-                <p key={i} className="max-w-[90%] rounded-xl border border-foreground/15 bg-background/45 px-3 py-2 text-foreground shadow-sm">
+                <p
+                  key={i}
+                  className="max-w-[92%] rounded-xl border border-foreground/30 bg-foreground/[0.1] px-3 py-2.5 text-foreground shadow-sm"
+                >
                   {renderReply(m.content, () => setOpen(false))}
                 </p>
               ),
             )}
             {pending && (
-              <p className="w-fit rounded-xl border border-foreground/15 bg-background/40 px-3 py-2 text-foreground/75" role="status">
+              <p
+                className="w-fit rounded-xl border border-foreground/25 bg-background/60 px-3 py-2 text-foreground"
+                role="status"
+              >
                 Thinking…
               </p>
             )}
           </div>
 
-          <form onSubmit={onSubmit} className="flex items-center gap-2 border-t border-foreground/15 bg-background/10 p-3">
+          <form
+            onSubmit={onSubmit}
+            className="flex shrink-0 items-center gap-2 border-t border-foreground/20 bg-background/25 p-3"
+          >
             <input
               ref={inputRef}
               value={input}
@@ -167,13 +217,13 @@ export function GuideWidget() {
               maxLength={MAX_CHARS}
               placeholder="Ask about VEXON TECH…"
               aria-label="Ask the VEXON Guide"
-              className="min-w-0 flex-1 rounded-md border border-foreground/20 bg-background/35 px-4 py-2.5 text-base text-foreground outline-none transition-colors placeholder:text-foreground/55 focus:border-glow/60 focus-visible:ring-2 focus-visible:ring-glow/30"
+              className="min-h-11 min-w-0 flex-1 rounded-md border border-foreground/30 bg-background/65 px-4 py-2.5 text-base text-foreground outline-none transition-colors placeholder:text-foreground/70 focus:border-glow/70 focus-visible:ring-2 focus-visible:ring-glow/40"
             />
             <button
               type="submit"
               disabled={pending || !input.trim()}
               aria-label="Send question"
-              className="grid size-10 shrink-0 place-items-center rounded-full border transition-colors hover:border-glow hover:text-glow disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-glow/60"
+              className="grid size-11 shrink-0 place-items-center rounded-full border border-foreground/35 text-foreground transition-colors hover:border-glow hover:bg-glow/15 hover:text-glow disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-glow/60"
             >
               <ArrowUp className="size-4" />
             </button>
@@ -187,9 +237,14 @@ export function GuideWidget() {
           type="button"
           onClick={() => setOpen(true)}
           aria-haspopup="dialog"
-          className="bracket-btn pointer-events-auto flex items-center gap-3 bg-card/45 px-6 py-3.5 font-mono text-xs uppercase tracking-[0.18em] shadow-xl backdrop-blur-2xl transition-all hover:-translate-y-0.5 hover:bg-card/65 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/30"
+          className="bracket-btn pointer-events-auto flex min-h-12 items-center gap-3 rounded-full bg-background/55 px-5 py-3 font-mono text-xs uppercase tracking-[0.14em] text-foreground shadow-xl shadow-black/30 backdrop-blur-2xl transition-all hover:-translate-y-0.5 hover:bg-background/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 sm:px-6"
         >
-          <span aria-hidden="true" className="font-display text-base font-extrabold leading-none text-chrome">V</span>
+          <span
+            aria-hidden="true"
+            className="font-display text-base font-extrabold leading-none text-chrome"
+          >
+            V
+          </span>
           Ask AI for guides
         </button>
       )}
