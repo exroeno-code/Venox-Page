@@ -69,7 +69,7 @@ function Assistant() {
 
   return (
     <PageShell tag="[ AI ASSISTANT · CONCEPT ]">
-      <section className="pt-24 md:pt-32">
+      <section className="pt-8 md:pt-12">
         <span className="font-mono text-xs tracking-[0.3em] text-muted-foreground">[ FIRST TECHNOLOGY CONCEPT ]</span>
         <h1 className="mt-4 max-w-5xl font-display text-5xl font-extrabold uppercase leading-[0.95] md:text-7xl">
           <Words text="An AI assistant that gets you to the next step" className="text-chrome" />

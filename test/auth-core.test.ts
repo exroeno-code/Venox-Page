@@ -8,11 +8,13 @@ import {
   getAuthState,
   initials,
   resetAuthForTesting,
+  sendWhatsAppOtp,
   signIn,
   signOut,
   signUp,
   startAuth,
   updateDisplayName,
+  verifyWhatsAppOtp,
 } from "@/lib/auth-core";
 
 // A small in-memory stand-in for Supabase Auth so the tests never touch the network.
@@ -22,6 +24,7 @@ function makeFakeSupabase(opts: { confirmEmails: boolean }) {
   const profiles = new Map<string, string>();
   const listeners = new Set<(event: string, session: unknown) => void>();
   let session: { user: Record<string, unknown> } | null = null;
+  let lastOtpRequest: { phone: string; channel?: string } | null = null;
   const authUser = (u: Row) => ({ id: u.id, email: u.email, user_metadata: { display_name: u.name } });
   const emit = (event: string) => listeners.forEach((l) => l(event, session));
 
@@ -55,6 +58,19 @@ function makeFakeSupabase(opts: { confirmEmails: boolean }) {
         emit("SIGNED_IN");
         return { data: { session }, error: null };
       },
+      async signInWithOtp({ phone, options }: { phone: string; options?: { channel?: string } }) {
+        lastOtpRequest = options?.channel ? { phone, channel: options.channel } : { phone };
+        return { data: {}, error: null };
+      },
+      async verifyOtp({ phone, token }: { phone: string; token: string }) {
+        if (!lastOtpRequest || lastOtpRequest.phone !== phone || token !== "123456") {
+          return { data: { user: null, session: null }, error: { code: "otp_expired", message: "Invalid code", status: 400 } };
+        }
+        const user = { id: "phone-user", phone, user_metadata: {} };
+        session = { user };
+        emit("SIGNED_IN");
+        return { data: { user, session }, error: null };
+      },
       async signOut() {
         session = null;
         emit("SIGNED_OUT");
@@ -84,6 +100,9 @@ function makeFakeSupabase(opts: { confirmEmails: boolean }) {
     client: fake as unknown as SupabaseClient,
     confirm: (email: string) => void (users.get(email)!.confirmed = true),
     setProfileName: (email: string, name: string) => void profiles.set(users.get(email)!.id, name),
+    get lastOtpRequest() {
+      return lastOtpRequest;
+    },
   };
 }
 
@@ -170,6 +189,20 @@ describe("Vexon accounts (Supabase)", () => {
     const result = await signUp({ name: "Vince", email: "vince@example.com", password: "password123" });
     expect(result).toEqual({ needsConfirmation: false });
     expect(getAuthState().status).toBe("signed-in");
+  });
+
+  it("requests WhatsApp OTP using a normalized international phone number", async () => {
+    await sendWhatsAppOtp(" +254 712-345-678 ");
+    expect(fake.lastOtpRequest).toEqual({ phone: "+254712345678", channel: "whatsapp" });
+    await expect(sendWhatsAppOtp("0712345678")).rejects.toThrow("country code");
+  });
+
+  it("verifies WhatsApp OTP and signs the phone user in", async () => {
+    await sendWhatsAppOtp("+254712345678");
+    await expect(verifyWhatsAppOtp("+254712345678", "12")).rejects.toThrow("6-digit code");
+    const user = await verifyWhatsAppOtp("+254712345678", "123456");
+    expect(user).toMatchObject({ phone: "+254712345678", name: "+254712345678" });
+    expect(getAuthState()).toEqual({ status: "signed-in", user });
   });
 
   it("builds initials from the name, falling back to the email", () => {

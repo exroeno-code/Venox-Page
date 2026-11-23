@@ -52,7 +52,7 @@ const SPACES = [
 function Community() {
   return (
     <PageShell tag="[ COMMUNITY ]">
-      <section className="pb-8 pt-20 md:pt-28">
+      <section className="pb-8 pt-8 md:pt-12">
         <span className="font-mono text-xs tracking-[0.3em] text-muted-foreground">[ JOIN US ON WHATSAPP ]</span>
         <h1 className="mt-6 font-display text-6xl font-extrabold uppercase leading-[0.9] md:text-8xl">
           <Words text="Our" /> <Words text="community" base={150} className="text-chrome" />

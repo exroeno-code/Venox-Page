@@ -65,7 +65,7 @@ const interestLink = `${SITE.whatsappUrl}?text=${encodeURIComponent("Hello VEXON
 function Trading() {
   return (
     <PageShell tag="[ TRADING ]" scene={<Scene />}>
-      <section className="pb-6 pt-20 md:pt-28">
+      <section className="pb-6 pt-8 md:pt-12">
         <span className="font-mono text-xs tracking-[0.3em] text-muted-foreground">[ TRADING EDUCATION · CONCEPT STAGE ]</span>
         <h1 className="mt-6 font-display text-6xl font-extrabold uppercase leading-[0.9] md:text-[8.5rem]">
           <span className="block"><Words text="Learn the" className="text-chrome" /></span>

@@ -40,7 +40,7 @@ function Section({ n, title, children }: { n: number; title: string; children: R
 function Privacy() {
   return (
     <PageShell tag="[ PRIVACY ]">
-      <article className="max-w-3xl pb-8 pt-20 md:pt-28">
+      <article className="max-w-3xl pb-8 pt-8 md:pt-12">
         <span className="font-mono text-xs tracking-[0.3em] text-muted-foreground">[ LAST UPDATED {UPDATED.toUpperCase()} ]</span>
         <h1 className="mt-6 font-display text-5xl font-extrabold uppercase leading-[0.95] md:text-7xl">
           <Words text="Privacy notice" className="text-chrome" />

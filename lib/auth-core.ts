@@ -7,7 +7,7 @@
  */
 import type { Session, SupabaseClient, User } from "@supabase/supabase-js";
 
-export type VexonUser = { id: string; name: string; email: string };
+export type VexonUser = { id: string; name: string; email: string; phone?: string };
 
 export type AuthState =
   | { status: "loading" }
@@ -26,8 +26,8 @@ const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
 /** False until VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY are set. */
 export const ACCOUNTS_CONFIGURED = Boolean(SUPABASE_URL && SUPABASE_KEY);
-/** Shows "Continue with Google" once the Google provider is enabled in Supabase. */
-export const GOOGLE_ENABLED = import.meta.env.VITE_ENABLE_GOOGLE_AUTH === "true";
+/** Google is available unless explicitly disabled, once the Supabase client is configured. */
+export const GOOGLE_ENABLED = ACCOUNTS_CONFIGURED && import.meta.env.VITE_ENABLE_GOOGLE_AUTH !== "false";
 export const MIN_PASSWORD_LENGTH = 8;
 
 /* ---------- state store (works with useSyncExternalStore) ---------- */
@@ -203,6 +203,27 @@ export async function signInWithGoogle(): Promise<void> {
   if (error) throw toAuthError(error);
 }
 
+/** Sends a phone sign-in code through the WhatsApp channel configured in Supabase Auth. */
+export async function sendWhatsAppOtp(input: string): Promise<void> {
+  const phone = normalizePhone(input);
+  const supabase = await requireClient();
+  const { error } = await supabase.auth.signInWithOtp({ phone, options: { channel: "whatsapp" } });
+  if (error) throw toAuthError(error);
+}
+
+/** Verifies a WhatsApp-delivered phone OTP and starts the Supabase session. */
+export async function verifyWhatsAppOtp(input: string, token: string): Promise<VexonUser> {
+  const phone = normalizePhone(input);
+  const code = token.trim();
+  if (!/^\d{6}$/.test(code)) throw new AuthError("Enter the 6-digit code we sent on WhatsApp.");
+  const supabase = await requireClient();
+  const { data, error } = await supabase.auth.verifyOtp({ phone, token: code, type: "sms" });
+  if (error) throw toAuthError(error);
+  if (!data.session || !data.user) throw new AuthError("We could not verify that code. Request a new one and try again.");
+  applySession(data.session);
+  return toUser(data.user);
+}
+
 /** Trims, collapses spaces and checks length. Throws an AuthError with a message safe to show. */
 export function cleanDisplayName(input: string): string {
   const name = input.trim().replace(/\s+/g, " ");
@@ -249,9 +270,9 @@ export async function signOut(): Promise<void> {
 
 /* ---------- helpers ---------- */
 
-export function initials(user: Pick<VexonUser, "name" | "email">): string {
+export function initials(user: Pick<VexonUser, "name" | "email" | "phone">): string {
   const parts = user.name.trim().split(/\s+/).filter(Boolean);
-  if (parts.length === 0) return (user.email[0] ?? "?").toUpperCase();
+  if (parts.length === 0) return (user.email[0] ?? user.phone?.[0] ?? "?").toUpperCase();
   const first = parts[0]![0]!;
   const last = parts.length > 1 ? parts[parts.length - 1]![0]! : "";
   return (first + last).toUpperCase();
@@ -260,10 +281,12 @@ export function initials(user: Pick<VexonUser, "name" | "email">): string {
 function toUser(user: User): VexonUser {
   const meta = (user.user_metadata ?? {}) as Record<string, unknown>;
   const email = user.email ?? "";
+  const phone = user.phone ?? "";
   const fromMeta = [meta["display_name"], meta["full_name"], meta["name"]].find(
     (v): v is string => typeof v === "string" && v.trim().length > 0,
   );
-  return { id: user.id, email, name: (fromMeta ?? email.split("@")[0] ?? "").trim() };
+  const fallbackName = email ? email.split("@")[0]! : phone;
+  return { id: user.id, email, phone, name: (fromMeta ?? fallbackName).trim() };
 }
 
 /** Where Supabase sends people back to after confirming their email. */
@@ -282,6 +305,14 @@ function normalizeEmail(email: string) {
 
 function validateEmail(email: string) {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) throw new AuthError("Enter a valid email address.");
+}
+
+function normalizePhone(input: string): string {
+  const phone = input.trim().replace(/[\s().-]/g, "");
+  if (!/^\+[1-9]\d{7,14}$/.test(phone)) {
+    throw new AuthError("Enter a valid WhatsApp number with its country code, such as +254712345678.");
+  }
+  return phone;
 }
 
 function toAuthError(error: { message: string; code?: string | undefined; status?: number | undefined }): AuthError {

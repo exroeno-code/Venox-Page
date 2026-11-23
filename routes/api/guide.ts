@@ -18,12 +18,14 @@ type Msg = { role: "user" | "assistant"; content: string };
 async function askNvidia(messages: Msg[]): Promise<string | null> {
   const key = process.env["NVIDIA_API_KEY"];
   if (!key) return null;
+  const configuredModel = process.env["NVIDIA_MODEL"] || "nemotron-3.5-lightning-30b-a3b";
+  const model = configuredModel.includes("/") ? configuredModel : `nvidia/${configuredModel}`;
   try {
     const res = await fetch("https://integrate.api.nvidia.com/v1/chat/completions", {
       method: "POST",
       headers: { "content-type": "application/json", authorization: `Bearer ${key}` },
       body: JSON.stringify({
-        model: process.env["NVIDIA_MODEL"] || "meta/llama-3.1-70b-instruct",
+        model,
         max_tokens: 400,
         temperature: 0.3,
         messages: [{ role: "system", content: SYSTEM_PROMPT }, ...messages],

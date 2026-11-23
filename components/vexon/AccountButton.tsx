@@ -35,7 +35,9 @@ export function AccountButton() {
         <DropdownMenuContent align="end" className="w-64 border bg-card text-foreground">
           <DropdownMenuLabel className="font-normal">
             <div className="truncate font-display text-base font-semibold">{user.name}</div>
-            <div className="mt-0.5 truncate font-mono text-xs text-muted-foreground">{user.email}</div>
+            <div className="mt-0.5 truncate font-mono text-xs text-muted-foreground">
+              {user.email || user.phone || "Vexon account"}
+            </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild className="cursor-pointer gap-2">

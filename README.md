@@ -21,13 +21,15 @@ The roadmap distinguishes live website features from ideas that are not yet oper
 | Goods Trade (`/goods-trade`) | Read about the goods-commerce concept. | No goods are represented as currently for sale. |
 | Community (`/community`) | Follow links to VEXON WhatsApp groups and channel. | External community links. |
 | Contact (`/contact`) | Send an enquiry. | The form validates the message and stores it in Supabase. |
-| Accounts (`/auth`, `/profile`) | Create an account, sign in, and update a display name. | Supabase Auth manages sessions; profile names are stored in Supabase. |
+| Accounts (`/auth`, `/profile`) | Create an account, sign in with email/password or Google, or request a WhatsApp phone OTP. | Supabase Auth manages sessions; profile names are stored in Supabase. |
 | Leadership (`/leadership`) | Meet the people behind VEXON TECH. | Information page. |
 | Privacy (`/privacy`) | Read the site's privacy information. | Describes the site's data practices. |
 
 ## Data and AI behavior
 
 Supabase provides authentication and the Postgres-backed `profiles`, `contact_messages`, `waitlist`, and `course_applications` records. The site validates form values before inserting them. Database migrations under `supabase/migrations/` define the corresponding tables and access policies.
+
+Copy `.env.example` to `.env.local` for local development. The client accepts `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY`; Vite also maps the Vercel Supabase integration's `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` values into those client variables. Only the publishable key is exposed to the browser. Google sign-in requires the Google provider and OAuth credentials to be configured in Supabase Auth, with the site URL allow-listed. WhatsApp phone OTP requires phone auth plus a Twilio or Twilio Verify WhatsApp sender configured in Supabase. Never put provider secrets or a Supabase service-role key in `VITE_*` variables.
 
 The Guide uses NVIDIA's OpenAI-compatible chat API as its only external AI provider. If NVIDIA is not configured or is unavailable, the site uses built-in company-aware responses. `NVIDIA_API_KEY` remains server-side; the endpoint imposes message-size/history checks and a best-effort in-memory rate limit. The Guide answers only from maintained VEXON facts; it is not a general-purpose or financial assistant.
 

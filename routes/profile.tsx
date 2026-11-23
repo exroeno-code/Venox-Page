@@ -50,7 +50,7 @@ function Profile() {
 
   return (
     <PageShell tag="[ YOUR PROFILE ]">
-      <div className="m-auto w-full max-w-md py-12">
+      <div className="mt-8 mb-8 w-full max-w-md py-6 md:mt-12">
         <div className="rounded-lg border bg-card/80 p-6 backdrop-blur-md sm:p-8">
           <h1 className="font-display text-4xl font-extrabold uppercase leading-[0.95] sm:text-5xl">
             <span className="text-chrome">Your profile</span>
@@ -73,7 +73,9 @@ function Profile() {
                 </span>
                 <div className="min-w-0">
                   <div className="truncate font-display text-xl font-semibold">{auth.user.name}</div>
-                  <div className="truncate font-mono text-xs text-muted-foreground">{auth.user.email}</div>
+                  <div className="truncate font-mono text-xs text-muted-foreground">
+                    {auth.user.email || auth.user.phone || "Vexon account"}
+                  </div>
                 </div>
               </div>
 
@@ -94,8 +96,17 @@ function Profile() {
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className={LABEL}>Email</label>
-                  <input id="email" type="email" value={auth.user.email} readOnly aria-readonly="true" className={`${FIELD} cursor-not-allowed opacity-60`} />
+                  <label htmlFor="account-id" className={LABEL}>
+                    {auth.user.email ? "Email" : "Verified phone"}
+                  </label>
+                  <input
+                    id="account-id"
+                    type={auth.user.email ? "email" : "tel"}
+                    value={auth.user.email || auth.user.phone || ""}
+                    readOnly
+                    aria-readonly="true"
+                    className={`${FIELD} cursor-not-allowed opacity-60`}
+                  />
                 </div>
                 {error && (
                   <p role="alert" className="rounded-md border border-red-400/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">{error}</p>

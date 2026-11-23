@@ -10,10 +10,12 @@ import {
   GOOGLE_ENABLED,
   MIN_PASSWORD_LENGTH,
   initials,
+  sendWhatsAppOtp,
   signIn,
   signInWithGoogle,
   signOut,
   signUp,
+  verifyWhatsAppOtp,
 } from "@/lib/auth-core";
 import { useAuth } from "@/lib/use-auth";
 
@@ -47,6 +49,9 @@ function AuthPage() {
   const [mode, setMode] = useState<Mode>("create");
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [whatsAppPhone, setWhatsAppPhone] = useState("");
+  const [otpTarget, setOtpTarget] = useState<string | null>(null);
+  const [whatsAppCode, setWhatsAppCode] = useState("");
   // Set after sign-up when Supabase wants the email confirmed first.
   const [confirmEmail, setConfirmEmail] = useState<string | null>(null);
 
@@ -86,6 +91,24 @@ function AuthPage() {
     });
   }
 
+  function onRequestWhatsAppOtp(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    void run(async () => {
+      await sendWhatsAppOtp(whatsAppPhone);
+      setOtpTarget(whatsAppPhone);
+      setWhatsAppCode("");
+    });
+  }
+
+  function onVerifyWhatsAppOtp(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (!otpTarget) return;
+    void run(async () => {
+      await verifyWhatsAppOtp(otpTarget, whatsAppCode);
+      await navigate({ to: "/" });
+    });
+  }
+
   return (
     <main className="relative flex min-h-svh flex-col overflow-hidden px-5 pb-10 pt-6 md:px-10">
       <div className="pointer-events-none absolute inset-0">
@@ -120,7 +143,9 @@ function AuthPage() {
                 </span>
                 <div className="min-w-0">
                   <div className="truncate font-display text-xl font-semibold">{auth.user.name}</div>
-                  <div className="truncate font-mono text-xs text-muted-foreground">{auth.user.email}</div>
+                  <div className="truncate font-mono text-xs text-muted-foreground">
+                    {auth.user.email || auth.user.phone || "Vexon account"}
+                  </div>
                 </div>
               </div>
               <div className="mt-8 flex flex-wrap items-center gap-6">
@@ -239,12 +264,6 @@ function AuthPage() {
                   )}
                 </div>
 
-                {error && (
-                  <p role="alert" className="rounded-md border border-red-400/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
-                    {error}
-                  </p>
-                )}
-
                 <button type="submit" disabled={pending} className={BUTTON}>
                   {pending ? (mode === "create" ? "Creating account…" : "Signing in…") : mode === "create" ? "Create account" : "Sign in"}
                 </button>
@@ -264,6 +283,82 @@ function AuthPage() {
                     Continue with Google
                   </button>
                 </>
+              )}
+
+              {ACCOUNTS_CONFIGURED && (
+                <section className="mt-6 border-t pt-6" aria-label="WhatsApp sign-in">
+                  <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+                    Or continue with a one-time code on WhatsApp. We’ll create an account if this number is new.
+                  </p>
+                  {otpTarget ? (
+                    <form onSubmit={onVerifyWhatsAppOtp} className="space-y-4">
+                      <p className="text-sm text-muted-foreground">
+                        Enter the 6-digit code sent to <span className="text-foreground">{otpTarget}</span>.
+                      </p>
+                      <div>
+                        <label htmlFor="whatsapp-code" className={LABEL}>
+                          WhatsApp verification code
+                        </label>
+                        <input
+                          id="whatsapp-code"
+                          name="whatsapp-code"
+                          type="text"
+                          inputMode="numeric"
+                          autoComplete="one-time-code"
+                          pattern="[0-9]{6}"
+                          maxLength={6}
+                          required
+                          value={whatsAppCode}
+                          onChange={(event) => setWhatsAppCode(event.target.value.replace(/\D/g, "").slice(0, 6))}
+                          className={FIELD}
+                        />
+                      </div>
+                      <button type="submit" disabled={pending || whatsAppCode.length !== 6} className={BUTTON}>
+                        {pending ? "Verifying code…" : "Verify code"}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setOtpTarget(null);
+                          setWhatsAppCode("");
+                          setError(null);
+                        }}
+                        className="w-full py-2 text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+                      >
+                        Use a different number
+                      </button>
+                    </form>
+                  ) : (
+                    <form onSubmit={onRequestWhatsAppOtp} className="space-y-4">
+                      <div>
+                        <label htmlFor="whatsapp-phone" className={LABEL}>
+                          WhatsApp number with country code
+                        </label>
+                        <input
+                          id="whatsapp-phone"
+                          name="whatsapp-phone"
+                          type="tel"
+                          inputMode="tel"
+                          autoComplete="tel"
+                          placeholder="+254 712 345 678"
+                          required
+                          value={whatsAppPhone}
+                          onChange={(event) => setWhatsAppPhone(event.target.value)}
+                          className={FIELD}
+                        />
+                      </div>
+                      <button type="submit" disabled={pending || !whatsAppPhone.trim()} className={BUTTON}>
+                        {pending ? "Sending code…" : "Continue with WhatsApp"}
+                      </button>
+                    </form>
+                  )}
+                </section>
+              )}
+
+              {error && (
+                <p role="alert" className="mt-5 rounded-md border border-red-400/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+                  {error}
+                </p>
               )}
             </>
           )}

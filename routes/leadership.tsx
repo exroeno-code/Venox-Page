@@ -108,7 +108,7 @@ function Leadership() {
 
       <TopBar tag="[ LEADERSHIP ]" />
 
-      <section className="relative z-10 pb-24 pt-24 md:pt-32">
+      <section className="relative z-10 pb-24 pt-8 md:pt-12">
         <span className="font-mono text-xs tracking-[0.3em] text-muted-foreground">[ THE PEOPLE BEHIND THE BUILD ]</span>
         <h1 className="mt-4 font-display text-6xl font-extrabold uppercase leading-[0.9] md:text-8xl">
           <Words text="Leadership" className="text-chrome" />
