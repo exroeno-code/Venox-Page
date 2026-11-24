@@ -3,6 +3,7 @@ import { useState, type ComponentType, type FormEvent } from "react";
 import { track } from "@vercel/analytics/react";
 import { Mail, Phone } from "lucide-react";
 
+import { FormShell } from "@/components/vexon/FormShell";
 import { PageShell } from "@/components/vexon/PageShell";
 import { InstagramIcon, WhatsAppIcon } from "@/components/vexon/SocialIcons";
 import { Words } from "@/components/vexon/Words";
@@ -33,6 +34,8 @@ const FIELD =
 const LABEL = "mb-2 block font-mono text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground";
 const BUTTON =
   "bracket-btn w-full px-7 py-4 font-mono text-sm uppercase tracking-[0.2em] transition-colors hover:bg-foreground/5 disabled:opacity-60";
+const WHATSAPP_MESSAGE = "Hello VEXON TECH, I have a question and would prefer to chat on WhatsApp.";
+const WHATSAPP_HREF = `${SITE.whatsappUrl}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
 
 type Channel = { label: string; value: string; href: string; Icon: ComponentType<{ className?: string }>; external?: boolean };
 
@@ -121,18 +124,20 @@ export function Contact() {
             </div>
           </div>
 
-          <div className="rounded-lg border bg-card/80 p-6 backdrop-blur-md sm:p-8">
+          <FormShell
+            title="Send a message"
+            reason="Name, email, and a short message are enough to get in touch."
+            timeHint="Takes about 30 seconds"
+          >
             {sent ? (
               <div role="status">
-                <h2 className="font-display text-3xl font-extrabold uppercase leading-[0.95]">
-                  <span className="text-chrome">Message sent</span>
-                </h2>
+                <h3 className="font-display text-2xl font-semibold uppercase">Message sent</h3>
                 <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                  Thank you. Your message has been submitted.
+                  Thank you. Your message has been submitted. If you would rather chat, continue with us on WhatsApp.
                 </p>
-                <button type="button" onClick={() => setSent(false)} className={`${BUTTON} mt-8`}>
-                  Send another message
-                </button>
+                <a href={WHATSAPP_HREF} target="_blank" rel="noreferrer noopener" className={`${BUTTON} mt-6 inline-flex items-center justify-center gap-2`}>
+                  <WhatsAppIcon className="size-4" /> Message us on WhatsApp
+                </a>
               </div>
             ) : !CONTACT_FORM_ENABLED ? (
               <div role="status">
@@ -147,7 +152,7 @@ export function Contact() {
                 )}
               </div>
             ) : (
-              <form onSubmit={onSubmit} noValidate className="space-y-5">
+              <form onSubmit={onSubmit} noValidate className="space-y-4">
                 <div>
                   <label htmlFor="name" className={LABEL}>Name</label>
                   <input id="name" name="name" type="text" autoComplete="name" required maxLength={NAME_MAX} className={FIELD} />
@@ -158,7 +163,7 @@ export function Contact() {
                 </div>
                 <div>
                   <label htmlFor="message" className={LABEL}>Message</label>
-                  <textarea id="message" name="message" rows={6} required maxLength={MESSAGE_MAX} className={`${FIELD} resize-y`} />
+                  <textarea id="message" name="message" rows={3} required maxLength={MESSAGE_MAX} className={`${FIELD} resize-y`} />
                 </div>
                 {/* Honeypot: hidden from people and screen readers. */}
                 <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
@@ -173,12 +178,15 @@ export function Contact() {
                 <button type="submit" disabled={pending} className={BUTTON}>
                   {pending ? "Sending…" : "Send message"}
                 </button>
+                <a href={WHATSAPP_HREF} target="_blank" rel="noreferrer noopener" className={`${BUTTON} inline-flex items-center justify-center gap-2`}>
+                  <WhatsAppIcon className="size-4" /> Prefer WhatsApp?
+                </a>
                 <p className="text-center font-mono text-[0.65rem] text-muted-foreground">
                   See our <Link to="/privacy" className="underline underline-offset-2 hover:text-foreground">privacy notice</Link>.
                 </p>
               </form>
             )}
-          </div>
+          </FormShell>
         </div>
       </section>
     </PageShell>

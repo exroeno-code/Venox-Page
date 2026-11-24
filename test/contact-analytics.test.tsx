@@ -41,6 +41,8 @@ describe("contact form analytics", () => {
 
   async function submitContactForm() {
     render(<Contact />);
+    expect(screen.getByLabelText("Message")).toHaveAttribute("rows", "3");
+    expect(screen.getByRole("link", { name: /prefer whatsapp/i })).toHaveAttribute("href", expect.stringContaining("wa.me/254798303978?text="));
     fireEvent.change(screen.getByLabelText("Name"), {
       target: { value: "Taylor Example" },
     });

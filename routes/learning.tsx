@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight, Check, GraduationCap } from "lucide-react";
 import { useRef, useState, type FormEvent } from "react";
-
+import { FormShell } from "@/components/vexon/FormShell";
 import { ParticleField } from "@/components/vexon/ParticleField";
 import { PageShell } from "@/components/vexon/PageShell";
 import { WhatsAppIcon } from "@/components/vexon/SocialIcons";
@@ -204,83 +204,90 @@ function Learning() {
         </div>
 
         {/* STEP 3: APPLY */}
-        <aside ref={applyRef} id="apply" className="h-fit scroll-mt-6 rounded-lg border bg-card/80 p-6 backdrop-blur-md sm:p-8 lg:sticky lg:top-6" aria-live="polite">
-          <span className="font-mono text-xs tracking-[0.3em] text-muted-foreground">[ STEP 3 · APPLY ]</span>
-
-          {!chosen ? (
-            <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
-              Select a programme on the left. Your application form appears here.
-            </p>
-          ) : sentFor === chosen.name ? (
-            <div role="status" className="mt-6">
-              <h2 className="font-display text-3xl font-extrabold uppercase leading-[0.95]">
-                <span className="text-chrome">Application sent</span>
-              </h2>
-              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                Thank you. We received your application for <strong className="text-foreground">{chosen.name}</strong> and will contact you by email or phone.
+        <aside ref={applyRef} id="apply" className="h-fit scroll-mt-6 lg:sticky lg:top-6" aria-live="polite">
+          <FormShell
+            title={!chosen ? "Choose a programme" : sentFor === chosen.name ? "Application sent" : "Apply for classes"}
+            reason={!chosen ? "Select a programme to see the short application form." : sentFor === chosen.name ? `We received your application for ${chosen.name}.` : `Share your details and we will follow up about ${chosen.name}.`}
+            timeHint={chosen ? "Takes about one minute" : "Choose a level and programme to begin"}
+          >
+            {!chosen ? (
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                Select a programme on the left. Your application form appears here.
               </p>
-              <button type="button" onClick={() => { setSelected(null); setSentFor(null); }} className={`${BUTTON} mt-8`}>
-                Apply for another programme
-              </button>
-            </div>
-          ) : (
-            <div className="mt-6">
-              <p className="font-display text-xl font-semibold uppercase leading-snug">{chosen.name}</p>
-              <p className="mt-1 font-mono text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground">Level: {level.label}</p>
-
-              {APPLICATION_FORM_ENABLED ? (
-                <form onSubmit={onSubmit} noValidate className="mt-6 space-y-5">
-                  <div>
-                    <label htmlFor="ap-name" className={LABEL}>Full name</label>
-                    <input id="ap-name" name="name" type="text" autoComplete="name" required maxLength={NAME_MAX} className={FIELD} />
-                  </div>
-                  <div>
-                    <label htmlFor="ap-email" className={LABEL}>Email</label>
-                    <input id="ap-email" name="email" type="email" autoComplete="email" required className={FIELD} />
-                  </div>
-                  <div>
-                    <label htmlFor="ap-phone" className={LABEL}>Phone / WhatsApp</label>
-                    <input id="ap-phone" name="phone" type="tel" autoComplete="tel" required placeholder="+254 …" className={FIELD} />
-                  </div>
-                  <div>
-                    <label htmlFor="ap-note" className={LABEL}>Note (optional)</label>
-                    <textarea id="ap-note" name="note" rows={3} maxLength={NOTE_MAX} placeholder="Your goals, schedule, or questions" className={`${FIELD} resize-y`} />
-                  </div>
-                  {/* Honeypot: hidden from people and screen readers. */}
-                  <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
-                    <label htmlFor="ap-website">Leave this field empty</label>
-                    <input id="ap-website" name="website" type="text" tabIndex={-1} autoComplete="off" />
-                  </div>
-                  {error && (
-                    <p role="alert" className="rounded-md border border-red-400/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
-                      {error}
-                    </p>
-                  )}
-                  <button type="submit" disabled={pending} className={BUTTON}>
-                    {pending ? "Sending…" : "Submit application"}
-                  </button>
-                  <p className="text-center font-mono text-[0.65rem] text-muted-foreground">
-                    See our <Link to="/privacy" className="underline underline-offset-2 hover:text-foreground">privacy notice</Link>.
-                  </p>
-                </form>
-              ) : (
-                <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
-                  The online form is not available right now. Apply on WhatsApp instead.
+            ) : sentFor === chosen.name ? (
+              <div role="status">
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  We will contact you using the phone number you provided. For a quicker follow-up, message us on WhatsApp.
                 </p>
-              )}
+                <a
+                  href={whatsappApply(chosen.name)}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className={`${BUTTON} mt-6 inline-flex items-center justify-center gap-2`}
+                >
+                  <WhatsAppIcon className="size-4" /> Continue on WhatsApp
+                  <ArrowUpRight className="size-3" />
+                </a>
+              </div>
+            ) : (
+              <div>
+                <p className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground">Level: {level.label}</p>
 
-              <a
-                href={whatsappApply(chosen.name)}
-                target="_blank"
-                rel="noreferrer noopener"
-                className="group mt-6 inline-flex items-center gap-2 font-mono text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
-              >
-                <WhatsAppIcon className="size-4" />
-                Or apply on WhatsApp
-                <ArrowUpRight className="size-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-              </a>
-            </div>
-          )}
+                {APPLICATION_FORM_ENABLED ? (
+                  <form onSubmit={onSubmit} noValidate className="mt-6 space-y-5">
+                    <div>
+                      <label htmlFor="ap-phone" className={LABEL}>Phone / WhatsApp</label>
+                      <input id="ap-phone" name="phone" type="tel" autoComplete="tel" required placeholder="+254 …" className={FIELD} />
+                    </div>
+                    <div>
+                      <label htmlFor="ap-name" className={LABEL}>Full name</label>
+                      <input id="ap-name" name="name" type="text" autoComplete="name" required maxLength={NAME_MAX} className={FIELD} />
+                    </div>
+                    <div>
+                      <label htmlFor="ap-email" className={LABEL}>Email</label>
+                      <input id="ap-email" name="email" type="email" autoComplete="email" required className={FIELD} />
+                    </div>
+                    <div>
+                      <label htmlFor="ap-note" className={LABEL}>Note (optional)</label>
+                      <textarea id="ap-note" name="note" rows={3} maxLength={NOTE_MAX} placeholder="Your goals, schedule, or questions" className={`${FIELD} resize-y`} />
+                    </div>
+                    {/* Honeypot: hidden from people and screen readers. */}
+                    <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
+                      <label htmlFor="ap-website">Leave this field empty</label>
+                      <input id="ap-website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+                    </div>
+                    {error && (
+                      <p role="alert" className="rounded-md border border-red-400/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+                        {error}
+                      </p>
+                    )}
+                    <button type="submit" disabled={pending} className={BUTTON}>
+                      {pending ? "Sending…" : "Submit application"}
+                    </button>
+                    <p className="text-center font-mono text-[0.65rem] text-muted-foreground">
+                      See our <Link to="/privacy" className="underline underline-offset-2 hover:text-foreground">privacy notice</Link>.
+                    </p>
+                  </form>
+                ) : (
+                  <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
+                    The online form is not available right now. Apply on WhatsApp instead.
+                  </p>
+                )}
+
+                {!APPLICATION_FORM_ENABLED && (
+                  <a
+                    href={whatsappApply(chosen.name)}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="group mt-6 inline-flex items-center gap-2 font-mono text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    <WhatsAppIcon className="size-4" /> Apply on WhatsApp
+                    <ArrowUpRight className="size-3" />
+                  </a>
+                )}
+              </div>
+            )}
+          </FormShell>
         </aside>
       </section>
 

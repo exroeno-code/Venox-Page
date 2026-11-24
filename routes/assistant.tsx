@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 
+import { FormShell } from "@/components/vexon/FormShell";
 import { PageShell } from "@/components/vexon/PageShell";
 import { Words } from "@/components/vexon/Words";
 import { ACCOUNTS_CONFIGURED } from "@/lib/auth-core";
@@ -104,18 +105,12 @@ function Assistant() {
       </section>
 
       <section id="waitlist" className="scroll-mt-8 pb-8">
-        <div className="mx-auto max-w-xl rounded-lg border bg-card/80 p-6 backdrop-blur-md sm:p-8">
-          <span className="font-mono text-xs tracking-[0.3em] text-muted-foreground">[ WAITLIST ]</span>
-          <h2 className="mt-4 font-display text-4xl font-extrabold uppercase leading-[0.95] sm:text-5xl">
-            <span className="text-chrome">Follow the build</span>
-          </h2>
-          <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-            Join the waitlist for the AI assistant and get updates as VEXON TECH makes real progress. We will only email you about
-            VEXON TECH, and you can ask to be removed at any time.
-          </p>
-
+        <FormShell
+          title="Follow the build"
+          reason="Get occasional email updates about the AI assistant concept. Unsubscribe or ask us to remove you at any time."
+        >
           {joined ? (
-            <div role="status" className="mt-8">
+            <div role="status">
               <h3 className="font-display text-2xl font-semibold uppercase">You are on the list</h3>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                 Thank you. We will email you when there is something real to share. See where things stand on the{" "}
@@ -123,7 +118,7 @@ function Assistant() {
               </p>
             </div>
           ) : !ACCOUNTS_CONFIGURED ? (
-            <div role="status" className="mt-8">
+            <div role="status">
               <p className="text-sm leading-relaxed text-muted-foreground">
                 The waitlist is not available right now. You can still reach us on the{" "}
                 <Link to="/contact" className="text-foreground underline underline-offset-4">contact page</Link>.
@@ -135,11 +130,7 @@ function Assistant() {
               )}
             </div>
           ) : (
-            <form onSubmit={onSubmit} noValidate className="mt-8 space-y-5">
-              <div>
-                <label htmlFor="wl-name" className={LABEL}>Name (optional)</label>
-                <input id="wl-name" name="name" type="text" autoComplete="name" maxLength={80} className={FIELD} />
-              </div>
+            <form onSubmit={onSubmit} noValidate className="space-y-5">
               <div>
                 <label htmlFor="wl-email" className={LABEL}>Email</label>
                 <input id="wl-email" name="email" type="email" autoComplete="email" required className={FIELD} />
@@ -159,7 +150,7 @@ function Assistant() {
               </button>
             </form>
           )}
-        </div>
+        </FormShell>
       </section>
     </PageShell>
   );
