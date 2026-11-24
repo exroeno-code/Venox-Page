@@ -100,7 +100,7 @@ function KenyaMap() {
 
 function Leadership() {
   return (
-    <main className="relative min-h-svh w-full overflow-x-clip px-5 pb-10 pt-6 md:px-10">
+    <main className="relative min-h-svh w-full overflow-x-clip px-5 pb-10 pt-4 md:px-10">
       <div className="pointer-events-none absolute inset-0">
         <ParticleField className="h-full w-full" density={0.6} />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--background)_0%,transparent_65%)]" />
@@ -108,7 +108,7 @@ function Leadership() {
 
       <TopBar tag="[ LEADERSHIP ]" />
 
-      <section className="relative z-10 pb-24 pt-8 md:pt-12">
+      <section className="relative z-10 pb-16 pt-4 md:pt-8">
         <span className="font-mono text-xs tracking-[0.3em] text-muted-foreground">[ THE PEOPLE BEHIND THE BUILD ]</span>
         <h1 className="mt-4 font-display text-6xl font-extrabold uppercase leading-[0.9] md:text-8xl">
           <Words text="Leadership" className="text-chrome" />

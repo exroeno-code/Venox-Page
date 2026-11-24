@@ -81,7 +81,7 @@ function StageTrack({ stage }: { stage: Stage }) {
 function Roadmap() {
   return (
     <PageShell tag="[ ROADMAP ]">
-      <section className="pt-8 md:pt-12">
+      <section className="pt-4 md:pt-8">
         <span className="font-mono text-xs tracking-[0.3em] text-muted-foreground">[ TRUE STATUS · NO HYPE ]</span>
         <h1 className="mt-4 font-display text-6xl font-extrabold uppercase leading-[0.9] md:text-8xl">
           <Words text="Roadmap" className="text-chrome" />

@@ -111,7 +111,7 @@ function Learning() {
 
   return (
     <PageShell tag="[ LEARNING ]" scene={<Scene />}>
-      <section className="pb-6 pt-8 md:pt-12">
+      <section className="pb-6 pt-4 md:pt-8">
         <span className="inline-flex items-center gap-3 font-mono text-xs tracking-[0.3em] text-muted-foreground">
           <span className="live-dot size-2 rounded-full bg-glow" /> [ ONLINE COMPUTER CLASSES · APPLICATIONS OPEN ]
         </span>

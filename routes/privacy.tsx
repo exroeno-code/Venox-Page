@@ -53,7 +53,7 @@ function Section({
 function Privacy() {
   return (
     <PageShell tag="[ PRIVACY ]">
-      <article className="max-w-3xl pb-8 pt-8 md:pt-12">
+      <article className="max-w-3xl pb-8 pt-4 md:pt-8">
         <span className="font-mono text-xs tracking-[0.3em] text-muted-foreground">
           [ LAST UPDATED {UPDATED.toUpperCase()} ]
         </span>

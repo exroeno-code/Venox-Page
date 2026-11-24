@@ -71,7 +71,7 @@ export function TopBar({ tag, onAnchor }: Props) {
           <Wordmark />
         </Link>
         {tag && (
-          <div className="mt-6 font-mono text-[0.7rem] tracking-[0.3em] text-muted-foreground">
+          <div className="mt-3 font-mono text-[0.7rem] tracking-[0.3em] text-muted-foreground">
             {tag}
           </div>
         )}
@@ -103,7 +103,7 @@ export function TopBar({ tag, onAnchor }: Props) {
             aria-modal="true"
             aria-label="Site menu"
             data-lenis-prevent
-            className="fixed inset-0 z-[60] overflow-y-auto bg-background/95 px-4 pb-8 pt-5 backdrop-blur-xl sm:px-5 sm:pb-10 sm:pt-6 md:px-10"
+            className="fixed inset-0 z-[60] overflow-y-auto bg-background/95 px-4 pb-6 pt-4 backdrop-blur-xl sm:px-5 sm:pb-8 sm:pt-5 md:px-10"
           >
             <div
               aria-hidden
@@ -133,18 +133,18 @@ export function TopBar({ tag, onAnchor }: Props) {
 
               <nav
                 aria-label="Main"
-                className="my-auto grid gap-12 py-16 md:grid-cols-[2fr_1fr]"
+                className="mt-2 mb-2 grid gap-8 py-0 md:grid-cols-[2fr_1fr]"
               >
-                <ul className="space-y-2">
+                <ul className="space-y-1">
                   {PAGES.map((p, i) => (
                     <li key={p.to}>
                       <Link
                         to={p.to}
                         onClick={close}
-                        className="group flex items-baseline gap-2 font-display text-3xl font-extrabold uppercase leading-[1.05] text-muted-foreground transition-colors hover:text-foreground sm:gap-4 sm:text-5xl md:text-7xl"
+                        className="group flex items-baseline gap-2 font-display text-3xl font-extrabold uppercase leading-[1.05] text-muted-foreground transition-colors hover:text-foreground sm:gap-4 sm:text-5xl md:text-4xl lg:text-5xl xl:text-7xl"
                         activeProps={{
                           className:
-                            "group flex items-baseline gap-2 font-display text-3xl font-extrabold uppercase leading-[1.05] text-foreground sm:gap-4 sm:text-5xl md:text-7xl",
+                            "group flex items-baseline gap-2 font-display text-3xl font-extrabold uppercase leading-[1.05] text-foreground sm:gap-4 sm:text-5xl md:text-4xl lg:text-5xl xl:text-7xl",
                         }}
                       >
                         <span className="shrink-0 font-mono text-[0.65rem] tracking-[0.1em] text-muted-foreground sm:text-xs sm:tracking-[0.2em]">

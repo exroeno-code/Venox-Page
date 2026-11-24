@@ -61,7 +61,7 @@ function Profile() {
 
   return (
     <PageShell tag="[ YOUR PROFILE ]">
-      <div className="mt-8 mb-8 w-full max-w-md py-6 md:mt-12">
+      <div className="mt-4 mb-6 w-full max-w-md py-3 md:mt-8">
         <div className="rounded-lg border bg-card/80 p-6 backdrop-blur-md sm:p-8">
           <h1 className="font-display text-4xl font-extrabold uppercase leading-[0.95] sm:text-5xl">
             <span className="text-chrome">Your profile</span>

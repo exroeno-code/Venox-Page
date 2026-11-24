@@ -39,7 +39,7 @@ function Scene() {
 function GoodsTrade() {
   return (
     <PageShell tag="[ GOODS TRADE ]" scene={<Scene />}>
-      <section className="flex flex-1 flex-col items-center justify-center py-24 text-center">
+      <section className="flex flex-1 flex-col items-center justify-center py-12 text-center md:py-16">
         <span className="font-mono text-xs tracking-[0.3em] text-muted-foreground">[ GOODS TRADE ]</span>
         <h1 className="mt-8 font-display text-[16vw] font-extrabold uppercase leading-[0.88] tracking-tight md:text-[11vw]">
           <span className="block"><Words text="Coming" className="text-chrome" /></span>
