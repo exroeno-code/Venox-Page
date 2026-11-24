@@ -17,11 +17,10 @@ export function PageShell({
   children: ReactNode;
 }) {
   return (
-    <main className="relative flex min-h-svh w-full flex-col overflow-x-clip px-5 pb-10 pt-4 md:px-10">
+    <main className="page-shell relative flex min-h-svh w-full flex-col overflow-x-clip px-5 pb-10 pt-4 md:px-10">
       {scene ?? (
         <div className="pointer-events-none absolute inset-0">
           <ParticleField className="h-full w-full" density={0.6} />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--background)_0%,transparent_65%)]" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--background)_0%,transparent_65%)]" />
         </div>
       )}

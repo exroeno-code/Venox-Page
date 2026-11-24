@@ -86,11 +86,11 @@ function Roadmap() {
         <h1 className="mt-4 font-display text-6xl font-extrabold uppercase leading-[0.9] md:text-8xl">
           <Words text="Roadmap" className="text-chrome" />
         </h1>
-        <p className="mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+        <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
           We label every idea, prototype, pilot and live offering by its true status. This page is updated as things change.
         </p>
 
-        <ul className="mt-16 grid gap-4 lg:grid-cols-2">
+        <ul className="mt-8 grid gap-4 lg:grid-cols-2">
           {ITEMS.map((it, i) => (
             <li key={it.title} className="rounded-lg border bg-card/70 p-8 backdrop-blur-md">
               <div className="flex items-center justify-between font-mono text-xs text-muted-foreground">

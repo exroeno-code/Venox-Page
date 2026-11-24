@@ -68,6 +68,7 @@
 .mask { display: inline-block; overflow: hidden; vertical-align: top; }
 .mask > span { display: inline-block; transform: translateY(110%); transition: transform 1.1s cubic-bezier(.2,.8,.2,1); }
 .mask.in > span, .in .mask > span { transform: none; }
+.page-shell .mask > span { transform: none; }
 
 @keyframes marquee { to { transform: translateX(-50%); } }
 .marquee { animation: marquee 30s linear infinite; }
