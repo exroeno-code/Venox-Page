@@ -1,6 +1,15 @@
 import { describe, expect, it } from "vitest";
 
-import { MAX_CHARS, MAX_MESSAGES, SITE_FACTS, SYSTEM_PROMPT, createRateLimiter, localAnswer, sanitizeMessages } from "@/lib/guide-core";
+import {
+  MAX_CHARS,
+  MAX_MESSAGES,
+  SITE_FACTS,
+  SUGGESTIONS,
+  SYSTEM_PROMPT,
+  createRateLimiter,
+  localAnswer,
+  sanitizeMessages,
+} from "@/lib/guide-core";
 
 describe("sanitizeMessages", () => {
   it("accepts a normal chat that ends with a user message", () => {
@@ -19,11 +28,23 @@ describe("sanitizeMessages", () => {
   it.each([
     ["not an array", "hello"],
     ["empty", []],
-    ["too many", Array.from({ length: MAX_MESSAGES + 1 }, () => ({ role: "user", content: "x" }))],
+    [
+      "too many",
+      Array.from({ length: MAX_MESSAGES + 1 }, () => ({
+        role: "user",
+        content: "x",
+      })),
+    ],
     ["bad role", [{ role: "system", content: "x" }]],
     ["too long", [{ role: "user", content: "x".repeat(MAX_CHARS + 1) }]],
     ["blank", [{ role: "user", content: "   " }]],
-    ["ends with assistant", [{ role: "user", content: "a" }, { role: "assistant", content: "b" }]],
+    [
+      "ends with assistant",
+      [
+        { role: "user", content: "a" },
+        { role: "assistant", content: "b" },
+      ],
+    ],
   ])("rejects %s", (_name, input) => {
     expect(sanitizeMessages(input)).toBeNull();
   });
@@ -56,9 +77,20 @@ describe("localAnswer", () => {
 describe("company context", () => {
   it("grounds the AI Guide in VEXON's company identity, principles, and current-stage boundaries", () => {
     expect(SITE_FACTS).toContain("builder-led venture");
-    expect(SITE_FACTS).toContain("responsible goods-based commerce");
+    expect(SITE_FACTS).toContain("later workstream under evaluation");
     expect(SITE_FACTS).toContain("Nairobi and Kakamega");
     expect(SYSTEM_PROMPT).toContain("company-aware guide");
-    expect(SYSTEM_PROMPT).toContain("do not imply planned services are available now");
+    expect(SYSTEM_PROMPT).toContain(
+      "do not imply planned services are available now",
+    );
+  });
+
+  it("uses cautious learning and community suggestions", () => {
+    expect(SUGGESTIONS).toContain(
+      "How can I express interest in learning programmes?",
+    );
+    expect(SUGGESTIONS).toContain("Where can I find VEXON's community links?");
+    expect(SUGGESTIONS.join(" ")).not.toContain("online classes");
+    expect(SUGGESTIONS.join(" ")).not.toContain("join the community");
   });
 });

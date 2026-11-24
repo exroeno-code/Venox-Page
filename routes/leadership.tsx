@@ -110,7 +110,7 @@ function Leadership() {
 
       <section className="relative z-10 pb-24 pt-8 md:pt-12">
         <span className="font-mono text-xs tracking-[0.3em] text-muted-foreground">[ THE PEOPLE BEHIND THE BUILD ]</span>
-        <h1 className="mt-4 font-display text-6xl font-extrabold uppercase leading-[0.9] md:text-8xl">
+        <h1 className="in mt-4 font-display text-4xl font-extrabold uppercase leading-[0.9] sm:text-5xl md:text-8xl">
           <Words text="Leadership" className="text-chrome" />
         </h1>
 
@@ -134,7 +134,7 @@ function Leadership() {
       <section className="relative z-10 mx-auto grid max-w-6xl gap-12 border-t py-24 md:grid-cols-2 md:items-center">
         <div>
           <span className="font-mono text-xs tracking-[0.3em] text-muted-foreground">[ LOCATION ]</span>
-          <h2 className="mt-4 font-display text-5xl font-extrabold uppercase leading-[0.95] md:text-6xl">
+          <h2 className="in mt-4 font-display text-5xl font-extrabold uppercase leading-[0.95] md:text-6xl">
             <Words text="Based in Kenya" />
           </h2>
           <ul className="mt-8 space-y-3 font-mono text-sm uppercase tracking-[0.2em]">

@@ -13,8 +13,8 @@ export const MAX_CHARS = 500;
 
 export const SUGGESTIONS = [
   "What is VEXON TECH?",
-  "How do I apply for online classes?",
-  "Where can I join the community?",
+  "How can I express interest in learning programmes?",
+  "Where can I find VEXON's community links?",
   "How do I contact you?",
 ] as const;
 
@@ -22,19 +22,19 @@ const programmeCount = LEVELS.reduce((n, l) => n + l.programmes.length, 0);
 
 /** Plain-text facts the AI is allowed to answer from. Keep this in step with the site. */
 export const SITE_FACTS = `
-VEXON TECH is a proposed, builder-led venture in concept development, exploring practical digital technology and responsible goods-based commerce to turn useful ideas into real-world progress. It is based in Kenya (Nairobi and Kakamega) and is being developed by Enosh Yeswa (CEO) and Vince Odhiambo (Executive); roles and structure remain subject to founder confirmation. Its slogan is "Useful ideas. Real-world progress." The name and launch timing are not confirmed. The current live offering is this information website; other workstreams must be described by their actual roadmap stage, not presented as launched services.
+VEXON TECH is a proposed, builder-led venture in concept development. Its current focus is practical technology. A possible AI assistant for Kenyan small-business operators who handle customer enquiries is only a hypothesis; the concept is not built or validated. Responsible goods-based commerce is a later workstream under evaluation, not an active service. VEXON TECH is based in Kenya (Nairobi and Kakamega) and is being developed by Enosh Yeswa (CEO) and Vince Odhiambo (Executive); roles and structure remain subject to founder confirmation. Its slogan is "Useful ideas. Real-world progress." The name and launch timing are not confirmed. The current live offering is this information website; other workstreams must be described by their actual roadmap stage, not presented as launched services.
 
 How VEXON TECH works: begin with a real problem or customer need; prioritize useful outcomes over novelty; communicate quality, availability, risks and responsibilities honestly; test, listen and improve using evidence; and build for long-term value for customers, collaborators and communities.
-Current workstreams shown on the website: practical digital technology (including an AI assistant concept and proposed online computing classes), responsible goods-based commerce, and trading education. The assistant, goods commerce, classes and trading education are concepts or planned offerings, not confirmed live services. The roadmap is the source of truth for their status.
+Current workstreams shown on the website: practical digital technology, later goods-based commerce under evaluation, learning programmes, and trading education. The assistant is an Idea and is not built or validated. Learning applications only express interest; classes, fees, accreditation and start dates are not confirmed. Trading education is a concept, not a confirmed live service. The roadmap is the source of truth for status.
 
 Pages:
 - Home (/): the brand, foundation, workstreams and principles.
 - AI Assistant (/assistant): an AI assistant concept with a waitlist. Not live yet.
 - Roadmap (/roadmap): plans and updates, each labelled with its true stage (Idea, Prototype, Pilot, Live).
-- Goods Trade (/goods-trade): goods-based commerce, coming soon.
+- Goods Trade (/goods-trade): a later workstream under evaluation, not an active service. Goods, markets, terms and timing are undecided.
 - Learning (/learning): online computer classes. Visitors choose a level (Degree, Diploma or Certificate), choose one of ${programmeCount} programmes, and submit an application. This is concept stage: an application is an expression of interest; classes, fees, accreditation and start dates are NOT confirmed.
 - Trading (/trading): trading EDUCATION only (market mechanics; technical and fundamental analysis), concept stage. VEXON TECH does not give investment advice, sell signals, manage money, take deposits or endorse any broker; trading forex and CFDs carries a high risk of loss. Syllabus, fees and start dates are not confirmed.
-- Community (/community): WhatsApp community group, official channel and trading group.
+- Community (/community): a page listing VEXON WhatsApp links. Direct visitors to the page for current details; do not imply that a group is actively available or monitored.
 - Leadership (/leadership): the people behind VEXON TECH.
 - Contact (/contact): a message form and public channels.
 - Account (/auth): create an account or sign in; /profile lets signed-in people change their name.
@@ -62,15 +62,25 @@ ${SITE_FACTS}`;
 
 /** Validates the chat history sent by the browser. Returns clean messages or null. */
 export function sanitizeMessages(input: unknown): GuideMessage[] | null {
-  if (!Array.isArray(input) || input.length === 0 || input.length > MAX_MESSAGES) return null;
+  if (
+    !Array.isArray(input) ||
+    input.length === 0 ||
+    input.length > MAX_MESSAGES
+  )
+    return null;
   const out: GuideMessage[] = [];
   for (const m of input) {
     if (m == null || typeof m !== "object") return null;
     const role = (m as { role?: unknown }).role;
     const content = (m as { content?: unknown }).content;
-    if ((role !== "user" && role !== "assistant") || typeof content !== "string") return null;
+    if (
+      (role !== "user" && role !== "assistant") ||
+      typeof content !== "string"
+    )
+      return null;
     const text = content.trim();
-    if (!text || text.length > MAX_CHARS * (role === "assistant" ? 4 : 1)) return null;
+    if (!text || text.length > MAX_CHARS * (role === "assistant" ? 4 : 1))
+      return null;
     out.push({ role, content: text });
   }
   return out[out.length - 1]?.role === "user" ? out : null;
@@ -87,7 +97,9 @@ export function createRateLimiter(limit: number, windowMs: number) {
     }
     recent.push(now);
     hits.set(key, recent);
-    if (hits.size > 5000) for (const [k, v] of hits) if (v.every((t) => now - t >= windowMs)) hits.delete(k);
+    if (hits.size > 5000)
+      for (const [k, v] of hits)
+        if (v.every((t) => now - t >= windowMs)) hits.delete(k);
     return true;
   };
 }
@@ -95,7 +107,7 @@ export function createRateLimiter(limit: number, windowMs: number) {
 const RULES: { test: RegExp; reply: string }[] = [
   {
     test: /\b(learn|class|classes|course|courses|degree|diploma|certificate|programme|program|apply|application|study|school|enrol|enroll)\b/i,
-    reply: `You can choose a level (Degree, Diploma or Certificate), pick one of our ${programmeCount} computing programmes and apply on the [Learning](/learning) page. It is concept stage: an application is an expression of interest, and fees, accreditation and start dates are not confirmed yet.`,
+    reply: `You can express interest in a learning programme on the [Learning](/learning) page. An application is not confirmation that a class or place is available; fees, accreditation and start dates are not confirmed.`,
   },
   {
     test: /\b(trading|forex|cfd|invest|investing|investment|broker|signals?)\b/i,
@@ -103,7 +115,7 @@ const RULES: { test: RegExp; reply: string }[] = [
   },
   {
     test: /\b(community|group|channel|whatsapp group)\b/i,
-    reply: `Join us on WhatsApp from the [Community](/community) page: the community group, our official channel and the trading group. Trading carries risk and nothing shared there is financial advice.`,
+    reply: `The [Community](/community) page lists VEXON's WhatsApp links. Please check that page for current details. Trading carries risk and nothing shared there is financial advice.`,
   },
   {
     test: /\b(contact|email|phone|call|reach|message|instagram|whatsapp|number)\b/i,
@@ -119,7 +131,7 @@ const RULES: { test: RegExp; reply: string }[] = [
   },
   {
     test: /\b(goods|commerce|shop|buy|sell|store)\b/i,
-    reply: `Goods-based trade is coming soon. See the [Goods Trade](/goods-trade) page. Nothing is on sale yet.`,
+    reply: `Goods-based commerce is a later workstream under evaluation, not an active service. See the [Goods Trade](/goods-trade) page; no goods are currently offered for sale.`,
   },
   {
     test: /\b(leader|leadership|founder|founders|team|ceo|who|enosh|vince)\b/i,
@@ -138,5 +150,5 @@ const RULES: { test: RegExp; reply: string }[] = [
 /** Answer used when no AI key is configured or the AI service is unavailable. */
 export function localAnswer(question: string): string {
   for (const r of RULES) if (r.test.test(question)) return r.reply;
-  return `I can help with VEXON TECH: [Learning](/learning) classes, the [Community](/community), the [Roadmap](/roadmap), the [AI Assistant](/assistant) and how to [contact](/contact) us. What would you like to know?`;
+  return `I can help you find VEXON TECH information: the [Learning](/learning) page for expressions of interest, [Community](/community) links, the [Roadmap](/roadmap), the [AI Assistant](/assistant) concept, or [Contact](/contact). What would you like to know?`;
 }

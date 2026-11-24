@@ -9,7 +9,7 @@ import { SITE } from "@/lib/site-config";
 const TITLE = "Privacy notice — VEXON TECH";
 const DESC =
   "What personal information VEXON TECH collects through this website, why, and how to ask us to delete it.";
-const UPDATED = "23 November 2026";
+const UPDATED = "24 November 2026";
 
 export const Route = createFileRoute("/privacy")({
   head: () => ({
@@ -57,7 +57,7 @@ function Privacy() {
         <span className="font-mono text-xs tracking-[0.3em] text-muted-foreground">
           [ LAST UPDATED {UPDATED.toUpperCase()} ]
         </span>
-        <h1 className="mt-6 font-display text-5xl font-extrabold uppercase leading-[0.95] md:text-7xl">
+        <h1 className="in mt-6 font-display text-5xl font-extrabold uppercase leading-[0.95] md:text-7xl">
           <Words text="Privacy notice" className="text-chrome" />
         </h1>
         <p className="mt-8 leading-relaxed text-muted-foreground">
@@ -98,6 +98,15 @@ function Privacy() {
               </li>
               <li>
                 <strong className="text-foreground">
+                  AI concept feedback:
+                </strong>{" "}
+                your answers about the customer-enquiry problem, how you handle
+                it now, and what a useful result would look like. Email is
+                optional; if provided, it may be used to follow up about your
+                feedback. Please do not include sensitive information.
+              </li>
+              <li>
+                <strong className="text-foreground">
                   Learning applications:
                 </strong>{" "}
                 your name, email, phone number, the programme you chose and an
@@ -118,16 +127,19 @@ function Privacy() {
               They do not enroll you in a service, and they do not mean that a
               planned service is live. We also use other information to reply to
               messages, contact you about applications, update you about the AI
-              assistant, run your account and answer questions in the guide. We
-              do not sell your information or send marketing you did not ask
-              for.
+              assistant, review problem feedback and, if you provide an email,
+              follow up about that feedback, run your account and answer
+              questions in the guide. We do not sell your information or send
+              marketing you did not ask for.
             </p>
           </Section>
 
           <Section n={3} title="Where it is stored and who processes it">
             <p>
-              Form submissions, accounts and onboarding answers are stored with
-              Supabase (database and sign-in). Your onboarding answers are
+              Form submissions, including AI concept feedback, accounts and
+              onboarding answers are stored with Supabase (database and
+              sign-in). Feedback submissions are not available for visitors to
+              read through the public site. Your onboarding answers are
               associated with your account, and database row-level security lets
               you read and update only your own onboarding row. Other visitors
               cannot read it; authorized VEXON TECH project operators may access
@@ -148,12 +160,12 @@ function Privacy() {
 
           <Section n={5} title="How long we keep it">
             <p>
-              We keep messages, applications and waitlist entries only as long
-              as needed for the purpose above, then delete them. Onboarding
-              answers are retained while your account is active, unless you ask
-              us to remove them sooner; they are deleted when the associated
-              account is deleted. We keep your account until you ask us to
-              delete it.
+              We keep messages, applications, waitlist entries and AI concept
+              feedback only as long as needed for the purpose above, then delete
+              them. Onboarding answers are retained while your account is
+              active, unless you ask us to remove them sooner; they are deleted
+              when the associated account is deleted. We keep your account until
+              you ask us to delete it.
             </p>
           </Section>
 
@@ -161,7 +173,9 @@ function Privacy() {
             <p>
               You can ask us to show you, correct or delete the information we
               hold about you, or to remove you from the waitlist, at any time.
-              Email{" "}
+              For feedback, include the email address you provided. If you left
+              it blank, include the approximate submission date and enough of
+              your answers for us to identify the submission. Email{" "}
               <a
                 href={`mailto:${SITE.emails[0]}`}
                 className="text-glow underline underline-offset-2"

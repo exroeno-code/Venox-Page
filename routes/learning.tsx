@@ -116,7 +116,7 @@ function Learning() {
         <span className="inline-flex items-center gap-3 font-mono text-xs tracking-[0.3em] text-muted-foreground">
           <span className="live-dot size-2 rounded-full bg-glow" /> [ ONLINE COMPUTER CLASSES · APPLICATIONS OPEN ]
         </span>
-        <h1 className="mt-6 font-display text-6xl font-extrabold uppercase leading-[0.9] md:text-[8.5rem]">
+        <h1 className="in mt-6 font-display text-4xl font-extrabold uppercase leading-[0.9] sm:text-5xl md:text-[8.5rem]">
           <span className="block"><Words text="Learn" className="text-chrome" /></span>
           <span className="block"><Words text="computing" base={200} className="text-chrome" /></span>
         </h1>

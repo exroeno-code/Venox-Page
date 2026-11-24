@@ -77,7 +77,7 @@ function Contact() {
     <PageShell tag="[ CONTACT ]">
       <section className="pt-8 md:pt-12">
         <span className="font-mono text-xs tracking-[0.3em] text-muted-foreground">[ GET IN TOUCH ]</span>
-        <h1 className="mt-4 font-display text-6xl font-extrabold uppercase leading-[0.9] md:text-8xl">
+        <h1 className="in mt-4 font-display text-6xl font-extrabold uppercase leading-[0.9] md:text-8xl">
           <Words text="Contact us" className="text-chrome" />
         </h1>
 

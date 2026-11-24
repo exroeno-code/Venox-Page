@@ -67,7 +67,7 @@ function Trading() {
     <PageShell tag="[ TRADING ]" scene={<Scene />}>
       <section className="pb-6 pt-8 md:pt-12">
         <span className="font-mono text-xs tracking-[0.3em] text-muted-foreground">[ TRADING EDUCATION · CONCEPT STAGE ]</span>
-        <h1 className="mt-6 font-display text-6xl font-extrabold uppercase leading-[0.9] md:text-[8.5rem]">
+        <h1 className="in mt-6 font-display text-6xl font-extrabold uppercase leading-[0.9] md:text-[8.5rem]">
           <span className="block"><Words text="Learn the" className="text-chrome" /></span>
           <span className="block"><Words text="markets" base={200} className="text-chrome" /></span>
         </h1>
