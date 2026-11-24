@@ -9,7 +9,7 @@ import { SITE } from "@/lib/site-config";
 const TITLE = "Privacy notice — VEXON TECH";
 const DESC =
   "What personal information VEXON TECH collects through this website, why, and how to ask us to delete it.";
-const UPDATED = "23 November 2026";
+const UPDATED = "24 November 2026";
 
 export const Route = createFileRoute("/privacy")({
   head: () => ({
@@ -108,6 +108,14 @@ function Privacy() {
                 the questions you type into the guide. Please do not put
                 personal or sensitive details in them.
               </li>
+              <li>
+                <strong className="text-foreground">Vercel Web Analytics:</strong>{" "}
+                When enabled for this project, page views recorded using the
+                page path and one <code>feedback_form_submission</code> event
+                after a contact message is successfully submitted. We do not
+                include your name, email address, message or other form values
+                in that event.
+              </li>
             </ul>
           </Section>
 
@@ -132,17 +140,24 @@ function Privacy() {
               you read and update only your own onboarding row. Other visitors
               cannot read it; authorized VEXON TECH project operators may access
               stored information when needed to operate or support the website.
-              The website is hosted on Vercel. When the VEXON Guide uses AI,
-              your question and recent chat messages are sent to our AI provider
-              (NVIDIA) to produce an answer. These providers may process data
-              outside Kenya.
+              The website is hosted on Vercel. If Web Analytics is enabled for
+              this project, Vercel processes the page views and contact-form
+              event described above for aggregated reporting. Vercel says its
+              Web Analytics does not use cookies to identify visitors and uses
+              a short-lived, request-derived identifier for visitor sessions.
+              The Analytics event does not contain your submitted form values.
+              When the VEXON Guide uses AI, your question and recent chat
+              messages are sent to our AI provider (NVIDIA) to produce an
+              answer. These providers may process data outside Kenya.
             </p>
           </Section>
 
           <Section n={4} title="Cookies and local storage">
             <p>
-              We do not use advertising cookies. Your browser keeps your sign-in
-              session in local storage so you stay signed in until you sign out.
+              We do not use advertising cookies. Vercel Web Analytics does not
+              use cookies to identify visitors. Your browser keeps your
+              sign-in session in local storage so you stay signed in until you
+              sign out.
             </p>
           </Section>
 
@@ -169,7 +184,16 @@ function Privacy() {
                 {SITE.emails[0]}
               </a>{" "}
               from the address you used. You may also have the right to complain
-              to the Office of the Data Protection Commissioner in Kenya.
+              to the Office of the Data Protection Commissioner in Kenya. See
+              the{" "}
+              <a
+                href="https://www.odpc.go.ke/file-a-complaint/"
+                target="_blank"
+                rel="noreferrer noopener"
+                className="text-glow underline underline-offset-2"
+              >
+                ODPC complaint page
+              </a>.
             </p>
           </Section>
 

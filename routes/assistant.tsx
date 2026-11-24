@@ -51,7 +51,6 @@ function Assistant() {
     const data = new FormData(form);
     // Hidden "website" field: people never fill it in, simple bots do.
     if (String(data.get("website") ?? "") !== "") {
-      setJoined(true);
       return;
     }
     setPending(true);

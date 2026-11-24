@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { ArrowUpRight, ShieldAlert } from "lucide-react";
 
 import { ParticleField } from "@/components/vexon/ParticleField";
@@ -37,16 +37,6 @@ const MODULES = [
     title: "Technical & fundamental analysis",
     points: ["Chart patterns and price action", "Economic calendars", "Central bank policies"],
   },
-] as const;
-
-/** Degrees that build the analytical foundation behind trading and financial markets. */
-const PATHWAYS = [
-  ["Financial Engineering", "Mathematical modelling, derivatives pricing, quantitative risk and algorithmic trading systems."],
-  ["Financial Economics", "Economics, financial markets, econometrics and investment analysis."],
-  ["Commerce (Finance option)", "Corporate finance, portfolio management, securities and capital markets."],
-  ["Actuarial Science", "Probability, statistics, financial mathematics and risk assessment."],
-  ["Economics and Statistics", "The macroeconomic indicators, such as interest rates and inflation, that move currencies."],
-  ["Data Science and Analytics", "Analysing market data, backtesting strategies and building automated tools."],
 ] as const;
 
 function Scene() {
@@ -105,7 +95,15 @@ function Trading() {
           <p>
             VEXON TECH does not give investment advice, sell trade signals, manage anyone's money or take deposits. We do not
             recommend or endorse any broker. Trading forex and CFDs carries a high risk of losing money. Only use money you
-            can afford to lose. If you use a broker, check that it is licensed by the Capital Markets Authority (CMA) of Kenya.
+            can afford to lose. If you use a broker, check the{" "}
+            <a
+              href="https://licensees.cma.or.ke/licenses/5/"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="underline underline-offset-2"
+            >
+              Kenya CMA official licensee register
+            </a>.
           </p>
         </div>
       </section>
@@ -132,23 +130,6 @@ function Trading() {
             <p className="mt-2 text-sm text-muted-foreground">The full syllabus, fees and start dates are not yet confirmed.</p>
           </div>
         </div>
-      </section>
-
-      <section className="py-10">
-        <h2 className="font-mono text-xs tracking-[0.3em] text-muted-foreground">[ DEGREE PATHWAYS BEHIND TRADING ]</h2>
-        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          Retail trading has no standalone university degree. People aiming at institutional trading or quantitative
-          strategy usually study one of these. VEXON TECH does not award degrees; see our{" "}
-          <Link to="/learning" className="text-glow underline underline-offset-2">Learning</Link> page for computing programmes.
-        </p>
-        <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {PATHWAYS.map(([title, desc]) => (
-            <li key={title} className="rounded-md border bg-card/50 p-5 backdrop-blur-md">
-              <p className="font-medium">{title}</p>
-              <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{desc}</p>
-            </li>
-          ))}
-        </ul>
       </section>
     </PageShell>
   );

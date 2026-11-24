@@ -170,7 +170,7 @@ function Index() {
       {/* WORKSTREAMS */}
       <section id="workstreams" className="px-5 pb-28 md:px-10">
         <div data-reveal className="mb-16 max-w-3xl">
-          <span className="font-mono text-xs tracking-[0.3em] text-muted-foreground">[ TWO WORKSTREAMS · ONE STANDARD ]</span>
+          <span className="font-mono text-xs tracking-[0.3em] text-muted-foreground">[ SELECTED WORKSTREAMS · ONE STANDARD ]</span>
           <h2 className="mt-4 font-display text-5xl font-extrabold uppercase leading-[0.95] md:text-7xl"><Words text="What we explore" /></h2>
         </div>
         <div className="grid gap-10 md:grid-cols-2 md:gap-16">

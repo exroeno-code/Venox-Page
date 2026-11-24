@@ -12,6 +12,7 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, useRef, type ReactNode } from "react";
 
+import { Analytics } from "@vercel/analytics/react";
 import appCss from "../styles.css?url";
 import { reportError } from "../lib/error-reporting";
 import { SmoothScroll } from "../components/vexon/SmoothScroll";
@@ -146,6 +147,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <WebAnalytics />
       <OnboardingRedirect />
       <SmoothScroll />
       <GuideWidget />
@@ -153,6 +155,12 @@ function RootComponent() {
       <Outlet />
     </QueryClientProvider>
   );
+}
+
+/** Explicitly tracks TanStack client-side route changes, without query strings. */
+function WebAnalytics() {
+  const pathname = useLocation({ select: (location) => location.pathname });
+  return <Analytics route={pathname} path={pathname} />;
 }
 
 /** First-time users return to / from email confirmation, Google, and WhatsApp callbacks. */

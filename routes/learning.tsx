@@ -87,7 +87,6 @@ function Learning() {
     const data = new FormData(form);
     // Hidden "website" field: people never fill it in, simple bots do.
     if (String(data.get("website") ?? "") !== "") {
-      setSentFor(selected);
       return;
     }
     setPending(true);

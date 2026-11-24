@@ -227,7 +227,7 @@ export function GuideWidget() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               maxLength={MAX_CHARS}
-              placeholder="Ask about the venture, anything…"
+              placeholder="Ask about VEXON TECH or this website…"
               aria-label="Ask the VEXON Guide"
               className="min-h-11 min-w-0 flex-1 rounded-full border border-white/[0.14] bg-white/[0.045] px-4 py-2.5 text-base text-white outline-none transition-colors placeholder:text-white/45 focus:border-glow/70 focus-visible:ring-2 focus-visible:ring-glow/40"
             />

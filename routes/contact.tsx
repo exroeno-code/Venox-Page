@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, type ComponentType, type FormEvent } from "react";
+import { track } from "@vercel/analytics/react";
 import { Mail, Phone } from "lucide-react";
 
 import { PageShell } from "@/components/vexon/PageShell";
@@ -42,7 +43,7 @@ const CHANNELS: Channel[] = [
   { label: "Instagram", value: `@${SITE.instagram.handle}`, href: SITE.instagram.url, Icon: InstagramIcon, external: true },
 ];
 
-function Contact() {
+export function Contact() {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [sent, setSent] = useState(false);
@@ -64,6 +65,7 @@ function Contact() {
         email: String(data.get("email") ?? ""),
         message: String(data.get("message") ?? ""),
       });
+      track("feedback_form_submission");
       form.reset();
       setSent(true);
     } catch (err) {
@@ -84,7 +86,7 @@ function Contact() {
         <div className="mt-16 grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
           <div>
             <p className="max-w-md leading-relaxed text-muted-foreground">
-              Questions, ideas or want to work with us? Send a message or reach us directly. The VEXON TECH team will get back to you.
+              Questions, ideas or want to work with us? Send a message or reach us directly through one of our listed channels.
             </p>
 
             <ul className="mt-10 space-y-4">
@@ -126,7 +128,7 @@ function Contact() {
                   <span className="text-chrome">Message sent</span>
                 </h2>
                 <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                  Thank you. We have received your message and will reply by email.
+                  Thank you. Your message has been submitted.
                 </p>
                 <button type="button" onClick={() => setSent(false)} className={`${BUTTON} mt-8`}>
                   Send another message
