@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowUpRight, Check, GraduationCap } from "lucide-react";
+import { ArrowUpRight, Check, GraduationCap, Send } from "lucide-react";
 import { useRef, useState, type FormEvent } from "react";
+import { CompactFormLink, CompactFormAction } from "@/components/vexon/CompactFormAction";
 import { FormShell } from "@/components/vexon/FormShell";
 import { ParticleField } from "@/components/vexon/ParticleField";
 import { PageShell } from "@/components/vexon/PageShell";
@@ -219,15 +220,15 @@ function Learning() {
                 <p className="text-sm leading-relaxed text-muted-foreground">
                   We will contact you using the phone number you provided. For a quicker follow-up, message us on WhatsApp.
                 </p>
-                <a
+                <CompactFormLink
                   href={whatsappApply(chosen.name)}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className={`${BUTTON} mt-6 inline-flex items-center justify-center gap-2`}
+                  className={`${BUTTON} mt-6`}
+                  icon={WhatsAppIcon}
                 >
-                  <WhatsAppIcon className="size-4" /> Continue on WhatsApp
-                  <ArrowUpRight className="size-3" />
-                </a>
+                  Continue on WhatsApp
+                </CompactFormLink>
               </div>
             ) : (
               <div>
@@ -261,9 +262,9 @@ function Learning() {
                         {error}
                       </p>
                     )}
-                    <button type="submit" disabled={pending} className={BUTTON}>
+                    <CompactFormAction type="submit" disabled={pending} className={BUTTON} icon={Send}>
                       {pending ? "Sending…" : "Submit application"}
-                    </button>
+                    </CompactFormAction>
                     <p className="text-center font-mono text-[0.65rem] text-muted-foreground">
                       See our <Link to="/privacy" className="underline underline-offset-2 hover:text-foreground">privacy notice</Link>.
                     </p>

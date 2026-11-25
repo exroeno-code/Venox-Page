@@ -1,6 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 
+import { Save, UserRound } from "lucide-react";
+
+import { CompactFormAction } from "@/components/vexon/CompactFormAction";
 import { PageShell } from "@/components/vexon/PageShell";
 import { OnboardingSection } from "@/components/vexon/OnboardingSection";
 import {
@@ -79,8 +82,9 @@ function Profile() {
               <p className="text-sm leading-relaxed text-muted-foreground">
                 Sign in to see and edit your profile.
               </p>
-              <Link to="/auth" className={`${BUTTON} mt-8 block text-center`}>
-                Sign in or create account
+              <Link to="/auth" className={`${BUTTON} compact-form-action mt-8`}>
+                <UserRound aria-hidden="true" className="compact-form-action__icon" />
+                <span className="compact-form-action__label">Sign in or create account</span>
               </Link>
             </div>
           ) : (
@@ -146,9 +150,9 @@ function Profile() {
                     Your name has been updated.
                   </p>
                 )}
-                <button type="submit" disabled={pending} className={BUTTON}>
+                <CompactFormAction type="submit" disabled={pending} className={BUTTON} icon={Save}>
                   {pending ? "Saving…" : "Save changes"}
-                </button>
+                </CompactFormAction>
               </form>
 
               <OnboardingSection userId={auth.user.id} />

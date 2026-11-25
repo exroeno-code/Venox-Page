@@ -46,6 +46,43 @@
 }
 .guide-widget-dock { bottom: calc(1rem + env(safe-area-inset-bottom)); }
 
+/* Large-screen form actions: icon-first controls that reveal their labels. */
+.compact-form-action {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  overflow: hidden;
+  white-space: nowrap;
+  border: 1px solid var(--primary);
+  border-radius: 0.55rem;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  padding: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: width 220ms ease, gap 220ms ease, filter 180ms ease, background 180ms ease;
+}
+.compact-form-action__icon { width: 1rem; height: 1rem; flex: 0 0 auto; }
+.compact-form-action__label { max-width: 0; overflow: hidden; opacity: 0; transition: max-width 220ms ease, opacity 160ms ease; }
+.compact-form-action:hover, .compact-form-action:focus-visible, .compact-form-action:focus-within { gap: 0.6rem; filter: brightness(1.08); }
+.compact-form-action:hover .compact-form-action__label,
+.compact-form-action:focus-visible .compact-form-action__label,
+.compact-form-action:focus-within .compact-form-action__label { max-width: 14rem; opacity: 1; }
+.compact-form-action:focus-visible { outline: 2px solid var(--glow); outline-offset: 3px; }
+.compact-form-action:disabled { cursor: not-allowed; opacity: 0.6; }
+@media (min-width: 64rem) and (hover: hover) {
+  .compact-form-action { width: 2.75rem; }
+  .compact-form-action:hover, .compact-form-action:focus-visible, .compact-form-action:focus-within { width: auto; }
+}
+@media (max-width: 63.99rem), (hover: none) {
+  .compact-form-action { width: auto; }
+  .compact-form-action__label { max-width: 14rem; opacity: 1; }
+}
+
 @utility text-chrome {
   background: var(--text-chrome);
   background-size: 200% 100%;
