@@ -1,14 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 
-import { CompactFormAction } from "@/components/vexon/CompactFormAction";
 import { FormShell } from "@/components/vexon/FormShell";
 import { PageShell } from "@/components/vexon/PageShell";
 import { Words } from "@/components/vexon/Words";
 import { ACCOUNTS_CONFIGURED } from "@/lib/auth-core";
 import { joinWaitlist, WaitlistError } from "@/lib/waitlist-core";
 import { ogImageMeta } from "@/lib/seo";
-import { ArrowUpRight } from "lucide-react";
 
 const TITLE = "AI Assistant concept — VEXON TECH";
 const DESC =
@@ -147,9 +145,9 @@ function Assistant() {
                   {error}
                 </p>
               )}
-              <CompactFormAction type="submit" disabled={pending} className={BUTTON} icon={ArrowUpRight}>
+              <button type="submit" disabled={pending} className={BUTTON}>
                 {pending ? "Joining…" : "Join the waitlist"}
-              </CompactFormAction>
+              </button>
             </form>
           )}
         </FormShell>

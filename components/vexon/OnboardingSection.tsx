@@ -1,8 +1,5 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { RotateCcw, Save } from "lucide-react";
-
-import { CompactFormAction } from "@/components/vexon/CompactFormAction";
 
 import {
   BUSINESS_TYPE_LABELS,
@@ -186,14 +183,13 @@ export function OnboardingSection({ userId }: { userId: string }) {
           >
             {error}
           </p>
-          <CompactFormAction
+          <button
             type="button"
             onClick={() => setLoadAttempt((attempt) => attempt + 1)}
             className={`${BUTTON} mt-4`}
-            icon={RotateCcw}
           >
             Retry
-          </CompactFormAction>
+          </button>
         </div>
       ) : editing ? (
         <form
@@ -342,9 +338,9 @@ export function OnboardingSection({ userId }: { userId: string }) {
             </p>
           )}
           <div className="flex flex-wrap gap-3">
-            <CompactFormAction type="submit" disabled={pending} className={BUTTON} icon={Save}>
+            <button type="submit" disabled={pending} className={BUTTON}>
               {pending ? "Saving…" : "Save and continue"}
-            </CompactFormAction>
+            </button>
             {record?.status === "completed" ? (
               <button
                 type="button"

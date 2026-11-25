@@ -1,8 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
-import { ArrowUpRight, LogIn, MessageCircle, UserPlus, BadgeCheck } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
-import { CompactFormAction } from "@/components/vexon/CompactFormAction";
 import { ParticleField } from "@/components/vexon/ParticleField";
 import { Wordmark } from "@/components/vexon/Wordmark";
 import {
@@ -265,9 +264,9 @@ function AuthPage() {
                   )}
                 </div>
 
-                <CompactFormAction type="submit" disabled={pending} className={BUTTON} icon={mode === "create" ? UserPlus : LogIn}>
+                <button type="submit" disabled={pending} className={BUTTON}>
                   {pending ? (mode === "create" ? "Creating account…" : "Signing in…") : mode === "create" ? "Create account" : "Sign in"}
-                </CompactFormAction>
+                </button>
               </form>
 
               {GOOGLE_ENABLED && (
@@ -314,9 +313,9 @@ function AuthPage() {
                           className={FIELD}
                         />
                       </div>
-                      <CompactFormAction type="submit" disabled={pending || whatsAppCode.length !== 6} className={BUTTON} icon={BadgeCheck}>
+                      <button type="submit" disabled={pending || whatsAppCode.length !== 6} className={BUTTON}>
                         {pending ? "Verifying code…" : "Verify code"}
-                      </CompactFormAction>
+                      </button>
                       <button
                         type="button"
                         onClick={() => {
@@ -348,9 +347,9 @@ function AuthPage() {
                           className={FIELD}
                         />
                       </div>
-                      <CompactFormAction type="submit" disabled={pending || !whatsAppPhone.trim()} className={BUTTON} icon={MessageCircle}>
+                      <button type="submit" disabled={pending || !whatsAppPhone.trim()} className={BUTTON}>
                         {pending ? "Sending code…" : "Continue with WhatsApp"}
-                      </CompactFormAction>
+                      </button>
                     </form>
                   )}
                 </section>

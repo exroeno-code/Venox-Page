@@ -1,9 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, type ComponentType, type FormEvent } from "react";
 import { track } from "@vercel/analytics/react";
-import { Mail, Phone, Send } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 
-import { CompactFormLink, CompactFormAction } from "@/components/vexon/CompactFormAction";
 import { FormShell } from "@/components/vexon/FormShell";
 import { PageShell } from "@/components/vexon/PageShell";
 import { InstagramIcon, WhatsAppIcon } from "@/components/vexon/SocialIcons";
@@ -136,9 +135,9 @@ export function Contact() {
                 <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
                   Thank you. Your message has been submitted. If you would rather chat, continue with us on WhatsApp.
                 </p>
-                <CompactFormLink href={WHATSAPP_HREF} target="_blank" rel="noreferrer noopener" className={`${BUTTON} mt-6`} icon={WhatsAppIcon}>
-                  Message us on WhatsApp
-                </CompactFormLink>
+                <a href={WHATSAPP_HREF} target="_blank" rel="noreferrer noopener" className={`${BUTTON} mt-6 inline-flex items-center justify-center gap-2`}>
+                  <WhatsAppIcon className="size-4" /> Message us on WhatsApp
+                </a>
               </div>
             ) : !CONTACT_FORM_ENABLED ? (
               <div role="status">
@@ -176,12 +175,12 @@ export function Contact() {
                     {error}
                   </p>
                 )}
-                <CompactFormAction type="submit" disabled={pending} className={BUTTON} icon={Send}>
+                <button type="submit" disabled={pending} className={BUTTON}>
                   {pending ? "Sending…" : "Send message"}
-                </CompactFormAction>
-                <CompactFormLink href={WHATSAPP_HREF} target="_blank" rel="noreferrer noopener" className={BUTTON} icon={WhatsAppIcon}>
-                  Prefer WhatsApp?
-                </CompactFormLink>
+                </button>
+                <a href={WHATSAPP_HREF} target="_blank" rel="noreferrer noopener" className={`${BUTTON} inline-flex items-center justify-center gap-2`}>
+                  <WhatsAppIcon className="size-4" /> Prefer WhatsApp?
+                </a>
                 <p className="text-center font-mono text-[0.65rem] text-muted-foreground">
                   See our <Link to="/privacy" className="underline underline-offset-2 hover:text-foreground">privacy notice</Link>.
                 </p>
