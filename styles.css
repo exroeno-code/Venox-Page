@@ -109,7 +109,7 @@ html.lenis, html.lenis body { height: auto; }
 
 
 /* Uploaded Hi! · Sign in reference */
-.auth-reference{--auth-outer:var(--background);--auth-bg:var(--background);--auth-card:rgba(38,38,38,.84);--auth-green:#34c58a;--auth-mint:#e6f8ef;--auth-ink:#161616;position:relative;max-width:430px;min-height:100dvh;margin:0 auto;background:var(--auth-bg);overflow:hidden;display:flex;flex-direction:column;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#fff}
+.auth-reference{--auth-outer:#000;--auth-bg:#1b1b1b;--auth-card:rgba(38,38,38,.84);--auth-green:#34c58a;--auth-mint:#e6f8ef;--auth-ink:#161616;position:relative;max-width:430px;min-height:100dvh;margin:0 auto;background:var(--auth-bg);overflow:hidden;display:flex;flex-direction:column;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#fff}
 @media(min-width:480px){.auth-reference{min-height:min(860px,calc(100dvh - 48px));margin:24px auto;border-radius:36px;box-shadow:0 24px 60px rgba(0,0,0,.35)}body:has(.auth-reference){background:var(--auth-outer)}}
 .auth-reference__hero{position:absolute;inset:0 0 auto 0;height:min(64dvh,560px)}
 .auth-reference__photo{width:100%;height:100%;object-fit:cover;object-position:50% 18%;display:block}
