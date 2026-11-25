@@ -64,14 +64,20 @@
   font-size: 0.7rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  transition: width 220ms ease, gap 220ms ease, filter 180ms ease, background 180ms ease;
+  transition: width 360ms cubic-bezier(.22, 1, .36, 1), gap 360ms cubic-bezier(.22, 1, .36, 1), filter 220ms ease, background 220ms ease;
 }
-.compact-form-action__icon { width: 1rem; height: 1rem; flex: 0 0 auto; }
-.compact-form-action__label { max-width: 0; overflow: hidden; opacity: 0; transition: max-width 220ms ease, opacity 160ms ease; }
+.compact-form-action__icon { width: 1rem; height: 1rem; flex: 0 0 auto; transition: transform 360ms cubic-bezier(.22, 1, .36, 1); }
+.compact-form-action__label { max-width: 0; overflow: hidden; opacity: 0; transform: translateX(-0.35rem); transition: max-width 360ms cubic-bezier(.22, 1, .36, 1), opacity 220ms ease 70ms, transform 360ms cubic-bezier(.22, 1, .36, 1) 30ms; }
 .compact-form-action:hover, .compact-form-action:focus-visible, .compact-form-action:focus-within { gap: 0.6rem; filter: brightness(1.08); }
 .compact-form-action:hover .compact-form-action__label,
 .compact-form-action:focus-visible .compact-form-action__label,
 .compact-form-action:focus-within .compact-form-action__label { max-width: 14rem; opacity: 1; }
+.compact-form-action:hover .compact-form-action__icon,
+.compact-form-action:focus-visible .compact-form-action__icon,
+.compact-form-action:focus-within .compact-form-action__icon { transform: scale(1.08) rotate(-4deg); }
+.compact-form-action:hover .compact-form-action__label,
+.compact-form-action:focus-visible .compact-form-action__label,
+.compact-form-action:focus-within .compact-form-action__label { transform: translateX(0); }
 .compact-form-action:focus-visible { outline: 2px solid var(--glow); outline-offset: 3px; }
 .compact-form-action:disabled { cursor: not-allowed; opacity: 0.6; }
 @media (min-width: 64rem) and (hover: hover) {
@@ -80,7 +86,10 @@
 }
 @media (max-width: 63.99rem), (hover: none) {
   .compact-form-action { width: auto; }
-  .compact-form-action__label { max-width: 14rem; opacity: 1; }
+  .compact-form-action__label { max-width: 14rem; opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .compact-form-action, .compact-form-action__icon, .compact-form-action__label { transition: none; }
 }
 
 @utility text-chrome {
