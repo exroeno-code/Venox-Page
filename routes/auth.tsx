@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useId, useRef, useState, type FormEvent, type ReactNode } from "react";
 
 import { AUTH_PORTRAIT } from "@/components/vexon/authPortrait";
+import { Wordmark } from "@/components/vexon/Wordmark";
 
 const TITLE = "Hi! · Sign in";
 const EXISTING_EMAIL = "alex.doe@gmail.com";
@@ -63,6 +64,34 @@ function WhatsAppIcon() {
 
 function BackIcon() {
   return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>;
+}
+
+function VexonMark() {
+  const gradientId = `auth-v-mark-${useId().replace(/:/g, "")}`;
+  return (
+    <svg className="auth-reference__brand-mark" viewBox="0 0 1024 1024" aria-hidden="true">
+      <defs>
+        <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#8a8c96" />
+          <stop offset=".45" stopColor="#fff" />
+          <stop offset="1" stopColor="#8a8c96" />
+        </linearGradient>
+      </defs>
+      <path d="M190 230h190l132 380 132-380h190L600 800H424z" fill={`url(#${gradientId})`} />
+    </svg>
+  );
+}
+
+function AuthBrand() {
+  return (
+    <div className="auth-reference__brand">
+      <VexonMark />
+      <div>
+        <p className="auth-reference__brand-name"><Wordmark /></p>
+        <p className="auth-reference__brand-caption">Sign in or create your account</p>
+      </div>
+    </div>
+  );
 }
 
 function Field({ children, password = false }: { children: ReactNode; password?: boolean }) {
@@ -181,9 +210,15 @@ function AuthPage() {
   return (
     <main className="auth-reference">
       <div className="auth-reference__hero"><img className="auth-reference__photo" src={AUTH_PORTRAIT} alt="Young man with glasses leaning against a wall at night" /></div>
+      <div className="auth-reference__welcome">
+        <p className="auth-reference__welcome-label">WELCOME TO VEXON TECH</p>
+        <h2>Good to have you here.</h2>
+        <p className="auth-reference__welcome-tagline">Useful ideas. Real-world progress.</p>
+      </div>
       <button className="auth-reference__back" aria-label="Back" hidden={screen === "email"} onClick={back}><BackIcon /></button>
 
       <section className={`auth-reference__screen${screen === "email" ? " is-active" : ""}`} aria-hidden={screen !== "email"}>
+        <AuthBrand />
         <h1>Hi!</h1>
         <div className="auth-reference__card">
           <form onSubmit={(event) => { event.preventDefault(); submitEmail(); }} noValidate>
@@ -203,6 +238,7 @@ function AuthPage() {
       </section>
 
       <section className={`auth-reference__screen${screen === "signup" ? " is-active" : ""}`} aria-hidden={screen !== "signup"}>
+        <AuthBrand />
         <h1>Sign up</h1>
         <form className="auth-reference__card" onSubmit={submitSignup} noValidate>
           <p className="auth-reference__small">{signupMessage}</p>
@@ -215,6 +251,7 @@ function AuthPage() {
       </section>
 
       <section className={`auth-reference__screen${screen === "login" ? " is-active" : ""}`} aria-hidden={screen !== "login"}>
+        <AuthBrand />
         <h1>Log in</h1>
         <form className="auth-reference__card" onSubmit={submitLogin} noValidate>
           <div className="auth-reference__user"><div className="auth-reference__avatar"><img src={AUTH_PORTRAIT} alt="" /></div><div><b>{loginName}</b><span>{loginEmail}</span></div></div>
