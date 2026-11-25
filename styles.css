@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 @import "tailwindcss" source(none);
 @source "./routes";
 @source "./components";
@@ -105,3 +106,52 @@ html.lenis, html.lenis body { height: auto; }
 .lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
 .lenis [data-lenis-prevent] { overscroll-behavior: contain; }
 .lenis.lenis-smooth iframe { pointer-events: none; }
+
+
+/* Uploaded Hi! · Sign in reference */
+.auth-reference{--auth-outer:#f2bfbc;--auth-bg:#1b1b1b;--auth-card:rgba(38,38,38,.84);--auth-green:#34c58a;--auth-mint:#e6f8ef;--auth-ink:#161616;position:relative;max-width:430px;min-height:100dvh;margin:0 auto;background:var(--auth-bg);overflow:hidden;display:flex;flex-direction:column;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#fff}
+@media (prefers-color-scheme:dark){.auth-reference{--auth-outer:#241b1c}}
+@media(min-width:480px){.auth-reference{min-height:min(860px,calc(100dvh - 48px));margin:24px auto;border-radius:36px;box-shadow:0 24px 60px rgba(0,0,0,.35)}body:has(.auth-reference){background:var(--auth-outer)}}
+.auth-reference__hero{position:absolute;inset:0 0 auto 0;height:min(64dvh,560px)}
+.auth-reference__photo{width:100%;height:100%;object-fit:cover;object-position:50% 18%;display:block}
+.auth-reference__hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.3),transparent 28%,transparent 52%,var(--auth-bg))}
+.auth-reference__back{position:absolute;z-index:3;top:calc(env(safe-area-inset-top,0px) + 14px);left:14px;width:40px;height:40px;border-radius:50%;border:0;background:rgba(0,0,0,.35);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#fff;display:grid;place-items:center;cursor:pointer}
+.auth-reference__back[hidden]{display:none}
+.auth-reference__screen{display:none;position:relative;z-index:2;flex:1;flex-direction:column;padding:clamp(230px,38dvh,340px) 14px calc(env(safe-area-inset-bottom,0px) + 24px)}
+.auth-reference__screen.is-active{display:flex;animation:auth-reference-in .35s ease}
+@keyframes auth-reference-in{from{opacity:0;transform:translateY(10px)}}
+.auth-reference h1{margin:0 0 14px 6px;font-size:34px;line-height:1.1;font-weight:800;letter-spacing:-.02em}
+.auth-reference__card{background:var(--auth-card);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.auth-reference__card form{display:flex;flex-direction:column;gap:14px}
+.auth-reference__field{position:relative}
+.auth-reference__field input{width:100%;height:52px;padding:20px 14px 6px;border:2px solid transparent;border-radius:8px;background:#f1f1f1;color:#111;font:500 16px Inter,system-ui,sans-serif;outline:0}
+.auth-reference__field input:focus{background:#fff;border-color:var(--auth-green)}
+.auth-reference__field label{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:15px;color:#7a7a7a;pointer-events:none;transition:top .15s,font-size .15s,transform .15s}
+.auth-reference__field input:focus+label,.auth-reference__field input:not(:placeholder-shown)+label{top:9px;transform:none;font-size:11px}
+.auth-reference__field--password input{padding-right:64px}
+.auth-reference__view{position:absolute;right:6px;top:50%;transform:translateY(-50%);height:40px;padding:0 10px;border:0;background:none;color:#222;font:500 14px Inter,system-ui,sans-serif;cursor:pointer}
+.auth-reference__button{height:48px;border:0;border-radius:8px;background:var(--auth-green);color:#fff;font:600 15px Inter,system-ui,sans-serif;cursor:pointer;transition:filter .15s,transform .1s}
+.auth-reference__button:hover{filter:brightness(1.06)}
+.auth-reference__button:active{transform:scale(.98)}
+.auth-reference__or{text-align:center;font-size:14px;color:#ddd;margin:-2px 0}
+.auth-reference__small{font-size:13.5px;line-height:1.5;color:#ececec;margin:0}
+.auth-reference__link{background:none;border:0;padding:0;color:#3ed596;font:600 14px Inter,system-ui,sans-serif;cursor:pointer;text-align:left}
+.auth-reference__small .auth-reference__link{font-size:inherit;display:inline}
+.auth-reference__error{margin:-6px 0 0 2px;font-size:13px;color:#ff9a90;min-height:0}
+.auth-reference__error:empty{display:none}
+.auth-reference__socials{display:flex;justify-content:center;gap:12px}
+.auth-reference__social{flex:0 0 60px;height:56px;border:0;border-radius:14px;background:var(--auth-mint);color:var(--auth-ink);display:flex;align-items:center;justify-content:center;overflow:hidden;white-space:nowrap;font:600 15px Inter,system-ui,sans-serif;cursor:pointer;transition:flex .38s cubic-bezier(.2,.8,.2,1),opacity .25s}
+.auth-reference__social svg{width:30px;height:30px;flex:none;shape-rendering:geometricPrecision}
+.auth-reference__social-label{max-width:0;opacity:0;margin-left:0;transition:max-width .38s,opacity .25s,margin .38s}
+.auth-reference__socials:has(.is-open){gap:0}
+.auth-reference__socials:has(.is-open) .auth-reference__social{flex:0 0 0;opacity:0;pointer-events:none}
+.auth-reference__socials:has(.is-open) .auth-reference__social.is-open{flex:1 1 0;opacity:1;pointer-events:auto}
+.auth-reference__social.is-open .auth-reference__social-label{max-width:220px;opacity:1;margin-left:10px}
+.auth-reference__user{display:flex;align-items:center;gap:12px}
+.auth-reference__avatar{width:56px;height:56px;border-radius:50%;overflow:hidden;flex:none;background:#111}
+.auth-reference__avatar img{width:100%;height:100%;object-fit:cover;object-position:52% 0;filter:grayscale(1);transform-origin:52% 30%;transform:translateY(5px) scale(2.2)}
+.auth-reference__user b{display:block;font-size:15px}.auth-reference__user span{font-size:13.5px;color:#d0d0d0;word-break:break-all}
+.auth-reference__toast{position:fixed;z-index:9;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 24px);transform:translate(-50%,20px);max-width:calc(100% - 32px);padding:12px 18px;border-radius:999px;background:#262626;border:1px solid var(--auth-green);color:#fff;font:14px Inter,system-ui,sans-serif;opacity:0;pointer-events:none;transition:.25s}
+.auth-reference__toast.is-visible{opacity:1;transform:translate(-50%,0)}
+.auth-reference button:focus-visible{outline:2px solid #fff;outline-offset:2px}
+@media(prefers-reduced-motion:reduce){.auth-reference *{animation:none!important;transition:none!important}}
