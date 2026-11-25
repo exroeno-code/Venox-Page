@@ -168,7 +168,7 @@ function AuthPage() {
     return (
       <button
         type="button"
-        className={`auth-reference__social${expanded ? " is-open" : ""}`}
+        className={`auth-reference__social auth-reference__social--${name.toLowerCase()}${expanded ? " is-open" : ""}`}
         aria-label={`Continue with ${name}`}
         aria-expanded={expanded}
         onClick={() => expanded ? showToast(`Continuing with ${name}…`) : setOpenSocial(name)}
