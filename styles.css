@@ -135,7 +135,7 @@ body:has(.auth-reference){background:#241b1c}body:has(.auth-reference) .guide-wi
 .auth-reference__field input:focus+label,.auth-reference__field input:not(:placeholder-shown)+label{top:9px;transform:none;font-size:11px}
 .auth-reference__field--password input{padding-right:64px}
 .auth-reference__view{position:absolute;right:6px;top:50%;transform:translateY(-50%);height:40px;padding:0 10px;border:0;background:none;color:#222;font:500 14px Inter,system-ui,sans-serif;cursor:pointer}
-.auth-reference__button{height:48px;border:0;border-radius:8px;background:var(--auth-green);color:#fff;font:600 15px Inter,system-ui,sans-serif;cursor:pointer;transition:filter .15s,transform .1s}
+.auth-reference__button{width:min(150px,100%);height:48px;align-self:center;border:0;border-radius:8px;background:var(--auth-green);color:#fff;font:600 15px Inter,system-ui,sans-serif;cursor:pointer;transition:filter .15s,transform .1s}
 .auth-reference__button:hover{filter:brightness(1.06)}
 .auth-reference__button:active{transform:scale(.98)}
 .auth-reference__or{text-align:center;font-size:14px;color:#ddd;margin:-2px 0}
