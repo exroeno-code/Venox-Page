@@ -7,7 +7,7 @@
  */
 import type { Session, SupabaseClient, User } from "@supabase/supabase-js";
 
-export type VexonUser = { id: string; name: string; email: string; phone?: string };
+export type VexonUser = { id: string; name: string; email: string; phone?: string; avatarUrl?: string | undefined };
 
 export type AuthState =
   | { status: "loading" }
@@ -43,7 +43,8 @@ function setState(next: AuthState) {
       (next.status === "signed-in" &&
         state.user.id === next.user.id &&
         state.user.name === next.user.name &&
-        state.user.email === next.user.email));
+        state.user.email === next.user.email &&
+        state.user.avatarUrl === next.user.avatarUrl));
   if (same) return;
   state = next;
   listeners.forEach((l) => l());
@@ -83,7 +84,13 @@ async function init() {
   }
   // Fires for sign in, sign out, token refresh, and tabs signing in or out.
   // Never await other Supabase calls inside this callback (it can deadlock the client).
-  supabase.auth.onAuthStateChange((_event, session) => applySession(session));
+  supabase.auth.onAuthStateChange((event, session) => {
+    if (event === "PASSWORD_RECOVERY") {
+      recoveryMode = true;
+      recoveryListeners.forEach((l) => l());
+    }
+    applySession(session);
+  });
   const { data } = await supabase.auth.getSession();
   applySession(data.session);
 }
@@ -98,19 +105,39 @@ function applySession(session: Session | null) {
   setTimeout(() => void refreshProfile(user.id), 0);
 }
 
-/** The `profiles` table is the source of truth for the display name. */
+/** The `profiles` table is the source of truth for the display name and picture. */
 async function refreshProfile(userId: string) {
   try {
     const supabase = await getClient();
     if (!supabase) return;
-    const { data } = await supabase.from("profiles").select("display_name").eq("id", userId).maybeSingle();
-    const name = typeof data?.display_name === "string" ? data.display_name.trim() : "";
-    if (name && state.status === "signed-in" && state.user.id === userId) {
-      setState({ status: "signed-in", user: { ...state.user, name } });
-    }
+    const { data } = await supabase
+      .from("profiles")
+      .select("display_name, avatar_url")
+      .eq("id", userId)
+      .maybeSingle();
+    if (!data || state.status !== "signed-in" || state.user.id !== userId) return;
+    const name = typeof data.display_name === "string" ? data.display_name.trim() : "";
+    const avatarUrl = typeof data.avatar_url === "string" && data.avatar_url ? data.avatar_url : state.user.avatarUrl;
+    setState({ status: "signed-in", user: { ...state.user, name: name || state.user.name, avatarUrl } });
   } catch {
-    /* keep the name from the sign-in metadata */
+    /* keep the name and picture from the sign-in metadata */
   }
+}
+
+/* ---------- password recovery (person arrived from a reset email) ---------- */
+
+let recoveryMode = false;
+const recoveryListeners = new Set<() => void>();
+
+export function getRecoveryMode(): boolean {
+  return recoveryMode;
+}
+
+export function subscribeRecovery(listener: () => void): () => void {
+  recoveryListeners.add(listener);
+  return () => {
+    recoveryListeners.delete(listener);
+  };
 }
 
 /* ---------- Supabase client ---------- */
@@ -193,14 +220,90 @@ export async function signIn(input: { email: string; password: string }): Promis
   return toUser(data.session.user);
 }
 
-/** Redirects to Google; the session is picked up when the person returns to the site. */
+/**
+ * Redirects to Google, which lets the person pick one of the Google accounts on their device.
+ * On return, their Google name, email and picture become the Vexon profile (see the sign-up trigger).
+ */
 export async function signInWithGoogle(): Promise<void> {
   const supabase = await requireClient();
-  const { error } = await supabase.auth.signInWithOAuth({
+  const origin = siteOrigin();
+  const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
-    options: { ...(siteOrigin() ? { redirectTo: siteOrigin() } : {}) },
+    options: {
+      ...(origin ? { redirectTo: `${origin}/profile` } : {}),
+      queryParams: { prompt: "select_account" },
+    },
   });
+  if (error) {
+    if (/provider is not enabled|unsupported provider/i.test(error.message)) {
+      throw new AuthError("Google sign-in is not switched on yet. Use your email for now.");
+    }
+    throw toAuthError(error);
+  }
+  if (data?.url) globalThis.location.assign(data.url);
+}
+
+/** Emails a link that brings the person back here to choose a new password. */
+export async function sendPasswordReset(input: string): Promise<void> {
+  const email = normalizeEmail(input);
+  validateEmail(email);
+  const supabase = await requireClient();
+  const origin = siteOrigin();
+  const { error } = await supabase.auth.resetPasswordForEmail(email, origin ? { redirectTo: `${origin}/auth` } : {});
   if (error) throw toAuthError(error);
+}
+
+/** Sets a new password for the signed-in person (used after a reset link). */
+export async function updatePassword(password: string): Promise<void> {
+  if (password.length < MIN_PASSWORD_LENGTH) {
+    throw new AuthError(`Password must be at least ${MIN_PASSWORD_LENGTH} characters.`);
+  }
+  const supabase = await requireClient();
+  const { error } = await supabase.auth.updateUser({ password });
+  if (error) throw toAuthError(error);
+  recoveryMode = false;
+  recoveryListeners.forEach((l) => l());
+}
+
+const AVATAR_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+const AVATAR_MAX_BYTES = 2 * 1024 * 1024;
+
+/** Uploads a profile picture to the member's own folder and saves its address on the profile. */
+export async function uploadAvatar(file: File): Promise<string> {
+  if (state.status !== "signed-in") throw new AuthError("Sign in to change your picture.");
+  if (!AVATAR_TYPES.includes(file.type)) throw new AuthError("Choose a JPG, PNG, WebP or GIF image.");
+  if (file.size > AVATAR_MAX_BYTES) throw new AuthError("Choose an image smaller than 2 MB.");
+  const userId = state.user.id;
+  const supabase = await requireClient();
+
+  const ext = file.type.split("/")[1] === "jpeg" ? "jpg" : file.type.split("/")[1];
+  const path = `${userId}/avatar-${Date.now()}.${ext}`;
+  const { error: uploadError } = await supabase.storage
+    .from("avatars")
+    .upload(path, file, { cacheControl: "3600", upsert: true, contentType: file.type });
+  if (uploadError) throw new AuthError("We could not upload that picture. Try again in a moment.");
+
+  const { data: urlData } = supabase.storage.from("avatars").getPublicUrl(path);
+  const avatarUrl = urlData.publicUrl;
+  const { error } = await supabase.from("profiles").update({ avatar_url: avatarUrl }).eq("id", userId);
+  if (error) throw new AuthError("Your picture uploaded but we could not save it. Try again.");
+
+  if (state.status === "signed-in" && state.user.id === userId) {
+    setState({ status: "signed-in", user: { ...state.user, avatarUrl } });
+  }
+  return avatarUrl;
+}
+
+/** Removes the profile picture (initials are shown instead). */
+export async function removeAvatar(): Promise<void> {
+  if (state.status !== "signed-in") throw new AuthError("Sign in to change your picture.");
+  const userId = state.user.id;
+  const supabase = await requireClient();
+  const { error } = await supabase.from("profiles").update({ avatar_url: null }).eq("id", userId);
+  if (error) throw new AuthError("We could not remove your picture. Try again.");
+  if (state.status === "signed-in" && state.user.id === userId) {
+    setState({ status: "signed-in", user: { ...state.user, avatarUrl: undefined } });
+  }
 }
 
 /** Sends a phone sign-in code through the WhatsApp channel configured in Supabase Auth. */
@@ -286,7 +389,10 @@ function toUser(user: User): VexonUser {
     (v): v is string => typeof v === "string" && v.trim().length > 0,
   );
   const fallbackName = email ? email.split("@")[0]! : phone;
-  return { id: user.id, email, phone, name: (fromMeta ?? fallbackName).trim() };
+  const avatarUrl = [meta["avatar_url"], meta["picture"]].find(
+    (v): v is string => typeof v === "string" && /^https:\/\//.test(v),
+  );
+  return { id: user.id, email, phone, name: (fromMeta ?? fallbackName).trim(), ...(avatarUrl ? { avatarUrl } : {}) };
 }
 
 /** Where Supabase sends people back to after confirming their email. */

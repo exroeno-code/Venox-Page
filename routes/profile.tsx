@@ -3,9 +3,9 @@ import { useState, type FormEvent } from "react";
 
 import { PageShell } from "@/components/vexon/PageShell";
 import { OnboardingSection } from "@/components/vexon/OnboardingSection";
+import { AvatarUploader } from "@/components/vexon/AvatarUploader";
 import {
   AuthError,
-  initials,
   signOut,
   updateDisplayName,
 } from "@/lib/auth-core";
@@ -85,19 +85,7 @@ function Profile() {
             </div>
           ) : (
             <>
-              <div className="mt-8 flex items-center gap-4">
-                <span className="grid size-16 place-items-center rounded-full border-2 border-glow/60 font-display text-xl font-semibold">
-                  {initials(auth.user)}
-                </span>
-                <div className="min-w-0">
-                  <div className="truncate font-display text-xl font-semibold">
-                    {auth.user.name}
-                  </div>
-                  <div className="truncate font-mono text-xs text-muted-foreground">
-                    {auth.user.email || auth.user.phone || "Vexon account"}
-                  </div>
-                </div>
-              </div>
+              <AvatarUploader user={auth.user} />
 
               <form onSubmit={onSubmit} noValidate className="mt-8 space-y-5">
                 <div>
