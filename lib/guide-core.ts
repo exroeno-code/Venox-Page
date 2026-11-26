@@ -37,7 +37,7 @@ Pages:
 - Community (/community): WhatsApp community group, official channel and trading group.
 - Leadership (/leadership): the people behind VEXON TECH.
 - Contact (/contact): a message form and public channels.
-- Account (/auth): create an account or sign in; /profile lets signed-in people change their name.
+- Account (/auth): create an account or sign in.
 
 Learning programmes:
 ${LEVELS.map((l) => `${l.label}: ${l.programmes.map((p) => p.name).join("; ")}`).join("\n")}
@@ -143,7 +143,7 @@ const RULES: { test: RegExp; reply: string }[] = [
   },
   {
     test: /\b(account|sign ?up|sign ?in|log ?in|register|profile|password)\b/i,
-    reply: `Create an account or sign in on the [account page](/auth). Once signed in you can change your name on your profile.`,
+    reply: `Create an account or sign in on the [account page](/auth).`,
   },
   {
     test: /\b(what|about|vexon|company|brand|do you do)\b/i,

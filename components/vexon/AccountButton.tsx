@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { LogOut, User, UserCog } from "lucide-react";
+import { LogOut, User } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -46,11 +46,6 @@ export function AccountButton() {
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem asChild className="cursor-pointer gap-2">
-            <Link to="/profile">
-              <UserCog className="size-4" /> Your profile
-            </Link>
-          </DropdownMenuItem>
           <DropdownMenuItem
             onSelect={() => void signOut()}
             className="cursor-pointer gap-2"

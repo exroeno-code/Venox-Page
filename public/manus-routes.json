@@ -12,7 +12,6 @@
     { "path": "/leadership", "title": "Leadership" },
     { "path": "/learning", "title": "Learning" },
     { "path": "/privacy", "title": "Privacy" },
-    { "path": "/profile", "title": "Profile" },
     { "path": "/roadmap", "title": "Roadmap" },
     { "path": "/trading", "title": "Trading education" }
   ]

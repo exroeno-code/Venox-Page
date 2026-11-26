@@ -244,7 +244,7 @@ export async function signIn(input: {
 }
 /**
  * Redirects to Google, which lets the person pick one of the Google accounts on their device.
- * On return, their Google name, email and picture become the Vexon profile (see the sign-up trigger).
+ * On return, their Google name, email and picture become the Vexon account identity.
  */
 export async function signInWithGoogle(): Promise<void> {
   const supabase = await requireClient();
@@ -252,7 +252,7 @@ export async function signInWithGoogle(): Promise<void> {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
-      ...(origin ? { redirectTo: `${origin}/profile` } : {}),
+      ...(origin ? { redirectTo: `${origin}/` } : {}),
       queryParams: { prompt: "select_account" },
     },
   });

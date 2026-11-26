@@ -5,23 +5,17 @@ import {
   createRootRouteWithContext,
   useRouter,
   useLocation,
-  useNavigate,
   HeadContent,
   Scripts,
   type ErrorComponentProps,
 } from "@tanstack/react-router";
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 
 import { Analytics } from "@vercel/analytics/react";
 import appCss from "../styles.css?url";
 import { reportError } from "../lib/error-reporting";
 import { SmoothScroll } from "../components/vexon/SmoothScroll";
 import { GuideWidget } from "../components/vexon/GuideWidget";
-import {
-  getMyOnboarding,
-  shouldPromptForOnboarding,
-} from "../lib/onboarding-core";
-import { useAuth } from "../lib/use-auth";
 
 function NotFoundComponent() {
   return (
@@ -155,7 +149,6 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <WebAnalytics />
-      <OnboardingRedirect />
       <SmoothScroll />
       <GuideWidget />
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
@@ -168,39 +161,4 @@ function RootComponent() {
 function WebAnalytics() {
   const pathname = useLocation({ select: (location) => location.pathname });
   return <Analytics route={pathname} path={pathname} />;
-}
-
-/** First-time users return to / from email confirmation, Google, and WhatsApp callbacks. */
-function OnboardingRedirect() {
-  const auth = useAuth();
-  const pathname = useLocation({ select: (location) => location.pathname });
-  const navigate = useNavigate();
-  const checked = useRef("");
-  const userId = auth.status === "signed-in" ? auth.user.id : null;
-
-  useEffect(() => {
-    if (!userId || (pathname !== "/" && pathname !== "/auth")) {
-      checked.current = "";
-      return;
-    }
-    const key = `${userId}:${pathname}`;
-    if (checked.current === key) return;
-    checked.current = key;
-    let active = true;
-    void getMyOnboarding()
-      .then((preferences) => {
-        if (active && shouldPromptForOnboarding(preferences.status)) {
-          void navigate({ to: "/profile" });
-        }
-      })
-      .catch(() => {
-        // A missing/unavailable preferences table must not block access to the site.
-        if (checked.current === key) checked.current = "";
-      });
-    return () => {
-      active = false;
-    };
-  }, [navigate, pathname, userId]);
-
-  return null;
 }
