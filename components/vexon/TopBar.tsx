@@ -84,7 +84,7 @@ export function TopBar({ tag, onAnchor }: Props) {
           onClick={() => setOpen(true)}
           aria-haspopup="dialog"
           aria-expanded={open}
-          className="group flex items-center gap-3 rounded-full py-2 font-mono text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-glow/60"
+          className="group flex items-center gap-3 rounded-full py-2 font-mono text-[0.7rem] uppercase tracking-[0.2em] text-[#e6b94a] outline-none transition-colors hover:text-[#ffe9a2] focus-visible:ring-2 focus-visible:ring-[#f0cc70]/60"
         >
           Menu
           <span aria-hidden className="flex w-6 flex-col items-end gap-1.5">
@@ -125,7 +125,7 @@ export function TopBar({ tag, onAnchor }: Props) {
                     close();
                     menuButton.current?.focus();
                   }}
-                  className="group flex items-center gap-3 rounded-full py-2 font-mono text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-glow/60"
+                  className="group flex items-center gap-3 rounded-full py-2 font-mono text-[0.7rem] uppercase tracking-[0.2em] text-[#e6b94a] outline-none transition-colors hover:text-[#ffe9a2] focus-visible:ring-2 focus-visible:ring-[#f0cc70]/60"
                 >
                   Close <X className="size-5" />
                 </button>

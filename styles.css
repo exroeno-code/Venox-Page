@@ -62,6 +62,32 @@
 .guide-widget-dock {
   bottom: calc(2.25rem + env(safe-area-inset-bottom));
 }
+.vexon-gold-button {
+  background: linear-gradient(
+    145deg,
+    #fff4c8 4%,
+    #e6b94a 34%,
+    #9e6b18 62%,
+    #ffe9a2 88%
+  );
+  color: #100d08;
+  box-shadow:
+    0 0 18px 1px rgb(230 185 74 / 24%),
+    inset 0 0 14px rgb(255 231 162 / 18%);
+  transition:
+    filter 180ms ease,
+    box-shadow 180ms ease;
+}
+.vexon-gold-button:hover:not(:disabled) {
+  filter: brightness(1.08);
+  box-shadow:
+    0 0 22px 2px rgb(230 185 74 / 42%),
+    inset 0 0 18px rgb(255 231 162 / 24%);
+}
+.vexon-gold-button:focus-visible {
+  outline: 2px solid #ffe9a2;
+  outline-offset: 3px;
+}
 .guide-v-letter {
   background: linear-gradient(
     145deg,

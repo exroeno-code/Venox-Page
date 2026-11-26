@@ -14,9 +14,9 @@ import { useAuth } from "@/lib/use-auth";
 import { UserAvatar } from "./UserAvatar";
 
 const LABEL =
-  "hidden font-mono text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground transition-colors group-hover:text-foreground group-focus-visible:text-foreground md:inline";
+  "hidden font-mono text-[0.7rem] uppercase tracking-[0.2em] text-[#e6b94a] transition-colors group-hover:text-[#ffe9a2] group-focus-visible:text-[#ffe9a2] md:inline";
 const CIRCLE =
-  "grid size-11 place-items-center rounded-full border bg-card/40 backdrop-blur transition-colors group-hover:border-glow group-focus-visible:border-glow";
+  "grid size-11 place-items-center rounded-full border border-[#e6b94a]/70 bg-[#100d08]/95 text-[#ffe7a2] shadow-[0_0_22px_2px_rgba(230,185,74,.24),inset_0_0_20px_rgba(230,185,74,.1)] backdrop-blur transition-all group-hover:border-[#ffe9a2] group-hover:shadow-[0_0_24px_3px_rgba(230,185,74,.42)] group-focus-visible:border-[#f0cc70]";
 
 /** Round account icon for the top-right corner. Signed out: links to /auth. Signed in: initials + menu. */
 export function AccountButton() {
@@ -27,15 +27,20 @@ export function AccountButton() {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger
-          className="group flex items-center gap-3 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-glow/60"
+          className="group flex items-center gap-3 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[#f0cc70]/60"
           aria-label={`Vexon account menu for ${user.name}`}
         >
           <span className={LABEL}>Vexon account</span>
           <UserAvatar user={user} className="size-11 text-sm" />
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-64 border bg-card text-foreground">
+        <DropdownMenuContent
+          align="end"
+          className="w-64 border bg-card text-foreground"
+        >
           <DropdownMenuLabel className="font-normal">
-            <div className="truncate font-display text-base font-semibold">{user.name}</div>
+            <div className="truncate font-display text-base font-semibold">
+              {user.name}
+            </div>
             <div className="mt-0.5 truncate font-mono text-xs text-muted-foreground">
               {user.email || user.phone || "Vexon account"}
             </div>
@@ -46,7 +51,10 @@ export function AccountButton() {
               <UserCog className="size-4" /> Your profile
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem onSelect={() => void signOut()} className="cursor-pointer gap-2">
+          <DropdownMenuItem
+            onSelect={() => void signOut()}
+            className="cursor-pointer gap-2"
+          >
             <LogOut className="size-4" /> Sign out
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -59,7 +67,7 @@ export function AccountButton() {
     <Link
       to="/auth"
       aria-label="Vexon account: sign in or create an account"
-      className="group flex items-center gap-3 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-glow/60"
+      className="group flex items-center gap-3 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[#f0cc70]/60"
     >
       <span className={LABEL}>Vexon account</span>
       <span className={CIRCLE}>
