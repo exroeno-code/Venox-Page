@@ -9,8 +9,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { initials, signOut } from "@/lib/auth-core";
+import { signOut } from "@/lib/auth-core";
 import { useAuth } from "@/lib/use-auth";
+import { UserAvatar } from "./UserAvatar";
 
 const LABEL =
   "hidden font-mono text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground transition-colors group-hover:text-foreground group-focus-visible:text-foreground md:inline";
@@ -30,7 +31,7 @@ export function AccountButton() {
           aria-label={`Vexon account menu for ${user.name}`}
         >
           <span className={LABEL}>Vexon account</span>
-          <span className={`${CIRCLE} border-glow/60 font-display text-sm font-semibold`}>{initials(user)}</span>
+          <UserAvatar user={user} className="size-11 text-sm" />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-64 border bg-card text-foreground">
           <DropdownMenuLabel className="font-normal">

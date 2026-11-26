@@ -343,7 +343,7 @@ function AuthPage() {
               {ACCOUNTS_CONFIGURED && (
                 <section className="mt-6 border-t pt-6" aria-label="WhatsApp sign-in">
                   <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
-                    Or continue with a one-time code on WhatsApp. We’ll create an account if this number is new.
+                    Or continue with a one-time code on WhatsApp. We'll create an account if this number is new.
                   </p>
                   {otpTarget ? (
                     <form onSubmit={onVerifyWhatsAppOtp} className="form-stagger space-y-4">

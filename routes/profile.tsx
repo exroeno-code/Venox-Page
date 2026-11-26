@@ -4,9 +4,9 @@ import { ArrowUpRight, Trash2, Link2, Github, Twitter, Mail, User } from "lucide
 
 import { PageShell } from "@/components/vexon/PageShell";
 import { OnboardingWizard } from "@/components/vexon/OnboardingWizard";
+import { AvatarUploader } from "@/components/vexon/AvatarUploader";
 import {
   AuthError,
-  initials,
   signOut,
   updateDisplayName,
   updateAvatar,
@@ -32,11 +32,11 @@ export const Route = createFileRoute("/profile")({
 });
 
 const FIELD =
-  "w-full rounded-md border bg-background/60 px-4 py-3 text-base outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-glow focus-visible:ring-2 focus-visible:ring-glow/40";
+  "field-input w-full rounded-md border bg-background/60 px-4 py-3 text-base outline-none placeholder:text-muted-foreground/60 focus:border-glow focus-visible:ring-2 focus-visible:ring-glow/40";
 const LABEL =
-  "mb-2 block font-mono text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground";
+  "field-label mb-2 block font-mono text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground";
 const BUTTON =
-  "bracket-btn w-full px-7 py-4 font-mono text-sm uppercase tracking-[0.2em] transition-colors hover:bg-foreground/5 disabled:opacity-60";
+  "form-btn bracket-btn w-full px-7 py-4 font-mono text-sm uppercase tracking-[0.2em] transition-colors hover:bg-foreground/5 disabled:opacity-60";
 const ICON_BUTTON =
   "inline-flex items-center justify-center size-10 rounded-full border border-muted-foreground/40 text-muted-foreground transition-colors hover:border-glow hover:text-glow hover:bg-glow/10";
 
@@ -213,52 +213,11 @@ function Profile() {
             </div>
           ) : (
             <>
-              {/* Avatar & Name */}
-              <div className="mt-8 flex items-center gap-4">
-                <div className="relative">
-                  {(avatarPreview || user?.avatar_url) ? (
-                    <img
-                      src={avatarPreview || user?.avatar_url!}
-                      alt=""
-                      className="size-20 rounded-full border-2 border-glow/60 object-cover"
-                    />
-                  ) : (
-                    <span className="grid size-20 place-items-center rounded-full border-2 border-glow/60 font-display text-2xl font-semibold">
-                      {initials(user)}
-                    </span>
-                  )}
-                  <label className="absolute bottom-0 right-0 size-8 rounded-full bg-glow text-background flex items-center justify-center cursor-pointer hover:bg-glow/90 transition-colors">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleAvatarUpload}
-                      className="sr-only"
-                    />
-                    <User className="size-4" />
-                  </label>
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="truncate font-display text-xl font-semibold">{user.name}</div>
-                  <div className="truncate font-mono text-xs text-muted-foreground">
-                    {user.email || user.phone || "Vexon account"}
-                  </div>
-                  {(avatarPreview || avatarFile) && (
-                    <div className="mt-2 flex gap-2">
-                      <button type="button" onClick={saveAvatar} disabled={pending} className={BUTTON}>
-                        {pending ? "Saving…" : "Save avatar"}
-                      </button>
-                      {user?.avatar_url && (
-                        <button type="button" onClick={removeAvatar} disabled={pending} className="min-h-11 px-4 text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline">
-                          Remove
-                        </button>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </div>
+              {/* Avatar Uploader */}
+              <AvatarUploader user={auth.user} />
 
               {/* Name form */}
-              <form onSubmit={onSubmit} noValidate className="mt-8 space-y-5">
+              <form onSubmit={onSubmit} noValidate className="form-shell form-stagger mt-8 space-y-5">
                 <div>
                   <label htmlFor="name" className={LABEL}>Name</label>
                   <input
@@ -288,7 +247,7 @@ function Profile() {
                   />
                 </div>
                 {error && (
-                  <p role="alert" className="rounded-md border border-red-400/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+                  <p role="alert" className="form-error error-message rounded-md border border-red-400/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
                     {error}
                   </p>
                 )}
@@ -297,13 +256,13 @@ function Profile() {
                     Your name has been updated.
                   </p>
                 )}
-                <button type="submit" disabled={pending} className={BUTTON}>
+                <button type="submit" disabled={pending} className={BUTTON} data-loading={pending}>
                   {pending ? "Saving…" : "Save changes"}
                 </button>
               </form>
 
               {/* Bio */}
-              <form onSubmit={handleBioSubmit} className="mt-8 border-t pt-8 space-y-4">
+              <form onSubmit={handleBioSubmit} className="form-shell form-stagger mt-8 border-t pt-8 space-y-4">
                 <h3 className="font-display text-xl font-semibold uppercase">Bio</h3>
                 <p className="text-sm text-muted-foreground">A short description shown on your profile (max 500 chars).</p>
                 <div>
@@ -320,13 +279,13 @@ function Profile() {
                   />
                 </div>
                 <p className="text-xs text-muted-foreground text-right">{bio.length}/500</p>
-                <button type="submit" disabled={bioPending || bio.length > 500} className={BUTTON}>
+                <button type="submit" disabled={bioPending || bio.length > 500} className={BUTTON} data-loading={bioPending}>
                   {bioPending ? "Saving…" : "Save bio"}
                 </button>
               </form>
 
               {/* Social Links */}
-              <form onSubmit={handleSocialSubmit} className="mt-8 border-t pt-8 space-y-4">
+              <form onSubmit={handleSocialSubmit} className="form-shell form-stagger mt-8 border-t pt-8 space-y-4">
                 <h3 className="font-display text-xl font-semibold uppercase">Social links</h3>
                 <p className="text-sm text-muted-foreground">Add links to your profiles (shown on your profile page).</p>
                 <div className="grid gap-4 sm:grid-cols-2">
@@ -348,7 +307,7 @@ function Profile() {
                     </div>
                   ))}
                 </div>
-                <button type="submit" disabled={socialPending} className={BUTTON}>
+                <button type="submit" disabled={socialPending} className={BUTTON} data-loading={socialPending}>
                   {socialPending ? "Saving…" : "Save links"}
                 </button>
               </form>
