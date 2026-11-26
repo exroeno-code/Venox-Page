@@ -1,29 +1,28 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
-import { ArrowUpRight } from "lucide-react";
-
-import { ParticleField } from "@/components/vexon/ParticleField";
-import { Wordmark } from "@/components/vexon/Wordmark";
+import { ArrowLeft, ArrowUpRight, Check, LockKeyhole } from "lucide-react";
 import { InstagramIcon, WhatsAppIcon } from "@/components/vexon/SocialIcons";
 import {
   ACCOUNTS_CONFIGURED,
   AuthError,
   GOOGLE_ENABLED,
   MIN_PASSWORD_LENGTH,
+  WHATSAPP_ENABLED,
   initials,
+  resendSignupEmailOtp,
   sendWhatsAppOtp,
   signIn,
   signInWithGoogle,
   signOut,
   signUp,
+  verifySignupEmailOtp,
   verifyWhatsAppOtp,
 } from "@/lib/auth-core";
 import { useAuth } from "@/lib/use-auth";
-import { SITE } from "@/lib/site-config";
 
-const TITLE = "Vexon account — VEXON TECH";
-const DESC = "Create a Vexon account or sign in to follow the VEXON TECH build.";
-
+const TITLE = "Create your Vexon account — VEXON TECH";
+const DESC =
+  "Create a Vexon account or sign in to follow the VEXON TECH build.";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
@@ -38,395 +37,532 @@ export const Route = createFileRoute("/auth")({
 });
 
 type Mode = "create" | "signin";
+type Stage = "methods" | "email" | "phone" | "code" | "success";
+type CodePath = "email" | "phone";
 
-const FIELD =
-  "field-input w-full rounded-md border bg-background/60 px-4 py-3 text-base outline-none placeholder:text-muted-foreground/60 focus:border-glow focus-visible:ring-2 focus-visible:ring-glow/40";
-const LABEL = "field-label mb-2 block font-mono text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground";
-const BUTTON =
-  "form-btn bracket-btn w-full px-7 py-4 font-mono text-sm uppercase tracking-[0.2em] transition-colors hover:bg-foreground/5 disabled:opacity-60";
+function GoogleMark() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 48 48" focusable="false">
+      <path
+        fill="#EA4335"
+        d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"
+      />
+      <path
+        fill="#4285F4"
+        d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.6 5.9c4.5-4.1 7-10.2 7-17.6z"
+      />
+      <path
+        fill="#FBBC05"
+        d="M10.5 28.7a14.5 14.5 0 010-9.4l-7.9-6.1a24 24 0 000 21.6l7.9-6.1z"
+      />
+      <path
+        fill="#34A853"
+        d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.6-5.9c-2.1 1.4-4.9 2.3-8.3 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"
+      />
+    </svg>
+  );
+}
 
 function AuthPage() {
   const auth = useAuth();
   const navigate = useNavigate();
   const [mode, setMode] = useState<Mode>("create");
+  const [stage, setStage] = useState<Stage>("methods");
+  const [codePath, setCodePath] = useState<CodePath>("email");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [code, setCode] = useState("");
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [whatsAppPhone, setWhatsAppPhone] = useState("");
-  const [otpTarget, setOtpTarget] = useState<string | null>(null);
-  const [whatsAppCode, setWhatsAppCode] = useState("");
-  // Set after sign-up when Supabase wants the email confirmed first.
-  const [confirmEmail, setConfirmEmail] = useState<string | null>(null);
+  const [statusMessage, setStatusMessage] = useState<string | null>(null);
 
-  const switchMode = (next: Mode) => {
-    setMode(next);
+  const currentStep =
+    stage === "methods"
+      ? 1
+      : stage === "success"
+        ? 4
+        : stage === "code"
+          ? 3
+          : 2;
+  function resetFlow(nextMode: Mode) {
+    setMode(nextMode);
+    setStage(nextMode === "create" ? "methods" : "email");
     setError(null);
-  };
-
+    setCode("");
+  }
+  function back() {
+    setError(null);
+    setCode("");
+    if (stage === "code") setStage(codePath === "email" ? "email" : "phone");
+    else if (stage === "email" || stage === "phone")
+      setStage(mode === "create" ? "methods" : "email");
+  }
   async function run(action: () => Promise<void>) {
     setPending(true);
     setError(null);
+    setStatusMessage(null);
     try {
       await action();
     } catch (err) {
-      setError(err instanceof AuthError ? err.message : "Something went wrong. Try again.");
+      setError(
+        err instanceof AuthError
+          ? err.message
+          : "Something went wrong. Try again.",
+      );
     } finally {
       setPending(false);
     }
   }
-
-  function onSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    const email = String(data.get("email") ?? "");
+  function onEmailSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const inputEmail = String(data.get("email") ?? "").trim();
     const password = String(data.get("password") ?? "");
     void run(async () => {
       if (mode === "create") {
-        const { needsConfirmation } = await signUp({ name: String(data.get("name") ?? ""), email, password });
-        if (needsConfirmation) {
-          setConfirmEmail(email.trim());
+        const result = await signUp({
+          name: String(data.get("name") ?? ""),
+          email: inputEmail,
+          password,
+        });
+        setEmail(inputEmail);
+        if (result.needsConfirmation) {
+          setCodePath("email");
+          setCode("");
+          setStage("code");
           return;
         }
       } else {
-        await signIn({ email, password });
+        await signIn({ email: inputEmail, password });
       }
-      await navigate({ to: "/" });
+      setStage("success");
     });
   }
-
-  function onRequestWhatsAppOtp(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  function onPhoneSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     void run(async () => {
-      await sendWhatsAppOtp(whatsAppPhone);
-      setOtpTarget(whatsAppPhone);
-      setWhatsAppCode("");
+      await sendWhatsAppOtp(phone);
+      setCodePath("phone");
+      setCode("");
+      setStage("code");
     });
   }
-
-  function onVerifyWhatsAppOtp(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    if (!otpTarget) return;
+  function onCodeSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     void run(async () => {
-      await verifyWhatsAppOtp(otpTarget, whatsAppCode);
-      await navigate({ to: "/" });
+      if (codePath === "email") await verifySignupEmailOtp(email, code);
+      else await verifyWhatsAppOtp(phone, code);
+      setStage("success");
+    });
+  }
+  function onResendCode() {
+    void run(async () => {
+      if (codePath === "email") await resendSignupEmailOtp(email);
+      else await sendWhatsAppOtp(phone);
+      setStatusMessage("New code sent.");
     });
   }
 
   return (
-    <main className="relative flex min-h-svh flex-col overflow-hidden px-5 pb-10 pt-6 md:px-10">
-      <div className="pointer-events-none absolute inset-0">
-        <ParticleField className="h-full w-full" density={0.6} />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--background)_0%,transparent_60%)]" />
-      </div>
+    <main className="signup-flow">
+      <section className="signup-flow__card" aria-labelledby="auth-title">
+        <header className="signup-flow__top">
+          <Link to="/" aria-label="Vexon home" className="signup-flow__brand">
+            <span className="signup-flow__mark">V</span>
+            <span>VEXON TECH</span>
+          </Link>
+          {stage !== "methods" && stage !== "success" ? (
+            <button
+              type="button"
+              className="signup-flow__back"
+              onClick={back}
+              aria-label="Go back"
+            >
+              <ArrowLeft aria-hidden="true" size={18} />
+            </button>
+          ) : (
+            <Link to="/" className="signup-flow__home">
+              Back to site <ArrowUpRight size={14} aria-hidden="true" />
+            </Link>
+          )}
+        </header>
 
-      <header className="relative z-10 flex items-center justify-between">
-        <Link to="/" className="font-display text-3xl font-extrabold tracking-tight md:text-4xl">
-          <Wordmark />
-        </Link>
-        <Link
-          to="/"
-          className="group flex items-center gap-1 font-mono text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
+        <div
+          className="signup-flow__progress"
+          aria-label={`Step ${currentStep} of 4`}
         >
-          Back to site
-          <ArrowUpRight className="size-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-        </Link>
-      </header>
+          {[1, 2, 3, 4].map((step) => (
+            <span key={step} className={step <= currentStep ? "is-on" : ""} />
+          ))}
+        </div>
 
-      <div className="relative z-10 m-auto w-full max-w-md py-12">
-        <div className="rounded-lg border bg-card/80 p-6 backdrop-blur-md sm:p-8">
-          <h1 className="font-display text-4xl font-extrabold uppercase leading-[0.95] sm:text-5xl">
-            <span className="text-chrome">Vexon account</span>
-          </h1>
-
-          {auth.status === "signed-in" ? (
-            <div className="mt-8">
-              <div className="flex items-center gap-4">
-                <span className="grid size-14 place-items-center rounded-full border border-glow/60 font-display text-lg font-semibold">
-                  {initials(auth.user)}
-                </span>
-                <div className="min-w-0">
-                  <div className="truncate font-display text-xl font-semibold">{auth.user.name}</div>
-                  <div className="truncate font-mono text-xs text-muted-foreground">
-                    {auth.user.email || auth.user.phone || "Vexon account"}
-                  </div>
-                </div>
-              </div>
-              <div className="mt-8 flex flex-wrap items-center gap-6">
-                <Link
-                  to="/"
-                  className="bracket-btn px-7 py-4 font-mono text-sm uppercase tracking-[0.2em] transition-colors hover:bg-foreground/5"
-                >
-                  Go to site
-                </Link>
-                <button
-                  type="button"
-                  onClick={() => void signOut()}
-                  className="text-sm text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline"
-                >
-                  Sign out
-                </button>
-              </div>
+        {auth.status === "signed-in" ? (
+          <div className="signup-flow__content">
+            <div className="signup-flow__success-icon">
+              <Check aria-hidden="true" />
             </div>
-          ) : confirmEmail ? (
-            <div className="mt-8" role="status">
-              <h2 className="font-display text-2xl font-semibold uppercase">Check your email</h2>
-              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-                We sent a confirmation link to <span className="break-all text-foreground">{confirmEmail}</span>. Open it to
-                finish creating your account, then sign in.
+            <h1 id="auth-title">You’re in</h1>
+            <p className="signup-flow__sub">Your Vexon account is ready.</p>
+            <div className="signup-flow__user">
+              <span className="signup-flow__avatar">{initials(auth.user)}</span>
+              <span>
+                <strong>{auth.user.name}</strong>
+                <small>
+                  {auth.user.email || auth.user.phone || "Vexon account"}
+                </small>
+              </span>
+            </div>
+            <button
+              type="button"
+              className="signup-flow__primary"
+              onClick={() => void navigate({ to: "/" })}
+            >
+              Continue to Vexon
+            </button>
+            <button
+              type="button"
+              className="signup-flow__text-button"
+              onClick={() => void signOut()}
+            >
+              Sign out
+            </button>
+          </div>
+        ) : stage === "success" ? (
+          <div className="signup-flow__content">
+            <div className="signup-flow__success-icon">
+              <Check aria-hidden="true" />
+            </div>
+            <h1 id="auth-title">You’re in</h1>
+            <p className="signup-flow__sub">Your Vexon account is ready.</p>
+            <button
+              type="button"
+              className="signup-flow__primary"
+              onClick={() => void navigate({ to: "/" })}
+            >
+              Continue to Vexon
+            </button>
+          </div>
+        ) : stage === "methods" ? (
+          <div className="signup-flow__content">
+            <h1 id="auth-title">Create your account</h1>
+            <p className="signup-flow__sub">Get started in under a minute.</p>
+            {!ACCOUNTS_CONFIGURED && (
+              <p
+                role="alert"
+                className="signup-flow__notice signup-flow__notice--error"
+              >
+                Supabase is not configured yet. Set{" "}
+                <code>VITE_SUPABASE_URL</code> and{" "}
+                <code>VITE_SUPABASE_PUBLISHABLE_KEY</code> in the site
+                environment before enabling accounts.
               </p>
+            )}
+            {GOOGLE_ENABLED && (
               <button
                 type="button"
-                onClick={() => {
-                  setConfirmEmail(null);
-                  switchMode("signin");
-                }}
-                className={`${BUTTON} mt-8`}
+                className="signup-flow__social signup-flow__social--google"
+                disabled={pending}
+                onClick={() => void run(signInWithGoogle)}
               >
-                Go to sign in
+                <GoogleMark /> Continue with Google
               </button>
-            </div>
-          ) : (
-            <>
-              <div role="tablist" aria-label="Account" className="mt-8 grid grid-cols-2 gap-1 rounded-md border p-1">
-                {(
-                  [
-                    ["create", "Create account"],
-                    ["signin", "Sign in"],
-                  ] as const
-                ).map(([m, label]) => (
-                  <button
-                    key={m}
-                    type="button"
-                    role="tab"
-                    id={`tab-${m}`}
-                    aria-selected={mode === m}
-                    aria-controls="auth-panel"
-                    onClick={() => switchMode(m)}
-                    className={`rounded-[0.3rem] px-3 py-2.5 text-sm font-medium outline-none transition-colors focus-visible:ring-2 focus-visible:ring-glow/60 ${
-                      mode === m ? "bg-foreground text-background" : "text-muted-foreground hover:text-foreground"
-                    }`}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </div>
-
-              <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
-                {mode === "create"
-                  ? "Create a Vexon account to follow the build as it develops."
-                  : "Sign in to your Vexon account."}
-              </p>
-
-              {import.meta.env.DEV && !ACCOUNTS_CONFIGURED && (
-                <p role="alert" className="mt-6 rounded-md border border-amber-400/40 bg-amber-500/10 px-4 py-3 text-sm text-amber-200">
-                  Accounts are not connected. Copy <code>.env.example</code> to <code>.env.local</code> and add your
-                  Supabase URL and key.
-                </p>
-              )}
-
-              <form
-                id="auth-panel"
-                role="tabpanel"
-                aria-labelledby={`tab-${mode}`}
-                key={mode}
-                onSubmit={onSubmit}
-                noValidate
-                className="form-shell form-stagger mt-6 space-y-5"
+            )}
+            {WHATSAPP_ENABLED && (
+              <button
+                type="button"
+                className="signup-flow__social signup-flow__social--whatsapp"
+                disabled={pending}
+                onClick={() => {
+                  setError(null);
+                  setStage("phone");
+                }}
               >
-                {mode === "create" && (
-                  <div>
-                    <label htmlFor="name" className={LABEL}>
-                      Name
-                    </label>
-                    <input id="name" name="name" type="text" autoComplete="name" required maxLength={60} className={FIELD} />
-                  </div>
-                )}
-                <div>
-                  <label htmlFor="email" className={LABEL}>
-                    Email
-                  </label>
-                  <input id="email" name="email" type="email" autoComplete="email" required className={FIELD} />
-                </div>
-                <div>
-                  <label htmlFor="password" className={LABEL}>
-                    Password
-                  </label>
+                <WhatsAppIcon className="size-[18px]" /> Continue with WhatsApp
+              </button>
+            )}
+            <div className="signup-flow__or">or</div>
+            <button
+              type="button"
+              className="signup-flow__social"
+              onClick={() => {
+                setError(null);
+                setStage("email");
+              }}
+            >
+              Use email instead
+            </button>
+            <button
+              type="button"
+              className="signup-flow__instagram"
+              disabled
+              aria-describedby="instagram-auth-note"
+              title="Instagram sign-in is not supported by Supabase Auth."
+            >
+              <InstagramIcon className="size-[18px]" /> Instagram sign-in
+              unavailable
+            </button>
+            <p id="instagram-auth-note" className="signup-flow__note">
+              Instagram does not offer a supported identity provider for
+              Supabase Auth. Use email for now; other providers appear only
+              after setup in Supabase.
+            </p>
+            <p className="signup-flow__small">
+              Already have an account?{" "}
+              <button
+                type="button"
+                className="signup-flow__link"
+                onClick={() => resetFlow("signin")}
+              >
+                Sign in
+              </button>
+            </p>
+          </div>
+        ) : stage === "email" ? (
+          <div className="signup-flow__content">
+            <h1 id="auth-title">
+              {mode === "create" ? "Your details" : "Sign in"}
+            </h1>
+            <p className="signup-flow__sub">
+              {mode === "create"
+                ? "Check your inbox for a 6-digit code or confirmation link."
+                : "Sign in to your Vexon account."}
+            </p>
+            {!ACCOUNTS_CONFIGURED && (
+              <p
+                role="alert"
+                className="signup-flow__notice signup-flow__notice--error"
+              >
+                Supabase is not configured yet. Add the project URL and
+                publishable key to the deployment environment.
+              </p>
+            )}
+            <form
+              className="signup-flow__form"
+              onSubmit={onEmailSubmit}
+              noValidate
+            >
+              {mode === "create" && (
+                <div className="signup-flow__field">
+                  <label htmlFor="signup-name">Full name</label>
                   <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    autoComplete={mode === "create" ? "new-password" : "current-password"}
+                    id="signup-name"
+                    name="name"
+                    autoComplete="name"
+                    placeholder="Jane Mwangi"
                     required
-                    aria-describedby={mode === "create" ? "password-hint" : undefined}
-                    className={FIELD}
+                    maxLength={60}
                   />
-                  {mode === "create" && (
-                    <p id="password-hint" className="mt-2 text-xs text-muted-foreground">
-                      At least {MIN_PASSWORD_LENGTH} characters.
-                    </p>
-                  )}
                 </div>
-
-                <button type="submit" disabled={pending} className={BUTTON} data-loading={pending}>
-                  {pending ? (mode === "create" ? "Creating account…" : "Signing in…") : mode === "create" ? "Create account" : "Sign in"}
-                </button>
-              </form>
-
-              {GOOGLE_ENABLED && (
-                <>
-                  <div className="my-6 flex items-center gap-4 font-mono text-[0.7rem] text-muted-foreground">
-                    <span className="h-px flex-1 bg-border" /> or <span className="h-px flex-1 bg-border" />
-                  </div>
-                  <button
-                    type="button"
-                    disabled={pending}
-                    onClick={() => void run(signInWithGoogle)}
-                    className="w-full rounded-md border px-7 py-3.5 text-sm font-medium outline-none transition-colors hover:bg-foreground/5 focus-visible:ring-2 focus-visible:ring-glow/60 disabled:opacity-60"
-                  >
-                    Continue with Google
-                  </button>
-                </>
               )}
-
-              {/* Social login buttons - WhatsApp & Instagram */}
-              <div className="my-6 flex items-center gap-4 font-mono text-[0.7rem] text-muted-foreground">
-                <span className="h-px flex-1 bg-border" /> or continue with <span className="h-px flex-1 bg-border" />
+              <div className="signup-flow__field">
+                <label htmlFor="signup-email">Email</label>
+                <input
+                  id="signup-email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  placeholder="you@example.com"
+                  required
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                />
               </div>
-              <div className="grid grid-cols-2 gap-3">
-                <a
-                  href={SITE.whatsappUrl}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="whatsapp-login-btn flex items-center justify-center gap-3 rounded-md border px-7 py-3.5 text-sm font-medium outline-none transition-all duration-300 focus-visible:ring-2 focus-visible:ring-green-500/60"
-                  style={{
-                    borderColor: "oklch(0.45 0.15 145 / 0.4)",
-                    background: "oklch(0.45 0.15 145 / 0.1)",
-                    color: "oklch(0.45 0.15 145)"
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = "oklch(0.45 0.15 145)";
-                    e.currentTarget.style.background = "oklch(0.45 0.15 145)";
-                    e.currentTarget.style.color = "white";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = "oklch(0.45 0.15 145 / 0.4)";
-                    e.currentTarget.style.background = "oklch(0.45 0.15 145 / 0.1)";
-                    e.currentTarget.style.color = "oklch(0.45 0.15 145)";
-                  }}
-                >
-                  <WhatsAppIcon className="size-5" /> WhatsApp
-                </a>
-                <a
-                  href={SITE.instagram.url}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="instagram-login-btn flex items-center justify-center gap-3 rounded-md border px-7 py-3.5 text-sm font-medium outline-none transition-all duration-300 focus-visible:ring-2 focus-visible:ring-pink-500/60"
-                  style={{
-                    borderColor: "oklch(0.55 0.25 340 / 0.4)",
-                    background: "oklch(0.55 0.25 340 / 0.1)",
-                    color: "oklch(0.55 0.25 340)"
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = "oklch(0.55 0.25 340)";
-                    e.currentTarget.style.background = "linear-gradient(45deg, oklch(0.55 0.25 340), oklch(0.65 0.22 20), oklch(0.55 0.25 340))";
-                    e.currentTarget.style.color = "white";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = "oklch(0.55 0.25 340 / 0.4)";
-                    e.currentTarget.style.background = "oklch(0.55 0.25 340 / 0.1)";
-                    e.currentTarget.style.color = "oklch(0.55 0.25 340)";
-                  }}
-                >
-                  <InstagramIcon className="size-5" /> Instagram
-                </a>
+              <div className="signup-flow__field">
+                <label htmlFor="signup-password">Password</label>
+                <input
+                  id="signup-password"
+                  name="password"
+                  type="password"
+                  autoComplete={
+                    mode === "create" ? "new-password" : "current-password"
+                  }
+                  placeholder={
+                    mode === "create"
+                      ? "At least 8 characters"
+                      : "Your password"
+                  }
+                  required
+                  minLength={mode === "create" ? MIN_PASSWORD_LENGTH : 1}
+                />
               </div>
-
-              {ACCOUNTS_CONFIGURED && (
-                <section className="mt-6 border-t pt-6" aria-label="WhatsApp sign-in">
-                  <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
-                    Or continue with a one-time code on WhatsApp. We'll create an account if this number is new.
-                  </p>
-                  {otpTarget ? (
-                    <form onSubmit={onVerifyWhatsAppOtp} className="form-stagger space-y-4">
-                      <p className="text-sm text-muted-foreground">
-                        Enter the 6-digit code sent to <span className="text-foreground">{otpTarget}</span>.
-                      </p>
-                      <div>
-                        <label htmlFor="whatsapp-code" className={LABEL}>
-                          WhatsApp verification code
-                        </label>
-                        <input
-                          id="whatsapp-code"
-                          name="whatsapp-code"
-                          type="text"
-                          inputMode="numeric"
-                          autoComplete="one-time-code"
-                          pattern="[0-9]{6}"
-                          maxLength={6}
-                          required
-                          value={whatsAppCode}
-                          onChange={(event) => setWhatsAppCode(event.target.value.replace(/\D/g, "").slice(0, 6))}
-                          className={FIELD}
-                        />
-                      </div>
-                      <button type="submit" disabled={pending || whatsAppCode.length !== 6} className={BUTTON} data-loading={pending}>
-                        {pending ? "Verifying code…" : "Verify code"}
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setOtpTarget(null);
-                          setWhatsAppCode("");
-                          setError(null);
-                        }}
-                        className="w-full py-2 text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
-                      >
-                        Use a different number
-                      </button>
-                    </form>
-                  ) : (
-                    <form onSubmit={onRequestWhatsAppOtp} className="space-y-4">
-                      <div>
-                        <label htmlFor="whatsapp-phone" className={LABEL}>
-                          WhatsApp number with country code
-                        </label>
-                        <input
-                          id="whatsapp-phone"
-                          name="whatsapp-phone"
-                          type="tel"
-                          inputMode="tel"
-                          autoComplete="tel"
-                          placeholder="+254 712 345 678"
-                          required
-                          value={whatsAppPhone}
-                          onChange={(event) => setWhatsAppPhone(event.target.value)}
-                          className={FIELD}
-                        />
-                      </div>
-                      <button type="submit" disabled={pending || !whatsAppPhone.trim()} className={BUTTON} data-loading={pending}>
-                        {pending ? "Sending code…" : "Continue with WhatsApp"}
-                      </button>
-                    </form>
-                  )}
-                </section>
-              )}
-
               {error && (
-                <p role="alert" className="form-error error-message mt-5 rounded-md border border-red-400/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+                <p
+                  role="alert"
+                  className="signup-flow__notice signup-flow__notice--error"
+                >
                   {error}
                 </p>
               )}
-
-              <div className="mt-6 flex items-center gap-4 font-mono text-[0.7rem] text-muted-foreground">
-                <span className="h-px flex-1 bg-border" />
-                <Link to="/auth/reset-request" className="underline-offset-2 hover:text-foreground hover:underline">
+              <button
+                type="submit"
+                className="signup-flow__primary"
+                disabled={pending || !ACCOUNTS_CONFIGURED}
+              >
+                {pending
+                  ? "Please wait…"
+                  : mode === "create"
+                    ? "Continue"
+                    : "Sign in"}
+              </button>
+            </form>
+            {mode === "signin" && (
+              <p className="signup-flow__small">
+                <Link to="/auth/reset-request" className="signup-flow__link">
                   Forgot password?
                 </Link>
-                <span className="h-px flex-1 bg-border" />
+              </p>
+            )}
+            <p className="signup-flow__small">
+              {mode === "create"
+                ? "Already have an account? "
+                : "New to Vexon? "}
+              <button
+                type="button"
+                className="signup-flow__link"
+                onClick={() =>
+                  resetFlow(mode === "create" ? "signin" : "create")
+                }
+              >
+                {mode === "create" ? "Sign in" : "Create account"}
+              </button>
+            </p>
+          </div>
+        ) : stage === "phone" ? (
+          <div className="signup-flow__content">
+            <h1 id="auth-title">Your WhatsApp number</h1>
+            <p className="signup-flow__sub">
+              We’ll send a 6-digit code on WhatsApp.
+            </p>
+            <form
+              className="signup-flow__form"
+              onSubmit={onPhoneSubmit}
+              noValidate
+            >
+              <div className="signup-flow__field">
+                <label htmlFor="whatsapp-phone">Phone number</label>
+                <input
+                  id="whatsapp-phone"
+                  type="tel"
+                  inputMode="tel"
+                  autoComplete="tel"
+                  placeholder="+254 712 345 678"
+                  required
+                  value={phone}
+                  onChange={(event) => setPhone(event.target.value)}
+                />
               </div>
-            </>
+              {error && (
+                <p
+                  role="alert"
+                  className="signup-flow__notice signup-flow__notice--error"
+                >
+                  {error}
+                </p>
+              )}
+              <button
+                type="submit"
+                className="signup-flow__primary"
+                disabled={pending || !phone.trim()}
+              >
+                {pending ? "Sending code…" : "Send code"}
+              </button>
+            </form>
+          </div>
+        ) : (
+          <div className="signup-flow__content">
+            <h1 id="auth-title">Enter the code</h1>
+            <p className="signup-flow__sub">
+              If your details are valid, a code is on its way to{" "}
+              <strong>{codePath === "email" ? email : phone}</strong>.
+            </p>
+            {statusMessage && (
+              <p
+                role="status"
+                className="signup-flow__notice signup-flow__notice--success"
+              >
+                {statusMessage}
+              </p>
+            )}
+            <form
+              className="signup-flow__form"
+              onSubmit={onCodeSubmit}
+              noValidate
+            >
+              <div className="signup-flow__field">
+                <label htmlFor="signup-code">6-digit verification code</label>
+                <input
+                  id="signup-code"
+                  type="text"
+                  inputMode="numeric"
+                  autoComplete="one-time-code"
+                  pattern="[0-9]{6}"
+                  maxLength={6}
+                  placeholder="000000"
+                  required
+                  value={code}
+                  onChange={(event) =>
+                    setCode(event.target.value.replace(/\D/g, "").slice(0, 6))
+                  }
+                />
+              </div>
+              {error && (
+                <p
+                  role="alert"
+                  className="signup-flow__notice signup-flow__notice--error"
+                >
+                  {error}
+                </p>
+              )}
+              <button
+                type="submit"
+                className="signup-flow__primary"
+                disabled={pending || code.length !== 6}
+              >
+                {pending ? "Verifying…" : "Verify"}
+              </button>
+            </form>
+            <div className="signup-flow__actions">
+              <button
+                type="button"
+                className="signup-flow__text-button"
+                onClick={back}
+              >
+                Back
+              </button>
+              <button
+                type="button"
+                className="signup-flow__text-button"
+                disabled={pending}
+                onClick={onResendCode}
+              >
+                Resend code
+              </button>
+            </div>
+            {codePath === "email" && (
+              <p className="signup-flow__note">
+                To receive a numeric code, set your Supabase Confirm signup
+                email template to include <code>{"{{ .Token }}"}</code>.
+              </p>
+            )}
+          </div>
+        )}
+
+        {error &&
+          stage !== "email" &&
+          stage !== "phone" &&
+          stage !== "code" && (
+            <p
+              role="alert"
+              className="signup-flow__notice signup-flow__notice--error"
+            >
+              {error}
+            </p>
           )}
-        </div>
-      </div>
+        <p className="signup-flow__legal">
+          <LockKeyhole size={12} aria-hidden="true" /> By continuing you agree
+          to our <Link to="/privacy">Privacy policy</Link>.
+        </p>
+      </section>
     </main>
   );
 }

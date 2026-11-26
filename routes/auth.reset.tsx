@@ -10,6 +10,10 @@ const TITLE = "Set new password — VEXON TECH";
 const DESC = "Enter your new password for your Vexon account.";
 
 export const Route = createFileRoute("/auth/reset")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    token: typeof search["token"] === "string" ? search["token"] : "",
+    type: typeof search["type"] === "string" ? search["type"] : "",
+  }),
   head: () => ({
     meta: [
       { title: TITLE },

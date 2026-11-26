@@ -59,9 +59,9 @@ export function AvatarUploader({ user }: { user: VexonUser }) {
               disabled={busy !== null}
               className="rounded-md border border-primary/50 px-3 py-1.5 font-mono text-[0.7rem] uppercase tracking-[0.15em] text-primary transition-colors hover:bg-primary/10 disabled:opacity-60"
             >
-              {busy === "upload" ? "Uploading…" : user.avatarUrl ? "Change photo" : "Add photo"}
+              {busy === "upload" ? "Uploading…" : user.avatar_url ? "Change photo" : "Add photo"}
             </button>
-            {user.avatarUrl ? (
+            {user.avatar_url ? (
               <button
                 type="button"
                 onClick={() => void handle("remove", removeAvatar, "Your picture has been removed.")}

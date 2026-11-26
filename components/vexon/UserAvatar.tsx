@@ -11,7 +11,7 @@ export function UserAvatar({
   className?: string;
 }) {
   const [failedUrl, setFailedUrl] = useState<string | null>(null);
-  const showImage = Boolean(user.avatarUrl) && failedUrl !== user.avatarUrl;
+  const showImage = Boolean(user.avatar_url) && failedUrl !== user.avatar_url;
 
   return (
     <span
@@ -19,11 +19,11 @@ export function UserAvatar({
     >
       {showImage ? (
         <img
-          src={user.avatarUrl}
+          src={user.avatar_url}
           alt=""
           referrerPolicy="no-referrer"
           className="size-full object-cover"
-          onError={() => setFailedUrl(user.avatarUrl ?? null)}
+          onError={() => setFailedUrl(user.avatar_url ?? null)}
         />
       ) : (
         <span aria-hidden="true">{initials(user)}</span>

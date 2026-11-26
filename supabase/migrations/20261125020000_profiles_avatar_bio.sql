@@ -13,6 +13,8 @@ create policy "Owner can update own profile"
   using ((select auth.uid()) = id)
   with check ((select auth.uid()) = id);
 
+grant update (bio, social_links) on public.profiles to authenticated;
+
 -- Storage bucket for avatars (run in Supabase Dashboard > Storage or via SQL)
 -- This bucket must be created manually or via Supabase CLI:
 -- insert into storage.buckets (id, name, public) values ('avatars', 'avatars', true);

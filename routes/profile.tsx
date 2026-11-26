@@ -227,20 +227,20 @@ function Profile() {
                     autoComplete="name"
                     required
                     maxLength={60}
-                    defaultValue={user.name}
-                    key={user.id}
+                    defaultValue={auth.user.name}
+                    key={auth.user.id}
                     onChange={() => setSaved(false)}
                     className={FIELD}
                   />
                 </div>
                 <div>
                   <label htmlFor="account-id" className={LABEL}>
-                    {user.email ? "Email" : "Verified phone"}
+                    {auth.user.email ? "Email" : "Verified phone"}
                   </label>
                   <input
                     id="account-id"
-                    type={user.email ? "email" : "tel"}
-                    value={user.email || user.phone || ""}
+                    type={auth.user.email ? "email" : "tel"}
+                    value={auth.user.email || auth.user.phone || ""}
                     readOnly
                     aria-readonly="true"
                     className={`${FIELD} cursor-not-allowed opacity-60`}
@@ -313,7 +313,7 @@ function Profile() {
               </form>
 
               {/* Onboarding Wizard */}
-              <OnboardingWizard userId={user.id} />
+              <OnboardingWizard userId={auth.user.id} />
 
               {/* Danger Zone */}
               <div className="mt-8 border-t pt-8">

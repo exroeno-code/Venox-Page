@@ -453,6 +453,7 @@ function PreferenceSummary({ record }: { record: OnboardingRecord }) {
 
 function toAnswers(record: OnboardingRecord): OnboardingAnswers {
   return {
+    role: record.role,
     businessOwnership: record.businessOwnership,
     businessType: record.businessType,
     businessTypeOther: record.businessTypeOther,
