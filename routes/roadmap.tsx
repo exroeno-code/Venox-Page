@@ -5,9 +5,9 @@ import { PageShell } from "@/components/vexon/PageShell";
 import { Words } from "@/components/vexon/Words";
 import { ogImageMeta } from "@/lib/seo";
 
-const TITLE = "Roadmap & updates — VEXON TECH";
+const TITLE = "What we’re working on — VEXON TECH";
 const DESC =
-  "Where every VEXON TECH idea stands today: Idea, Prototype, Pilot or Live. Labelled by true status, updated as things change.";
+  "A clear look at where VEXON TECH ideas stand today: Idea, Prototype, Pilot or Live. We’ll update this page as things change.";
 
 export const Route = createFileRoute("/roadmap")({
   head: () => ({
@@ -40,20 +40,20 @@ const ITEMS: {
   {
     title: "VEXON TECH website",
     stage: "Live",
-    note: "The landing page, leadership, contact and roadmap pages, and Vexon accounts you are using now.",
-    link: { to: "/leadership", label: "Meet the leadership" },
+    note: "You’re here now: the website, leadership, contact and roadmap pages, and Vexon accounts are live.",
+    link: { to: "/leadership", label: "Meet our leadership" },
   },
   {
     title: "AI assistant",
     stage: "Idea",
-    note: "A general-purpose assistant that helps people get from a question to a usable next step. Not yet built or validated.",
-    link: { to: "/assistant", label: "See the concept and join the waitlist" },
+    note: "We’re exploring an assistant to help people turn questions into useful next steps. It hasn’t been built or validated yet.",
+    link: { to: "/assistant", label: "See the idea and join the waitlist" },
   },
   {
     title: "Online forex trading concept",
     stage: "Idea",
-    note: "An early idea to explore online forex trading with transparent risk information. No live platform or brokerage exists; product scope, markets, regulatory status, operators and timing are not confirmed.",
-    link: { to: "/forex-trading", label: "Explore the forex concept" },
+    note: "This is an early idea to explore online forex trading and make the risks clear. There is no live platform or brokerage. Product scope, markets, regulatory status, operators and timing are not confirmed.",
+    link: { to: "/forex-trading", label: "Read about the forex idea" },
   },
 ];
 
@@ -61,19 +61,19 @@ const ITEMS: {
 const UPDATES: { date: string; text: string }[] = [
   {
     date: "November 2026",
-    text: "The goods-commerce idea was replaced with an online forex trading concept. It remains at Idea stage; no brokerage or trading service is live.",
+    text: "We replaced the goods-commerce idea with an online forex trading concept. It’s still at Idea stage; no brokerage or trading service is live.",
   },
   {
     date: "November 2026",
-    text: "Roadmap page added. Every idea is now labelled with its true stage.",
+    text: "We added this roadmap so you can see the actual stage of each idea.",
   },
   {
     date: "November 2026",
-    text: "AI assistant concept page and waitlist opened. The assistant itself is still an idea.",
+    text: "We opened a page and waitlist for the AI assistant idea. The assistant itself is still only an idea.",
   },
   {
     date: "November 2026",
-    text: "Leadership and contact pages added, along with Vexon accounts.",
+    text: "We added leadership and contact pages, along with Vexon accounts.",
   },
 ];
 
@@ -107,14 +107,14 @@ function Roadmap() {
     <PageShell tag="[ ROADMAP ]">
       <section className="pt-4 md:pt-8">
         <span className="font-mono text-xs tracking-[0.3em] text-muted-foreground">
-          [ TRUE STATUS · NO HYPE ]
+          [ WHERE THINGS STAND ]
         </span>
         <h1 className="mt-4 font-display text-6xl font-extrabold uppercase leading-[0.9] md:text-8xl">
           <Words text="Roadmap" className="text-chrome" />
         </h1>
         <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-          We label every idea, prototype, pilot and live offering by its true
-          status. This page is updated as things change.
+          Here’s where each idea stands: Idea, Prototype, Pilot or Live. We’ll
+          keep this page up to date as real progress happens.
         </p>
 
         <ul className="mt-8 grid gap-4 lg:grid-cols-2">
@@ -160,7 +160,7 @@ function Roadmap() {
           [ UPDATES ]
         </span>
         <h2 className="mt-4 font-display text-4xl font-extrabold uppercase leading-[0.95] md:text-5xl">
-          Latest
+          What’s new
         </h2>
         <ul className="mt-10 max-w-3xl divide-y border-y">
           {UPDATES.map((u) => (

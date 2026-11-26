@@ -9,9 +9,9 @@ import { SocialLinks } from "@/components/vexon/SocialIcons";
 import { Wordmark } from "@/components/vexon/Wordmark";
 import { ogImageMeta } from "@/lib/seo";
 
-const TITLE = "VEXON TECH — Useful ideas. Real-world progress.";
+const TITLE = "VEXON TECH — Useful ideas, made practical";
 const DESC =
-  "VEXON TECH is a builder-led venture exploring practical digital technology and an online forex trading concept, with clear status, risks and responsibilities.";
+  "VEXON TECH is a Kenya-based, builder-led venture in concept development, exploring useful technology and an online forex idea with clear status and risks.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -31,42 +31,42 @@ export const Route = createFileRoute("/")({
 const PRINCIPLES = [
   [
     "Useful over impressive",
-    "Begin with a real problem, need, or customer value. Prefer clear utility to novelty for its own sake.",
+    "Start with a real problem or need. Choose something useful over novelty for its own sake.",
   ],
   [
     "Trust before scale",
-    "Communicate quality, pricing, availability, risks, and responsibilities plainly. Never imply something is ready when it is not.",
+    "Be clear about quality, pricing, availability, risks, and responsibilities. Never say something is ready before it is.",
   ],
   [
     "Build and learn",
-    "Test with users, listen carefully, improve what is not working, and use evidence before making broad claims.",
+    "Listen, test, and improve. Let evidence guide what we say and do.",
   ],
   [
     "Think in the long term",
-    "Create value for customers, collaborators, and communities — not only short-term attention or revenue.",
+    "Build value for customers, collaborators, and communities—not just short-term attention or revenue.",
   ],
   [
     "Act responsibly",
-    "Respect law, safety, privacy, product quality, sourcing accountability, and the people affected by decisions.",
+    "Take law, safety, privacy, product quality, sourcing accountability, and the people affected seriously.",
   ],
 ] as const;
 
 const FOUNDATION = [
   [
     "Purpose",
-    "To carry practical ideas through into useful technology and responsible commercial activity that creates tangible value for people, businesses, and communities.",
+    "Turn practical ideas into useful technology and responsible commercial activity that brings real value to people, businesses, and communities.",
   ],
   [
     "Vision",
-    "A future where people and businesses can access practical tools and trustworthy digital services that help them solve real problems, serve others, and make steady progress.",
+    "A future where people and businesses can use practical, trustworthy digital services to solve real problems and make steady progress.",
   ],
   [
     "Mission",
-    "Explore, build, and improve useful digital technology — software, digital products, and responsible AI-enabled workflows — while evaluating online forex trading as an early concept.",
+    "Explore and improve useful digital technology—software, digital products, and responsible AI-enabled workflows—while considering online forex trading as an early idea.",
   ],
   [
     "Positioning",
-    "A builder-led venture that aims to earn trust through real needs, clear communication, and follow-through — not hype.",
+    "A builder-led venture working to earn trust through real needs, clear communication, and follow-through—not hype.",
   ],
 ] as const;
 
@@ -175,10 +175,10 @@ function Index() {
               </span>
             </div>
             <p className="mt-8 max-w-md text-base leading-relaxed text-muted-foreground">
-              VEXON TECH is a builder-led venture exploring practical software,
-              responsible AI-enabled workflows, and an online forex trading
-              concept — earning trust through real needs, clear risks, and
-              follow-through, not hype.
+              VEXON TECH is a Kenya-based, builder-led venture in concept
+              development. We’re exploring practical software, responsible
+              AI-enabled workflows, and an online forex idea—with clear risks
+              and no hype.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-6">
               <Link
@@ -186,7 +186,7 @@ function Index() {
                 hash="waitlist"
                 className="bracket-btn px-7 py-4 font-mono text-sm uppercase tracking-[0.2em] transition-colors hover:bg-foreground/5"
               >
-                Follow the build
+                Follow our progress
               </Link>
               <a
                 href="#principles"
@@ -256,7 +256,7 @@ function Index() {
       <section id="workstreams" className="px-5 pb-28 md:px-10">
         <div data-reveal className="mb-16 max-w-3xl">
           <span className="font-mono text-xs tracking-[0.3em] text-muted-foreground">
-            [ SELECTED WORKSTREAMS · ONE STANDARD ]
+            [ IDEAS WE’RE EXPLORING ]
           </span>
           <h2 className="mt-4 font-display text-5xl font-extrabold uppercase leading-[0.95] md:text-7xl">
             <Words text="What we explore" />
@@ -267,20 +267,20 @@ function Index() {
             {
               k: "A",
               t: "Technology",
-              d: "Practical software, digital products, and responsible AI-enabled workflows. Every initiative starts from a validated user need and states its status plainly.",
+              d: "We’re exploring practical software, digital products, and responsible AI-enabled workflows. Each idea should answer a real need, and we’ll be clear about its status.",
               rot: -2,
               v: "halo" as const,
               to: "/assistant" as const,
-              more: "See the AI assistant concept",
+              more: "See the AI assistant idea",
             },
             {
               k: "B",
               t: "Online forex trading",
-              d: "Exploring an online forex trading concept with honest status and clear risk information. It is at the Idea stage—not a live broker, platform, or financial service.",
+              d: "Online forex is only an idea we’re considering. It is at the Idea stage—not a broker, platform, or financial service.",
               rot: 2,
               v: "field" as const,
               to: "/forex-trading" as const,
-              more: "Explore the forex concept",
+              more: "Read about the forex idea",
             },
           ].map((c) => (
             <article
@@ -320,9 +320,10 @@ function Index() {
           ))}
         </div>
         <p className="mt-10 font-mono text-xs leading-relaxed text-muted-foreground">
-          The online forex concept is not a live broker or trading service. No
-          accounts, deposits, trade execution, signals, or personalized
-          investment advice are available through VEXON TECH.
+          Online forex is an early idea only. VEXON TECH does not provide a
+          broker, platform, accounts, deposits, trade execution, signals, money
+          management, broker endorsements, or personalized financial advice.
+          Forex and CFDs carry a high risk of loss.
         </p>
       </section>
 
@@ -331,19 +332,18 @@ function Index() {
         <div className="grid gap-14 lg:grid-cols-2 lg:items-center">
           <div data-reveal>
             <span className="font-mono text-xs tracking-[0.3em] text-muted-foreground">
-              [ FIRST TECHNOLOGY CONCEPT ]
+              [ AN EARLY TECHNOLOGY IDEA ]
             </span>
             <h2 className="mt-4 font-display text-5xl font-extrabold uppercase leading-[0.95] md:text-6xl">
               <Words
-                text="An AI assistant that gets you to the next step"
+                text="An AI assistant to help you take the next step"
                 className="text-chrome"
               />
             </h2>
             <p className="reveal mt-8 max-w-lg text-muted-foreground">
-              A general-purpose assistant that helps developers and everyday
-              users move from a question or task toward a usable draft,
-              solution, or next step. It is an idea under discussion — not yet
-              built or validated.
+              We’re considering a general-purpose assistant to help developers
+              and everyday users turn a question or task into a useful draft,
+              solution, or next step. It’s still an idea—not built or validated.
             </p>
             <div className="reveal mt-8 flex flex-wrap items-center gap-6">
               <Link
@@ -383,8 +383,8 @@ function Index() {
               ))}
             </ol>
             <p className="mt-6 font-mono text-xs text-muted-foreground">
-              We label every idea, prototype, pilot and live offering by its
-              true status.
+              We’ll be clear whether something is an idea, prototype, pilot, or
+              live offering.
             </p>
           </div>
         </div>
@@ -432,7 +432,7 @@ function Index() {
               Enosh &amp; Vince
             </p>
             <p className="mt-2 text-sm text-muted-foreground">
-              The builders developing the VEXON TECH concept.
+              The people building the VEXON TECH concept.
             </p>
             <span className="mt-6 flex items-center gap-1 font-mono text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground transition-colors group-hover:text-foreground">
               Meet the leadership
@@ -455,7 +455,7 @@ function Index() {
         <div className="relative px-5 pb-10 pt-32 md:px-10">
           <div data-reveal className="text-center">
             <span className="font-mono text-xs tracking-[0.3em] text-muted-foreground">
-              [ BRAND IDEA ]
+              [ OUR IDEA ]
             </span>
             <h2 className="mx-auto mt-6 max-w-5xl font-display text-6xl font-extrabold uppercase leading-[0.9] md:text-8xl">
               <Words text="Practical ideas," />{" "}
@@ -466,8 +466,8 @@ function Index() {
               />
             </h2>
             <p className="reveal mx-auto mt-8 max-w-xl text-muted-foreground">
-              VEXON TECH is in concept development. Questions, ideas or want to
-              work with us? Get in touch.
+              We’re still developing the VEXON TECH concept. Have a question, an
+              idea, or want to work with us? We’d like to hear from you.
             </p>
             <div className="reveal mt-10 flex justify-center">
               <Link
@@ -490,8 +490,8 @@ function Index() {
             <div className="flex flex-col gap-6 md:items-end">
               <SocialLinks />
               <p className="max-w-sm font-mono text-[0.7rem] leading-relaxed text-muted-foreground md:text-right">
-                © 2026 VEXON TECH — proposed brand. Name, structure and launch
-                timing remain subject to founder confirmation.{" "}
+                © 2026 VEXON TECH — proposed brand. The name, structure, and
+                launch timing still need founder confirmation.{" "}
                 <Link
                   to="/privacy"
                   className="underline underline-offset-2 transition-colors hover:text-foreground"

@@ -6,9 +6,9 @@ import { Words } from "@/components/vexon/Words";
 import { ogImageMeta } from "@/lib/seo";
 import { SITE } from "@/lib/site-config";
 
-const TITLE = "Privacy notice — VEXON TECH";
+const TITLE = "Your privacy — VEXON TECH";
 const DESC =
-  "What personal information VEXON TECH collects through this website, why, and how to ask us to delete it.";
+  "A clear guide to the personal information VEXON TECH collects through this website, why we use it, and how to ask us to delete it.";
 const UPDATED = "24 November 2026";
 
 export const Route = createFileRoute("/privacy")({
@@ -61,10 +61,9 @@ function Privacy() {
           <Words text="Privacy notice" className="text-chrome" />
         </h1>
         <p className="mt-8 leading-relaxed text-muted-foreground">
-          VEXON TECH is a proposed brand in concept development, based in Kenya.
-          This notice explains what personal information this website collects
-          and what we do with it. We collect only what is needed for each
-          feature.
+          VEXON TECH is a Kenya-based proposed brand in concept development.
+          Here is what personal information this website collects and how we use
+          it. We collect only what each feature needs.
         </p>
 
         <div className="mt-12">
@@ -109,7 +108,9 @@ function Privacy() {
                 personal or sensitive details in them.
               </li>
               <li>
-                <strong className="text-foreground">Vercel Web Analytics:</strong>{" "}
+                <strong className="text-foreground">
+                  Vercel Web Analytics:
+                </strong>{" "}
                 When enabled for this project, page views recorded using the
                 page path and one <code>feedback_form_submission</code> event
                 after a contact message is successfully submitted. We do not
@@ -121,12 +122,12 @@ function Privacy() {
 
           <Section n={2} title="Why we use it">
             <p>
-              We use onboarding answers to understand what people need, improve
-              relevant website information, and plan possible future services.
-              They do not enroll you in a service, and they do not mean that a
-              planned service is live. We also use other information to reply to
+              Your onboarding answers help us understand what people need,
+              improve relevant website information, and plan possible future
+              services. They do not enroll you in a service or mean that a
+              planned service is live. We use other information to reply to
               messages, contact you about applications, update you about the AI
-              assistant, run your account and answer questions in the guide. We
+              assistant, run your account, and answer questions in the guide. We
               do not sell your information or send marketing you did not ask
               for.
             </p>
@@ -134,7 +135,7 @@ function Privacy() {
 
           <Section n={3} title="Where it is stored and who processes it">
             <p>
-              Form submissions, accounts and onboarding answers are stored with
+              Form submissions, accounts, and onboarding answers are stored with
               Supabase (database and sign-in). Your onboarding answers are
               associated with your account, and database row-level security lets
               you read and update only your own onboarding row. Other visitors
@@ -143,27 +144,26 @@ function Privacy() {
               The website is hosted on Vercel. If Web Analytics is enabled for
               this project, Vercel processes the page views and contact-form
               event described above for aggregated reporting. Vercel says its
-              Web Analytics does not use cookies to identify visitors and uses
-              a short-lived, request-derived identifier for visitor sessions.
-              The Analytics event does not contain your submitted form values.
-              When the VEXON Guide uses AI, your question and recent chat
-              messages are sent to our AI provider (NVIDIA) to produce an
-              answer. These providers may process data outside Kenya.
+              Web Analytics does not use cookies to identify visitors and uses a
+              short-lived, request-derived identifier for visitor sessions. The
+              Analytics event does not contain your submitted form values. When
+              the VEXON Guide uses AI, your question and recent chat messages
+              are sent to our AI provider (NVIDIA) to produce an answer. These
+              providers may process data outside Kenya.
             </p>
           </Section>
 
           <Section n={4} title="Cookies and local storage">
             <p>
               We do not use advertising cookies. Vercel Web Analytics does not
-              use cookies to identify visitors. Your browser keeps your
-              sign-in session in local storage so you stay signed in until you
-              sign out.
+              use cookies to identify visitors. Your browser keeps your sign-in
+              session in local storage so you stay signed in until you sign out.
             </p>
           </Section>
 
           <Section n={5} title="How long we keep it">
             <p>
-              We keep messages, applications and waitlist entries only as long
+              We keep messages, applications, and waitlist entries only as long
               as needed for the purpose above, then delete them. Onboarding
               answers are retained while your account is active, unless you ask
               us to remove them sooner; they are deleted when the associated
@@ -174,8 +174,8 @@ function Privacy() {
 
           <Section n={6} title="Your choices">
             <p>
-              You can ask us to show you, correct or delete the information we
-              hold about you, or to remove you from the waitlist, at any time.
+              At any time, you can ask us to show you, correct, or delete the
+              information we hold about you, or remove you from the waitlist.
               Email{" "}
               <a
                 href={`mailto:${SITE.emails[0]}`}
@@ -193,14 +193,15 @@ function Privacy() {
                 className="text-glow underline underline-offset-2"
               >
                 ODPC complaint page
-              </a>.
+              </a>
+              .
             </p>
           </Section>
 
           <Section n={7} title="Changes">
             <p>
-              If we change this notice we will update the date above. Questions?
-              See the{" "}
+              If we change this notice, we will update the date above. Have a
+              question? Visit our{" "}
               <Link
                 to="/contact"
                 className="text-glow underline underline-offset-2"

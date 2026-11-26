@@ -8,7 +8,8 @@ import { Words } from "@/components/vexon/Words";
 import { ogImageMeta } from "@/lib/seo";
 
 const TITLE = "Leadership — VEXON TECH";
-const DESC = "Enosh Yeswa leads VEXON TECH, a builder-led venture based in Kenya (Nairobi and Kakamega).";
+const DESC =
+  "Meet Enosh Yeswa, the founder leading VEXON TECH as it develops useful ideas from Nairobi and Kakamega, Kenya.";
 
 export const Route = createFileRoute("/leadership")({
   head: () => ({
@@ -28,11 +29,24 @@ export const Route = createFileRoute("/leadership")({
 // To show a real photo, save it as public/leaders/<photo name>.jpg (square, at least 400x400).
 // The files in public/leaders/ are generated illustrated avatars; replace them with real photos any time.
 const LEADERS = [
-  { name: "Enosh Yeswa", role: "Chief Executive Officer (CEO)", monogram: "EY", photo: "/leaders/enosh-yeswa.jpg" },
+  {
+    name: "Enosh Yeswa",
+    role: "Chief Executive Officer (CEO)",
+    monogram: "EY",
+    photo: "/leaders/enosh-yeswa.jpg",
+  },
 ] as const;
 
 /** Round avatar: the photo when it exists, otherwise a glowing monogram. Never shows a broken image. */
-function Avatar({ name, monogram, photo }: { name: string; monogram: string; photo: string }) {
+function Avatar({
+  name,
+  monogram,
+  photo,
+}: {
+  name: string;
+  monogram: string;
+  photo: string;
+}) {
   const [hasPhoto, setHasPhoto] = useState(false);
 
   useEffect(() => {
@@ -48,12 +62,25 @@ function Avatar({ name, monogram, photo }: { name: string; monogram: string; pho
 
   return (
     <span className="relative inline-grid size-28 shrink-0 place-items-center md:size-32">
-      <span aria-hidden className="absolute -inset-3 rounded-full bg-glow/20 blur-2xl transition-opacity duration-500 group-hover:bg-glow/35" />
+      <span
+        aria-hidden
+        className="absolute -inset-3 rounded-full bg-glow/20 blur-2xl transition-opacity duration-500 group-hover:bg-glow/35"
+      />
       <span className="relative grid size-full place-items-center overflow-hidden rounded-full border-2 border-glow/50 bg-gradient-to-br from-muted to-card transition-colors duration-500 group-hover:border-glow">
         {hasPhoto ? (
-          <img src={photo} alt={name} width={256} height={256} className="size-full object-cover" />
+          <img
+            src={photo}
+            alt={name}
+            width={256}
+            height={256}
+            className="size-full object-cover"
+          />
         ) : (
-          <span role="img" aria-label={name + " avatar"} className="text-chrome font-display text-4xl font-extrabold md:text-5xl">
+          <span
+            role="img"
+            aria-label={name + " avatar"}
+            className="text-chrome font-display text-4xl font-extrabold md:text-5xl"
+          >
             {monogram}
           </span>
         )}
@@ -63,7 +90,8 @@ function Avatar({ name, monogram, photo }: { name: string; monogram: string; pho
 }
 
 // Stylised outline of Kenya (not a survey map). Marker positions are projected from real coordinates.
-const KENYA_OUTLINE = "M24.5 56.4 L64.7 28.1 L109.4 40.2 L154.2 48.3 L207.8 80.6 L270.4 88.7 L328.6 56.4 L377.8 66.5 L337.5 104.8 L337.5 294.7 L292.8 339.2 L257.0 416.0 L189.9 363.4 L185.5 351.3 L24.5 266.5 L28.9 205.9 L46.8 185.7 L64.7 157.4 L51.3 104.8 Z";
+const KENYA_OUTLINE =
+  "M24.5 56.4 L64.7 28.1 L109.4 40.2 L154.2 48.3 L207.8 80.6 L270.4 88.7 L328.6 56.4 L377.8 66.5 L337.5 104.8 L337.5 294.7 L292.8 339.2 L257.0 416.0 L189.9 363.4 L185.5 351.3 L24.5 266.5 L28.9 205.9 L46.8 185.7 L64.7 157.4 L51.3 104.8 Z";
 const PLACES = [
   { name: "Nairobi", x: 150.6, y: 278.2 },
   { name: "Kakamega", x: 58.0, y: 214.7 },
@@ -83,12 +111,33 @@ function KenyaMap() {
           <stop offset="100%" stopColor="var(--glow)" stopOpacity="0" />
         </radialGradient>
       </defs>
-      <path d={KENYA_OUTLINE} fill="var(--card)" stroke="var(--glow)" strokeOpacity="0.55" strokeWidth="1.5" strokeLinejoin="round" />
+      <path
+        d={KENYA_OUTLINE}
+        fill="var(--card)"
+        stroke="var(--glow)"
+        strokeOpacity="0.55"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
       {PLACES.map((p) => (
         <g key={p.name}>
-          <circle cx={p.x} cy={p.y} r="22" fill="url(#marker-glow)" className="live-dot" style={{ transformOrigin: p.x + "px " + p.y + "px" }} />
+          <circle
+            cx={p.x}
+            cy={p.y}
+            r="22"
+            fill="url(#marker-glow)"
+            className="live-dot"
+            style={{ transformOrigin: p.x + "px " + p.y + "px" }}
+          />
           <circle cx={p.x} cy={p.y} r="4.5" fill="var(--foreground)" />
-          <text x={p.x + 14} y={p.y + 4} fill="var(--foreground)" fontFamily="var(--font-mono)" fontSize="12" letterSpacing="2.5">
+          <text
+            x={p.x + 14}
+            y={p.y + 4}
+            fill="var(--foreground)"
+            fontFamily="var(--font-mono)"
+            fontSize="12"
+            letterSpacing="2.5"
+          >
             {p.name.toUpperCase()}
           </text>
         </g>
@@ -105,12 +154,14 @@ function Leadership() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--background)_0%,transparent_65%)]" />
       </div>
 
-      <TopBar tag="[ LEADERSHIP ]" />
+      <TopBar tag="[ OUR LEADERSHIP ]" />
 
       <section className="relative z-10 pb-16 pt-4 md:pt-8">
-        <span className="font-mono text-xs tracking-[0.3em] text-muted-foreground">[ THE PEOPLE BEHIND THE BUILD ]</span>
+        <span className="font-mono text-xs tracking-[0.3em] text-muted-foreground">
+          [ THE PERSON BEHIND THE BUILD ]
+        </span>
         <h1 className="mt-4 font-display text-6xl font-extrabold uppercase leading-[0.9] md:text-8xl">
-          <Words text="Leadership" className="text-chrome" />
+          <Words text="Meet the founder" className="text-chrome" />
         </h1>
 
         <ul className="mt-16 grid gap-4 md:grid-cols-2">
@@ -121,10 +172,16 @@ function Leadership() {
             >
               <div className="flex items-start justify-between gap-4">
                 <Avatar name={l.name} monogram={l.monogram} photo={l.photo} />
-                <span className="font-mono text-xs text-muted-foreground">[ 00{i + 1} ]</span>
+                <span className="font-mono text-xs text-muted-foreground">
+                  [ 00{i + 1} ]
+                </span>
               </div>
-              <h2 className="mt-10 font-display text-4xl font-extrabold uppercase leading-[0.95] md:text-5xl">{l.name}</h2>
-              <p className="mt-4 font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">{l.role}</p>
+              <h2 className="mt-10 font-display text-4xl font-extrabold uppercase leading-[0.95] md:text-5xl">
+                {l.name}
+              </h2>
+              <p className="mt-4 font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
+                {l.role}
+              </p>
             </li>
           ))}
         </ul>
@@ -132,14 +189,17 @@ function Leadership() {
 
       <section className="relative z-10 mx-auto grid max-w-6xl gap-12 border-t py-24 md:grid-cols-2 md:items-center">
         <div>
-          <span className="font-mono text-xs tracking-[0.3em] text-muted-foreground">[ LOCATION ]</span>
+          <span className="font-mono text-xs tracking-[0.3em] text-muted-foreground">
+            [ WHERE WE'RE BASED ]
+          </span>
           <h2 className="mt-4 font-display text-5xl font-extrabold uppercase leading-[0.95] md:text-6xl">
-            <Words text="Based in Kenya" />
+            <Words text="Building from Kenya" />
           </h2>
           <ul className="mt-8 space-y-3 font-mono text-sm uppercase tracking-[0.2em]">
             {PLACES.map((p) => (
               <li key={p.name} className="flex items-center gap-3">
-                <span className="live-dot size-2 rounded-full bg-glow" /> {p.name}
+                <span className="live-dot size-2 rounded-full bg-glow" />{" "}
+                {p.name}
               </li>
             ))}
           </ul>
@@ -150,7 +210,7 @@ function Leadership() {
             to="/contact"
             className="bracket-btn px-7 py-4 font-mono text-sm uppercase tracking-[0.2em] transition-colors hover:bg-foreground/5"
           >
-            Contact the team
+            Get in touch
           </Link>
         </div>
       </section>
@@ -158,7 +218,8 @@ function Leadership() {
       <footer className="relative z-10 flex flex-col gap-6 border-t pt-8 md:flex-row md:items-center md:justify-between">
         <SocialLinks />
         <p className="font-mono text-[0.7rem] leading-relaxed text-muted-foreground">
-          © 2026 VEXON TECH — proposed brand. Roles and structure remain subject to founder confirmation.
+          © 2026 VEXON TECH — a proposed brand. Roles and structure still need
+          the founder’s confirmation.
         </p>
       </footer>
     </main>

@@ -18,9 +18,9 @@ import {
 } from "@/lib/auth-core";
 import { useAuth } from "@/lib/use-auth";
 
-const TITLE = "Create your Vexon account — VEXON TECH";
+const TITLE = "Your Vexon account — VEXON TECH";
 const DESC =
-  "Create a Vexon account or sign in to follow the VEXON TECH build.";
+  "Create an account or sign in to follow what we’re building at VEXON TECH.";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
@@ -103,7 +103,7 @@ function AuthPage() {
       setError(
         err instanceof AuthError
           ? err.message
-          : "Something went wrong. Try again.",
+          : "That didn’t work. Please try again.",
       );
     } finally {
       setPending(false);
@@ -168,7 +168,7 @@ function AuthPage() {
             </button>
           ) : (
             <Link to="/" className="signup-flow__home">
-              Back to site <ArrowUpRight size={14} aria-hidden="true" />
+              Back to VEXON TECH <ArrowUpRight size={14} aria-hidden="true" />
             </Link>
           )}
         </header>
@@ -188,7 +188,9 @@ function AuthPage() {
               <Check aria-hidden="true" />
             </div>
             <h1 id="auth-title">You’re in</h1>
-            <p className="signup-flow__sub">Your Vexon account is ready.</p>
+            <p className="signup-flow__sub">
+              Your account is ready. Good to have you here.
+            </p>
             <div className="signup-flow__user">
               <span className="signup-flow__avatar">{initials(auth.user)}</span>
               <span>
@@ -203,7 +205,7 @@ function AuthPage() {
               className="signup-flow__primary"
               onClick={() => void navigate({ to: "/" })}
             >
-              Continue to Vexon
+              Continue to VEXON TECH
             </button>
             <button
               type="button"
@@ -219,27 +221,30 @@ function AuthPage() {
               <Check aria-hidden="true" />
             </div>
             <h1 id="auth-title">You’re in</h1>
-            <p className="signup-flow__sub">Your Vexon account is ready.</p>
+            <p className="signup-flow__sub">
+              Your account is ready. Good to have you here.
+            </p>
             <button
               type="button"
               className="signup-flow__primary"
               onClick={() => void navigate({ to: "/" })}
             >
-              Continue to Vexon
+              Continue to VEXON TECH
             </button>
           </div>
         ) : stage === "methods" ? (
           <div className="signup-flow__content">
-            <h1 id="auth-title">Create your account</h1>
-            <p className="signup-flow__sub">Get started in under a minute.</p>
+            <h1 id="auth-title">Join us</h1>
+            <p className="signup-flow__sub">
+              Create an account to follow what we’re building.
+            </p>
             {!ACCOUNTS_CONFIGURED && (
               <p
                 role="alert"
                 className="signup-flow__notice signup-flow__notice--error"
               >
-                Supabase is not configured yet. Set{" "}
-                <code>VITE_SUPABASE_URL</code> and{" "}
-                <code>VITE_SUPABASE_PUBLISHABLE_KEY</code> in the site
+                Accounts aren’t ready yet. Set <code>VITE_SUPABASE_URL</code>{" "}
+                and <code>VITE_SUPABASE_PUBLISHABLE_KEY</code> in the site
                 environment before enabling accounts.
               </p>
             )}
@@ -278,8 +283,9 @@ function AuthPage() {
                   Continue with WhatsApp
                 </button>
                 <p id="whatsapp-auth-note" className="signup-flow__note">
-                  WhatsApp sign-in is coming soon; phone authentication and
-                  WhatsApp OTP delivery must be enabled in Supabase first.
+                  WhatsApp sign-in isn’t ready yet. Phone authentication and
+                  WhatsApp one-time-code delivery need to be enabled in Supabase
+                  first.
                 </p>
               </>
             )}
@@ -305,9 +311,9 @@ function AuthPage() {
               unavailable
             </button>
             <p id="instagram-auth-note" className="signup-flow__note">
-              Instagram does not offer a supported identity provider for
-              Supabase Auth. Use email for now; other providers appear only
-              after setup in Supabase.
+              Instagram isn’t a supported sign-in option for Supabase Auth. For
+              now, use email; other providers will appear only after they’re set
+              up in Supabase.
             </p>
             <p className="signup-flow__small">
               Already have an account?{" "}
@@ -327,16 +333,16 @@ function AuthPage() {
             </h1>
             <p className="signup-flow__sub">
               {mode === "create"
-                ? "Create your account with your email and password."
-                : "Sign in to your Vexon account."}
+                ? "Use your email and a password to create your account."
+                : "Welcome back. Sign in to your Vexon account."}
             </p>
             {!ACCOUNTS_CONFIGURED && (
               <p
                 role="alert"
                 className="signup-flow__notice signup-flow__notice--error"
               >
-                Supabase is not configured yet. Add the project URL and
-                publishable key to the deployment environment.
+                Accounts aren’t ready yet. Add the project URL and publishable
+                key to the deployment environment to enable sign-in.
               </p>
             )}
             <form
@@ -434,7 +440,7 @@ function AuthPage() {
           <div className="signup-flow__content">
             <h1 id="auth-title">Your WhatsApp number</h1>
             <p className="signup-flow__sub">
-              We’ll send a 6-digit code on WhatsApp.
+              We’ll send you a 6-digit code on WhatsApp.
             </p>
             <form
               className="signup-flow__form"
@@ -475,7 +481,7 @@ function AuthPage() {
           <div className="signup-flow__content">
             <h1 id="auth-title">Enter your WhatsApp code</h1>
             <p className="signup-flow__sub">
-              If your number is valid, a code is on its way to{" "}
+              If your number is valid, we’ve sent a code to{" "}
               <strong>{phone}</strong>.
             </p>
             {statusMessage && (

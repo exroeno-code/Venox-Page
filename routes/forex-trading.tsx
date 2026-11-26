@@ -6,9 +6,9 @@ import { ParticleField } from "@/components/vexon/ParticleField";
 import { Words } from "@/components/vexon/Words";
 import { ogImageMeta } from "@/lib/seo";
 
-const TITLE = "Online forex trading concept — VEXON TECH";
+const TITLE = "Online forex trading: an early idea — VEXON TECH";
 const DESC =
-  "VEXON TECH is exploring online forex trading as an idea only. No live trading platform, brokerage, account, deposits, or trade execution is available.";
+  "VEXON TECH is exploring online forex trading as an early idea. There is no live platform, broker service, account, deposit facility, or trade execution.";
 
 export const Route = createFileRoute("/forex-trading")({
   head: () => ({
@@ -45,16 +45,16 @@ function Scene() {
 
 const CONSIDERATIONS = [
   {
-    title: "Idea stage",
-    text: "This is an early exploration, not a product announcement. The concept is not open for registration or use.",
+    title: "Still an idea",
+    text: "We’re exploring this, not announcing a product. There’s nothing to register for or use at this stage.",
   },
   {
-    title: "No brokerage service",
-    text: "VEXON TECH does not provide trading accounts, accept deposits, execute trades, manage money, sell signals, or recommend brokers.",
+    title: "No trading service",
+    text: "VEXON TECH does not provide a broker or trading accounts, accept deposits, execute trades, manage money, sell signals, or endorse brokers.",
   },
   {
-    title: "Key decisions remain open",
-    text: "Platform scope, markets, technology, operating partners, regulatory status, fees, and any launch timing have not been confirmed.",
+    title: "Important details are undecided",
+    text: "The scope, markets, technology, partners, regulatory status, fees, and any launch timing are still unconfirmed.",
   },
 ] as const;
 
@@ -74,23 +74,23 @@ function ForexTrading() {
           </span>
         </h1>
         <p className="mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-          VEXON TECH is exploring online forex trading as a possible future
-          workstream. It is an idea only: no trading platform, brokerage, or
-          financial service is currently offered by VEXON TECH.
+          We’re exploring online forex trading as a possible future project.
+          It’s only an idea for now: VEXON TECH does not offer a trading
+          platform, broker service, or financial service.
         </p>
         <div className="mt-10 flex flex-wrap gap-4">
           <Link
             to="/trading"
             className="bracket-btn group inline-flex items-center gap-2 px-6 py-4 font-mono text-xs uppercase tracking-[0.2em] transition-colors hover:bg-foreground/5"
           >
-            Explore trading education
+            Explore proposed trading education
             <ArrowUpRight className="size-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           </Link>
           <Link
             to="/contact"
             className="group inline-flex items-center gap-2 px-2 py-4 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
           >
-            Contact VEXON TECH
+            Get in touch
             <ArrowUpRight className="size-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           </Link>
         </div>
@@ -109,18 +109,18 @@ function ForexTrading() {
             Forex risk notice · not financial advice
           </p>
           <p>
-            Forex and CFDs are high-risk products and can lead to rapid losses.
-            This page describes an unlaunched concept; it is not a
-            recommendation, invitation to trade, or financial advice. Consider
-            whether you understand the risks and seek independent professional
-            advice where appropriate.
+            Forex and CFDs carry a high risk of loss, and losses can happen
+            quickly. This page is about an idea that has not launched; it is not
+            a recommendation, an invitation to trade, or financial advice.
+            Please consider whether you understand the risks and seek
+            independent professional advice where appropriate.
           </p>
         </div>
       </section>
 
       <section className="py-8">
         <h2 className="mb-4 font-mono text-xs tracking-[0.3em] text-muted-foreground">
-          [ WHAT IS — AND ISN'T — CONFIRMED ]
+          [ WHAT'S CONFIRMED — AND WHAT ISN'T ]
         </h2>
         <div className="grid gap-4 md:grid-cols-3">
           {CONSIDERATIONS.map((item, index) => (
