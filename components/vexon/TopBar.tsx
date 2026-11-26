@@ -24,6 +24,13 @@ const SECTIONS = [
   ["Principles", "principles"],
 ] as const;
 
+function showTouchWave(link: HTMLAnchorElement) {
+  link.dataset.touching = "true";
+  window.setTimeout(() => {
+    delete link.dataset.touching;
+  }, 420);
+}
+
 type Props = {
   /** Small mono label under the logo, e.g. "[ V.00.1 · CONCEPT ]". */
   tag?: string;
@@ -66,8 +73,16 @@ export function TopBar({ tag, onAnchor }: Props) {
       <div>
         <Link
           to="/"
-          className="font-display text-3xl font-extrabold tracking-tight md:text-4xl"
+          className="flex items-center gap-2 font-display text-3xl font-extrabold tracking-tight md:text-4xl"
         >
+          <img
+            src="/vexon-circuit-v.png"
+            alt=""
+            aria-hidden="true"
+            width={512}
+            height={512}
+            className="size-9 shrink-0 object-contain md:size-10"
+          />
           <Wordmark />
         </Link>
         {tag && (
@@ -114,8 +129,16 @@ export function TopBar({ tag, onAnchor }: Props) {
                 <Link
                   to="/"
                   onClick={close}
-                  className="font-display text-3xl font-extrabold tracking-tight md:text-4xl"
+                  className="flex items-center gap-2 font-display text-3xl font-extrabold tracking-tight md:text-4xl"
                 >
+                  <img
+                    src="/vexon-circuit-v.png"
+                    alt=""
+                    aria-hidden="true"
+                    width={512}
+                    height={512}
+                    className="size-9 shrink-0 object-contain md:size-10"
+                  />
                   <Wordmark />
                 </Link>
                 <button
@@ -141,6 +164,11 @@ export function TopBar({ tag, onAnchor }: Props) {
                       <Link
                         to={p.to}
                         onClick={close}
+                        onPointerDown={(event) => {
+                          if (event.pointerType !== "mouse") {
+                            showTouchWave(event.currentTarget);
+                          }
+                        }}
                         className="vexon-menu-link group flex items-baseline gap-2 font-display text-3xl font-extrabold uppercase leading-[1.05] text-muted-foreground transition-colors hover:text-[#ffe9a2] active:text-[#ffe9a2] sm:gap-4 sm:text-5xl md:text-4xl lg:text-5xl xl:text-7xl"
                         activeProps={{
                           className:
@@ -168,6 +196,11 @@ export function TopBar({ tag, onAnchor }: Props) {
                         {onAnchor ? (
                           <a
                             href={`#${id}`}
+                            onPointerDown={(event) => {
+                              if (event.pointerType !== "mouse") {
+                                showTouchWave(event.currentTarget);
+                              }
+                            }}
                             onClick={(e) => {
                               close();
                               onAnchor(`#${id}`)(e);
@@ -182,6 +215,11 @@ export function TopBar({ tag, onAnchor }: Props) {
                             to="/"
                             hash={id}
                             onClick={close}
+                            onPointerDown={(event) => {
+                              if (event.pointerType !== "mouse") {
+                                showTouchWave(event.currentTarget);
+                              }
+                            }}
                             className="vexon-menu-link group flex items-center gap-1 transition-colors hover:text-[#f0cc70] active:text-[#ffe9a2]"
                           >
                             {label}

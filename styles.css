@@ -103,10 +103,16 @@
 .vexon-menu-link:active {
   transform: scale(0.995);
 }
+.vexon-menu-link[data-touching="true"] {
+  transform: scale(0.995);
+}
 .vexon-menu-link:active::before,
 .vexon-menu-link:focus-visible::before {
   background-position: 50% 50%;
   opacity: 0.65;
+}
+.vexon-menu-link[data-touching="true"]::before {
+  animation: vexon-menu-gold-wave 420ms ease-out 1 both;
 }
 .vexon-menu-link:focus-visible {
   outline: 1px solid rgb(240 204 112 / 55%);
@@ -121,6 +127,11 @@
   .vexon-menu-link:hover::before {
     background-position: 50% 50%;
     opacity: 0.45;
+  }
+  .vexon-menu-link[data-touching="true"]::before {
+    animation: none !important;
+    background-position: 50% 50%;
+    opacity: 0.65;
   }
 }
 .guide-widget-dock {
