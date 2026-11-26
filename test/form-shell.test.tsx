@@ -18,12 +18,12 @@ describe("FormShell", () => {
       screen.getByRole("heading", { name: "Join the list" }),
     ).toBeInTheDocument();
     expect(container.querySelector("span.font-display")?.textContent).toContain(
-      "VEXON TECH",
+      "EXON TECH",
     );
     expect(screen.getByText("Get updates by email.")).toBeInTheDocument();
     expect(screen.getByText("Takes about 30 seconds")).toBeInTheDocument();
     const mark = container.querySelector('img[src="/vexon-circuit-v.png"]');
     expect(mark).toBeInTheDocument();
-    expect(mark).toHaveAttribute("aria-hidden", "true");
+    expect(mark).toHaveAttribute("alt", "V");
   });
 });

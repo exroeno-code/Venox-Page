@@ -25,14 +25,6 @@ export function FormShell({
       className={`w-full rounded-lg border bg-card/80 p-6 backdrop-blur-md sm:p-8 ${className}`}
     >
       <div className="mb-7 flex items-center gap-3">
-        <img
-          src="/vexon-circuit-v.png"
-          alt=""
-          aria-hidden="true"
-          width={512}
-          height={512}
-          className="size-9 shrink-0 object-contain"
-        />
         <span className="font-display text-xl font-extrabold tracking-tight sm:text-2xl">
           <Wordmark />
         </span>

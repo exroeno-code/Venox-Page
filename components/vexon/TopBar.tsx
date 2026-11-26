@@ -75,14 +75,6 @@ export function TopBar({ tag, onAnchor }: Props) {
           to="/"
           className="flex items-center gap-2 font-display text-3xl font-extrabold tracking-tight md:text-4xl"
         >
-          <img
-            src="/vexon-circuit-v.png"
-            alt=""
-            aria-hidden="true"
-            width={512}
-            height={512}
-            className="size-9 shrink-0 object-contain md:size-10"
-          />
           <Wordmark />
         </Link>
         {tag && (
@@ -131,14 +123,6 @@ export function TopBar({ tag, onAnchor }: Props) {
                   onClick={close}
                   className="flex items-center gap-2 font-display text-3xl font-extrabold tracking-tight md:text-4xl"
                 >
-                  <img
-                    src="/vexon-circuit-v.png"
-                    alt=""
-                    aria-hidden="true"
-                    width={512}
-                    height={512}
-                    className="size-9 shrink-0 object-contain md:size-10"
-                  />
                   <Wordmark />
                 </Link>
                 <button
