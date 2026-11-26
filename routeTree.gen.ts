@@ -14,6 +14,7 @@ import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CommunityRouteImport } from './routes/community'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as ForexTradingRouteImport } from './routes/forex-trading'
 import { Route as GoodsTradeRouteImport } from './routes/goods-trade'
 import { Route as LeadershipRouteImport } from './routes/leadership'
 import { Route as LearningRouteImport } from './routes/learning'
@@ -50,6 +51,11 @@ const CommunityRoute = CommunityRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForexTradingRoute = ForexTradingRouteImport.update({
+  id: '/forex-trading',
+  path: '/forex-trading',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GoodsTradeRoute = GoodsTradeRouteImport.update({
@@ -119,6 +125,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRouteWithChildren
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
+  '/forex-trading': typeof ForexTradingRoute
   '/goods-trade': typeof GoodsTradeRoute
   '/leadership': typeof LeadershipRoute
   '/learning': typeof LearningRoute
@@ -138,6 +145,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRouteWithChildren
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
+  '/forex-trading': typeof ForexTradingRoute
   '/goods-trade': typeof GoodsTradeRoute
   '/leadership': typeof LeadershipRoute
   '/learning': typeof LearningRoute
@@ -158,6 +166,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRouteWithChildren
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
+  '/forex-trading': typeof ForexTradingRoute
   '/goods-trade': typeof GoodsTradeRoute
   '/leadership': typeof LeadershipRoute
   '/learning': typeof LearningRoute
@@ -179,6 +188,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/community'
     | '/contact'
+    | '/forex-trading'
     | '/goods-trade'
     | '/leadership'
     | '/learning'
@@ -198,6 +208,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/community'
     | '/contact'
+    | '/forex-trading'
     | '/goods-trade'
     | '/leadership'
     | '/learning'
@@ -217,6 +228,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/community'
     | '/contact'
+    | '/forex-trading'
     | '/goods-trade'
     | '/leadership'
     | '/learning'
@@ -237,6 +249,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRouteWithChildren
   CommunityRoute: typeof CommunityRoute
   ContactRoute: typeof ContactRoute
+  ForexTradingRoute: typeof ForexTradingRoute
   GoodsTradeRoute: typeof GoodsTradeRoute
   LeadershipRoute: typeof LeadershipRoute
   LearningRoute: typeof LearningRoute
@@ -284,6 +297,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forex-trading': {
+      id: '/forex-trading'
+      path: '/forex-trading'
+      fullPath: '/forex-trading'
+      preLoaderRoute: typeof ForexTradingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/goods-trade': {
@@ -391,6 +411,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRouteWithChildren,
   CommunityRoute: CommunityRoute,
   ContactRoute: ContactRoute,
+  ForexTradingRoute: ForexTradingRoute,
   GoodsTradeRoute: GoodsTradeRoute,
   LeadershipRoute: LeadershipRoute,
   LearningRoute: LearningRoute,

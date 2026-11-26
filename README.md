@@ -1,1 +1,37 @@
-# VEXON TECH — Internal Site Overview> Internal reference for the VEXON TECH website. This site represents the VEXON TECH brand and its current work; it is not a software product for public installation or reuse.## What VEXON TECH doesVEXON TECH is a proposed technology brand in concept development, built by Enosh Yeswa in Kenya. Its focus is useful ideas and real-world progress. The website explains the brand, its workstreams, and ways people can express interest or get in touch.The roadmap distinguishes live website features from ideas that are not yet operating services. In particular, the AI assistant, Goods Trade, learning classes, and trading education are concepts or planned offerings unless their current roadmap status says otherwise. An application or waitlist submission is an expression of interest, not confirmation of a class, service, fee, accreditation, or start date.## How the site works| Area | What visitors can do | Current behavior || --- | --- | --- || Home (`/`) | Learn about the VEXON TECH brand, its principles, and workstreams. | Brand and information page. || Roadmap (`/roadmap`) | Review progress and updates. | Items are marked Idea, Prototype, Pilot, or Live; keep the label aligned with actual status. || Learning (`/learning`) | Browse computing programmes by level and submit an application of interest. | Applications are validated and saved in Supabase. They do not guarantee a place or indicate confirmed course details. || AI Assistant (`/assistant`) | Read about the assistant concept and join its waitlist. | The future assistant is not itself a live offering; sign-ups are stored in Supabase. || VEXON Guide | Ask about VEXON TECH, its workstreams, the roadmap, or site information. | The `/api/guide` endpoint sends requests to NVIDIA when configured, then uses built-in company-aware answers if NVIDIA is unavailable. It is constrained to site facts and must not provide investment advice or invent unconfirmed details. || Trading (`/trading`) | Read about the proposed trading-education workstream and its risk notice. | Education only; no investment advice, trade signals, money management, deposits, or broker endorsements. || Goods Trade (`/goods-trade`) | Read about the goods-commerce concept. | No goods are represented as currently for sale. || Community (`/community`) | Follow links to VEXON WhatsApp groups and channel. | External community links. || Contact (`/contact`) | Send an enquiry. | The form validates the message and stores it in Supabase. || Accounts (`/auth`, `/profile`) | Create an account, sign in with email/password or Google, or request a WhatsApp phone OTP. | First-time users are offered optional onboarding; they can skip and complete it later from their profile. Preferences are stored in their own RLS-protected Supabase row. |
+# VEXON TECH — Internal Site Overview
+
+This repository contains the VEXON TECH information website. The site explains the brand, its workstreams, and ways visitors can express interest or get in touch. It is not itself a software product for public installation or reuse.
+
+## Current positioning
+
+VEXON TECH is a builder-led venture in concept development, based in Kenya. Its focus is useful ideas and real-world progress. The roadmap is the source of truth for the status of each workstream; do not describe an idea or planned offering as live.
+
+The online forex trading workstream is at **Idea** stage. VEXON TECH does not currently provide a forex platform or brokerage, trading accounts, deposits, trade execution, signals, money management, broker endorsements, or personalized financial advice. Forex and CFDs carry a high risk of loss. The separate `/trading` page describes proposed trading education and is not financial advice.
+
+## Main routes
+
+| Area                 | Route               | Visitor-facing behavior                                                                                     |
+| -------------------- | ------------------- | ----------------------------------------------------------------------------------------------------------- |
+| Home                 | `/`                 | Brand, foundation, principles, and workstreams.                                                             |
+| AI Assistant         | `/assistant`        | Concept page and waitlist; the future assistant is not yet a live offering.                                 |
+| Online Forex Trading | `/forex-trading`    | Idea-stage concept page with explicit no-broker/no-live-service boundaries and a risk notice.               |
+| Legacy URL           | `/goods-trade`      | Redirects to `/forex-trading` so old bookmarks remain usable.                                               |
+| Roadmap              | `/roadmap`          | Initiatives labelled Idea, Prototype, Pilot, or Live; keep status aligned with reality.                     |
+| Learning             | `/learning`         | Computing programmes and applications of interest; fees, accreditation, and dates are unconfirmed.          |
+| Trading              | `/trading`          | Proposed trading education, with risk notice; no personalized investment advice.                            |
+| Community            | `/community`        | WhatsApp community group, official channel, and trading group.                                              |
+| Leadership           | `/leadership`       | People behind VEXON TECH.                                                                                   |
+| Contact              | `/contact`          | Enquiry form and public channels.                                                                           |
+| Accounts             | `/auth`, `/profile` | Sign-in, profile, and optional onboarding. Preferences are stored in the user's RLS-protected Supabase row. |
+
+## Guide and onboarding
+
+The VEXON TECH guide uses curated local answers first for common site questions, including page navigation, forex concept status, trading education, learning, roadmap, community, and contact details. Only unmatched questions call the configured NVIDIA chat service; that request has an 8-second timeout and falls back to the local answer set. The prompt is grounded in the current site facts and must not invent product details or provide investment advice.
+
+The welcome tour is step-by-step and dismissible. Hovering the golden V may play a sound but must not open the guide; click or tap opens it. Keep the launcher comfortable to use with touch input.
+
+The onboarding form offers online forex as a current interest. Existing `responsible_goods_trade` selections are retained as a legacy preference and remain editable; do not silently convert that historical value to a forex interest. The additive SQL change is in `supabase/migrations/20261126010000_online_forex_interest.sql`.
+
+## Development
+
+Use `bun run build`, `bun run lint`, and `bun run test` for local checks. The route tree is generated by the TanStack Start Vite plugin. The static page route inventory lives at `public/manus-routes.json`.

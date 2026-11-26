@@ -57,7 +57,8 @@ export function getOrganizationSchema(siteUrl: string): OrganizationSchema {
     name: "VEXON TECH",
     url: siteUrl,
     logo: `${siteUrl}/favicon.svg`,
-    description: "VEXON TECH — useful ideas, real-world progress. A builder-led venture exploring practical software, responsible AI-enabled workflows, and goods-based commerce.",
+    description:
+      "VEXON TECH — useful ideas, real-world progress. A builder-led venture exploring practical software, responsible AI-enabled workflows, and an early online forex trading concept.",
     sameAs: [
       "https://github.com/exroeno-code/Venox-Page",
       "https://x.com/vexontech",
@@ -80,7 +81,10 @@ export function getWebSiteSchema(siteUrl: string): WebSiteSchema {
     url: siteUrl,
     potentialAction: {
       "@type": "SearchAction",
-      target: { "@type": "EntryPoint", urlTemplate: `${siteUrl}/search?q={search_term_string}` },
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${siteUrl}/search?q={search_term_string}`,
+      },
       "query-input": "required name=search_term_string",
     },
   };
@@ -189,7 +193,11 @@ export function getLearningFAQSchema(): FAQSchema {
 }
 
 /** Product schema for a concept-stage offering (pre-order / waitlist) */
-export function getConceptProductSchema(siteUrl: string, name: string, description: string): ProductSchema {
+export function getConceptProductSchema(
+  siteUrl: string,
+  name: string,
+  description: string,
+): ProductSchema {
   return {
     "@context": "https://schema.org",
     "@type": "Product",

@@ -6,6 +6,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { resetAuthForTesting, signUp } from "@/lib/auth-core";
 import {
   getMyOnboarding,
+  helpTopicOptionsFor,
   saveMyOnboarding,
   shouldPromptForOnboarding,
   skipMyOnboarding,
@@ -80,6 +81,7 @@ function makeFakeSupabase(initialStatus: "pending" | "completed" = "pending") {
 }
 
 const validAnswers = {
+  role: "business_owner",
   businessOwnership: "yes",
   businessType: "other",
   businessTypeOther: "  Repair services  ",
@@ -157,6 +159,7 @@ describe("optional account onboarding", () => {
     expect(fake.row["onboarding_status"]).toBe("completed");
 
     const edited = await saveMyOnboarding({
+      role: "business_owner",
       businessOwnership: "no",
       businessType: "technology",
       businessTypeOther: "ignore this because answer is no",
@@ -207,6 +210,26 @@ describe("optional account onboarding", () => {
         helpTopics: ["other", "other"],
       }).helpTopics,
     ).toEqual(["other"]);
+    expect(
+      validateOnboardingAnswers({
+        ...validAnswers,
+        helpTopics: ["online_forex_trading"],
+      }).helpTopics,
+    ).toEqual(["online_forex_trading"]);
+    expect(
+      validateOnboardingAnswers({
+        ...validAnswers,
+        helpTopics: ["responsible_goods_trade"],
+      }).helpTopics,
+    ).toEqual(["responsible_goods_trade"]);
+  });
+
+  it("offers forex to everyone and only shows goods trade as a selected legacy preference", () => {
+    expect(helpTopicOptionsFor([])).toContain("online_forex_trading");
+    expect(helpTopicOptionsFor([])).not.toContain("responsible_goods_trade");
+    expect(helpTopicOptionsFor(["responsible_goods_trade"])).toContain(
+      "responsible_goods_trade",
+    );
   });
 
   it("scopes reads and writes to the authenticated user's ID", async () => {

@@ -17,20 +17,20 @@ import {
 } from "@/lib/guide-core";
 
 const GREETING =
-  "Hi, I'm the VEXON Guide. I can explain what VEXON TECH does, what is still a concept, and help you find information or contact the team.";
+  "Hi, I'm the VEXON TECH site guide. I can explain what's on this site, what's only a concept, and where to find the right information or contact the team.";
 const LINK_RE = /\[([^\]]+)\]\(([^)\s]+)\)/g;
 const WELCOME_STEPS = [
   {
-    title: "A guide to VEXON",
-    text: "I can help you explore what VEXON TECH is building and find the right place to start.",
+    title: "Welcome to VEXON TECH",
+    text: "Useful ideas. Real-world progress. Explore practical technology and our early online forex trading concept—shared with clear status, not hype.",
   },
   {
-    title: "Ask anything about this site",
-    text: "Ask about our work, services, plans, or where to find something. I’ll point you in the right direction.",
+    title: "Forex is a concept, not a live service",
+    text: "The online forex idea is at the Idea stage. VEXON TECH is not a broker; there are no trading accounts, deposits, or trades here.",
   },
   {
-    title: "Open me when you’re ready",
-    text: "Tap or click the golden V to open the guide. Hovering only gives a soft sound — it won’t open by itself.",
+    title: "Find a clear next step",
+    text: "Ask about VEXON TECH, the forex concept, learning, or the roadmap. Tap or click the golden V to open the guide; hovering only plays a soft sound. Skip or close this tour whenever you like.",
   },
 ];
 
@@ -214,7 +214,7 @@ export function GuideWidget() {
               </span>
               <div>
                 <h2 className="font-display text-sm font-semibold">
-                  VEXON AI Guide
+                  VEXON TECH Guide
                 </h2>
                 <p className="font-mono text-[0.6rem] uppercase tracking-[0.2em] text-foreground/70">
                   Here to help you explore
@@ -296,7 +296,7 @@ export function GuideWidget() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               maxLength={MAX_CHARS}
-              placeholder="Ask about VEXON TECH or this website…"
+              placeholder="Ask about VEXON TECH, forex, or this website…"
               aria-label="Ask the VEXON Guide"
               className="min-h-11 min-w-0 flex-1 rounded-full border border-white/[0.14] bg-white/[0.045] px-4 py-2.5 text-base text-white outline-none transition-colors placeholder:text-white/45 focus:border-glow/70 focus-visible:ring-2 focus-visible:ring-glow/40"
             />
@@ -403,7 +403,7 @@ export function GuideWidget() {
           }}
           aria-haspopup="dialog"
           aria-label="Open the VEXON AI Guide"
-          className="guide-v-launcher pointer-events-auto relative grid size-[4.75rem] place-items-center rounded-full border border-[#f0cc70]/70 bg-[#100d08]/95 text-[#ffe7a2] shadow-[0_0_22px_2px_rgba(230,185,74,.32),inset_0_0_20px_rgba(230,185,74,.12)] transition-transform duration-300 hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ffe7a2] focus-visible:ring-offset-4 focus-visible:ring-offset-background sm:size-[5.25rem]"
+          className="guide-v-launcher pointer-events-auto relative grid size-16 place-items-center rounded-full border border-[#f0cc70]/70 bg-[#100d08]/95 text-[#ffe7a2] shadow-[0_0_22px_2px_rgba(230,185,74,.32),inset_0_0_20px_rgba(230,185,74,.12)] transition-transform duration-300 hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ffe7a2] focus-visible:ring-offset-4 focus-visible:ring-offset-background sm:size-[4.25rem]"
         >
           <span
             aria-hidden="true"
@@ -411,12 +411,9 @@ export function GuideWidget() {
           />
           <span
             aria-hidden="true"
-            className="guide-v-letter relative -mt-1 font-display text-[3.25rem] font-extrabold italic leading-none tracking-[-0.14em]"
+            className="guide-v-letter relative -mt-1 font-display text-[2.55rem] font-extrabold italic leading-none tracking-[-0.14em]"
           >
             V
-          </span>
-          <span className="absolute -bottom-[1.45rem] rounded-full border border-[#e6b94a]/20 bg-[#100d08]/90 px-2.5 py-1 font-mono text-[0.5rem] uppercase tracking-[0.2em] text-[#e7cc8a]">
-            VEXON GUIDE
           </span>
         </button>
       )}

@@ -1,6 +1,15 @@
 import { describe, expect, it } from "vitest";
 
-import { MAX_CHARS, MAX_MESSAGES, SITE_FACTS, SYSTEM_PROMPT, createRateLimiter, localAnswer, sanitizeMessages } from "@/lib/guide-core";
+import {
+  MAX_CHARS,
+  MAX_MESSAGES,
+  SITE_FACTS,
+  SYSTEM_PROMPT,
+  createRateLimiter,
+  instantLocalAnswer,
+  localAnswer,
+  sanitizeMessages,
+} from "@/lib/guide-core";
 
 describe("sanitizeMessages", () => {
   it("accepts a normal chat that ends with a user message", () => {
@@ -19,11 +28,23 @@ describe("sanitizeMessages", () => {
   it.each([
     ["not an array", "hello"],
     ["empty", []],
-    ["too many", Array.from({ length: MAX_MESSAGES + 1 }, () => ({ role: "user", content: "x" }))],
+    [
+      "too many",
+      Array.from({ length: MAX_MESSAGES + 1 }, () => ({
+        role: "user",
+        content: "x",
+      })),
+    ],
     ["bad role", [{ role: "system", content: "x" }]],
     ["too long", [{ role: "user", content: "x".repeat(MAX_CHARS + 1) }]],
     ["blank", [{ role: "user", content: "   " }]],
-    ["ends with assistant", [{ role: "user", content: "a" }, { role: "assistant", content: "b" }]],
+    [
+      "ends with assistant",
+      [
+        { role: "user", content: "a" },
+        { role: "assistant", content: "b" },
+      ],
+    ],
   ])("rejects %s", (_name, input) => {
     expect(sanitizeMessages(input)).toBeNull();
   });
@@ -51,14 +72,30 @@ describe("localAnswer", () => {
   ])("answers %s with a link to %s", (q, path) => {
     expect(localAnswer(q)).toContain(`(${path})`);
   });
+
+  it("answers common forex questions locally and makes the service status clear", () => {
+    const answer = instantLocalAnswer(
+      "Is VEXON TECH a live online forex broker?",
+    );
+    expect(answer).toContain("not a live broker");
+    expect(answer).toContain("(/forex-trading)");
+    expect(answer).toContain("high risk");
+  });
+
+  it("answers website-navigation questions locally", () => {
+    expect(instantLocalAnswer("What pages are on this website?")).toContain(
+      "(/forex-trading)",
+    );
+  });
 });
 
 describe("company context", () => {
   it("grounds the AI Guide in VEXON's company identity, principles, and current-stage boundaries", () => {
     expect(SITE_FACTS).toContain("builder-led venture");
-    expect(SITE_FACTS).toContain("responsible goods-based commerce");
+    expect(SITE_FACTS).toContain("online forex trading");
+    expect(SITE_FACTS).toContain("not a live broker");
     expect(SITE_FACTS).toContain("Nairobi and Kakamega");
-    expect(SYSTEM_PROMPT).toContain("company-aware guide");
-    expect(SYSTEM_PROMPT).toContain("do not imply planned services are available now");
+    expect(SYSTEM_PROMPT).toContain("company-aware VEXON TECH website guide");
+    expect(SYSTEM_PROMPT).toContain("Do not imply planned services are live");
   });
 });

@@ -1,0 +1,19 @@
+{
+  "routes": [
+    { "path": "/", "title": "Home" },
+    { "path": "/assistant", "title": "AI Assistant" },
+    { "path": "/auth", "title": "Sign in" },
+    { "path": "/auth/reset", "title": "Reset password" },
+    { "path": "/auth/reset-request", "title": "Request password reset" },
+    { "path": "/community", "title": "Community" },
+    { "path": "/contact", "title": "Contact" },
+    { "path": "/forex-trading", "title": "Online Forex Trading" },
+    { "path": "/goods-trade", "title": "Legacy Goods Trade redirect" },
+    { "path": "/leadership", "title": "Leadership" },
+    { "path": "/learning", "title": "Learning" },
+    { "path": "/privacy", "title": "Privacy" },
+    { "path": "/profile", "title": "Profile" },
+    { "path": "/roadmap", "title": "Roadmap" },
+    { "path": "/trading", "title": "Trading education" }
+  ]
+}

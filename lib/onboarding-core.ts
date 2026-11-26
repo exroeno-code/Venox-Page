@@ -30,18 +30,34 @@ export const HELP_TOPICS = [
   "online_presence",
   "business_training",
   "computing_classes",
-  "responsible_goods_trade",
+  "online_forex_trading",
   "other",
 ] as const;
 
-export const HELP_TOPIC_LABELS: Record<(typeof HELP_TOPICS)[number], string> = {
+export const LEGACY_HELP_TOPICS = ["responsible_goods_trade"] as const;
+
+export type HelpTopic =
+  (typeof HELP_TOPICS)[number] | (typeof LEGACY_HELP_TOPICS)[number];
+
+export const HELP_TOPIC_LABELS: Record<HelpTopic, string> = {
   digital_tools: "Digital tools",
   online_presence: "Online presence",
   business_training: "Business training",
   computing_classes: "Computing classes",
-  responsible_goods_trade: "Responsible goods trade",
+  online_forex_trading: "Online forex trading concept",
+  responsible_goods_trade: "Previous interest: goods trade",
   other: "Other",
 };
+
+/** Include a legacy interest only when a returning user still has it selected. */
+export function helpTopicOptionsFor(
+  current: readonly HelpTopic[],
+): HelpTopic[] {
+  return [
+    ...HELP_TOPICS,
+    ...LEGACY_HELP_TOPICS.filter((topic) => current.includes(topic)),
+  ];
+}
 
 export const USER_ROLES = [
   "founder",
@@ -61,7 +77,10 @@ export const USER_ROLE_LABELS: Record<(typeof USER_ROLES)[number], string> = {
   other: "Other",
 };
 
-export const USER_ROLE_DESCRIPTIONS: Record<(typeof USER_ROLES)[number], string> = {
+export const USER_ROLE_DESCRIPTIONS: Record<
+  (typeof USER_ROLES)[number],
+  string
+> = {
   founder: "Building a company or product from the ground up",
   developer: "Writing code, shipping software, exploring AI tools",
   business_owner: "Running an established business, exploring trade",
@@ -71,7 +90,6 @@ export const USER_ROLE_DESCRIPTIONS: Record<(typeof USER_ROLES)[number], string>
 };
 
 export type BusinessType = (typeof BUSINESS_TYPES)[number];
-export type HelpTopic = (typeof HELP_TOPICS)[number];
 export type UserRole = (typeof USER_ROLES)[number];
 export type OnboardingStatus = "pending" | "skipped" | "completed";
 export type BusinessOwnership = "yes" | "no" | "prefer_not_to_say";
@@ -101,7 +119,12 @@ export const EMPTY_ONBOARDING_ANSWERS: OnboardingAnswers = {
 };
 
 export type OnboardingStep = "role" | "business" | "interests" | "complete";
-export const ONBOARDING_STEPS: OnboardingStep[] = ["role", "business", "interests", "complete"];
+export const ONBOARDING_STEPS: OnboardingStep[] = [
+  "role",
+  "business",
+  "interests",
+  "complete",
+];
 export const STEP_LABELS: Record<OnboardingStep, string> = {
   role: "Your role",
   business: "Your business",
@@ -158,7 +181,10 @@ export function validateOnboardingAnswers(input: unknown): OnboardingAnswers {
   const topics = raw["helpTopics"] ?? [];
   if (
     !Array.isArray(topics) ||
-    topics.some((topic) => !HELP_TOPICS.includes(topic as HelpTopic))
+    topics.some(
+      (topic) =>
+        ![...HELP_TOPICS, ...LEGACY_HELP_TOPICS].includes(topic as HelpTopic),
+    )
   ) {
     throw new OnboardingError("Choose help topics from the available options.");
   }
@@ -257,22 +283,29 @@ export async function saveMyRole(role: UserRole): Promise<void> {
   const client = await requireSupabase();
   const { error } = await client
     .from("user_preferences")
-    .upsert({ id: userId, role, onboarding_status: "pending" }, { onConflict: "id" });
-  if (error)
-    throw new OnboardingError(
-      "We could not save your role. Please try again.",
+    .upsert(
+      { id: userId, role, onboarding_status: "pending" },
+      { onConflict: "id" },
     );
+  if (error)
+    throw new OnboardingError("We could not save your role. Please try again.");
 }
 
 /** Save business info (for step 2) */
 export async function saveMyBusiness(
-  input: Pick<OnboardingAnswers, "businessOwnership" | "businessType" | "businessTypeOther">
+  input: Pick<
+    OnboardingAnswers,
+    "businessOwnership" | "businessType" | "businessTypeOther"
+  >,
 ): Promise<void> {
   const userId = requireUserId();
   const client = await requireSupabase();
   const { error } = await client
     .from("user_preferences")
-    .upsert({ id: userId, ...input, onboarding_status: "pending" }, { onConflict: "id" });
+    .upsert(
+      { id: userId, ...input, onboarding_status: "pending" },
+      { onConflict: "id" },
+    );
   if (error)
     throw new OnboardingError(
       "We could not save your business info. Please try again.",
@@ -281,13 +314,16 @@ export async function saveMyBusiness(
 
 /** Save interests (for step 3) */
 export async function saveMyInterests(
-  input: Pick<OnboardingAnswers, "helpTopics" | "helpOther" | "description">
+  input: Pick<OnboardingAnswers, "helpTopics" | "helpOther" | "description">,
 ): Promise<void> {
   const userId = requireUserId();
   const client = await requireSupabase();
   const { error } = await client
     .from("user_preferences")
-    .upsert({ id: userId, ...input, onboarding_status: "pending" }, { onConflict: "id" });
+    .upsert(
+      { id: userId, ...input, onboarding_status: "pending" },
+      { onConflict: "id" },
+    );
   if (error)
     throw new OnboardingError(
       "We could not save your interests. Please try again.",
@@ -300,7 +336,10 @@ export async function completeMyOnboarding(): Promise<void> {
   const client = await requireSupabase();
   const { error } = await client
     .from("user_preferences")
-    .upsert({ id: userId, onboarding_status: "completed" }, { onConflict: "id" });
+    .upsert(
+      { id: userId, onboarding_status: "completed" },
+      { onConflict: "id" },
+    );
   if (error)
     throw new OnboardingError(
       "We could not complete onboarding. Please try again.",

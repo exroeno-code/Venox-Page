@@ -8,13 +8,14 @@ export const SITEMAP_PATHS = [
   "/community",
   "/assistant",
   "/roadmap",
-  "/goods-trade",
+  "/forex-trading",
   "/leadership",
   "/contact",
   "/privacy",
 ] as const;
 
-export type OgImage = "default" | "learning" | "trading" | "community" | "assistant";
+export type OgImage =
+  "default" | "learning" | "trading" | "community" | "assistant";
 
 /** The live address, e.g. https://vexon.tech (set VITE_SITE_URL in Vercel). No trailing slash. */
 export function siteUrl(fallback = ""): string {
@@ -23,7 +24,9 @@ export function siteUrl(fallback = ""): string {
 }
 
 /** og:image and twitter:image tags. Crawlers need an absolute address, so VITE_SITE_URL should be set. */
-export function ogImageMeta(image: OgImage = "default"): Record<string, string>[] {
+export function ogImageMeta(
+  image: OgImage = "default",
+): Record<string, string>[] {
   const url = `${siteUrl()}/og/og-${image}.png`;
   return [
     { property: "og:image", content: url },
@@ -36,7 +39,8 @@ export function ogImageMeta(image: OgImage = "default"): Record<string, string>[
 export function sitemapXml(origin: string, lastmod: string): string {
   const base = origin.replace(/\/+$/, "");
   const urls = SITEMAP_PATHS.map(
-    (p) => `  <url><loc>${base}${p === "/" ? "/" : p}</loc><lastmod>${lastmod}</lastmod></url>`,
+    (p) =>
+      `  <url><loc>${base}${p === "/" ? "/" : p}</loc><lastmod>${lastmod}</lastmod></url>`,
   ).join("\n");
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
 }
