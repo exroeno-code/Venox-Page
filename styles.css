@@ -119,8 +119,8 @@ html.lenis, html.lenis body { height: auto; }
   flex-direction: column;
   width: 100%;
   min-height: 100dvh;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow-x: clip;
+  overflow-y: visible;
   background: #0a1510;
   color: var(--auth-ink);
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -456,6 +456,29 @@ body:has(.auth-reference) .guide-widget-dock {
   background: #f6f9f3;
 }
 
+.auth-reference__social--instagram {
+  border-color: transparent;
+  background: linear-gradient(135deg, #fdf497 0%, #fd5949 45%, #d6249f 68%, #285aeb 100%);
+  color: #fff;
+}
+
+.auth-reference__social.auth-reference__social--instagram:hover {
+  border-color: transparent;
+  background: linear-gradient(135deg, #fdf497 0%, #fd5949 45%, #d6249f 68%, #285aeb 100%);
+  filter: saturate(1.12);
+}
+
+.auth-reference__social--whatsapp {
+  border-color: #25d366;
+  background: #25d366;
+  color: #fff;
+}
+
+.auth-reference__social.auth-reference__social--whatsapp:hover {
+  border-color: #20b85a;
+  background: #20b85a;
+}
+
 .auth-reference__social svg {
   flex: none;
   width: 22px;
@@ -599,7 +622,7 @@ body:has(.auth-reference) .guide-widget-dock {
 
   .auth-reference__screen {
     min-height: 62dvh;
-    margin-top: max(36dvh, 260px);
+    margin-top: max(36dvh, 240px);
     padding-top: 21px;
   }
 
