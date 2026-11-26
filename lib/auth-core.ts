@@ -259,7 +259,7 @@ export async function sendPasswordReset(input: string): Promise<void> {
   validateEmail(email);
   const supabase = await requireClient();
   const origin = siteOrigin();
-  const { error } = await supabase.auth.resetPasswordForEmail(email, origin ? { redirectTo: `${origin}/auth` } : {});
+  const { error } = await supabase.auth.resetPasswordForEmail(email, origin ? { redirectTo: `${origin}/auth/reset` } : {});
   if (error) throw toAuthError(error);
 }
 
@@ -444,27 +444,6 @@ export async function signOut(): Promise<void> {
     /* the local session is cleared either way */
   }
   setState({ status: "signed-out" });
-}
-
-/** Sends a password reset email to the given address. */
-export async function sendPasswordReset(email: string): Promise<void> {
-  const cleanEmail = normalizeEmail(email);
-  validateEmail(cleanEmail);
-  const supabase = await requireClient();
-  const { error } = await supabase.auth.resetPasswordForEmail(cleanEmail, {
-    redirectTo: siteOrigin() + "/auth/reset",
-  });
-  if (error) throw toAuthError(error);
-}
-
-/** Updates the password for the currently signed-in user (after OTP verification). */
-export async function updatePassword(newPassword: string): Promise<void> {
-  if (newPassword.length < MIN_PASSWORD_LENGTH) {
-    throw new AuthError(`Password must be at least ${MIN_PASSWORD_LENGTH} characters.`);
-  }
-  const supabase = await requireClient();
-  const { error } = await supabase.auth.updateUser({ password: newPassword });
-  if (error) throw toAuthError(error);
 }
 
 /** Deletes the currently signed-in user's account. */
