@@ -1,5 +1,5 @@
-import { Link, useLocation } from "@tanstack/react-router";
-import { ArrowUp, Layers3, X } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { ArrowDown, ArrowUp, Layers3, Sparkles, X } from "lucide-react";
 import {
   Fragment,
   useEffect,
@@ -58,10 +58,10 @@ function renderReply(text: string, onNavigate: () => void): ReactNode[] {
   return out.map((n, k) => <Fragment key={k}>{n}</Fragment>);
 }
 
-/** Floating "Ask AI for guides" button and chat panel, shown on every page. */
+/** Centered VEXON Guide launcher and chat panel, shown on every page. */
 export function GuideWidget() {
-  const pathname = useLocation({ select: (location) => location.pathname });
-  const [open, setOpen] = useState(pathname === "/");
+  const [open, setOpen] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(false);
   const [messages, setMessages] = useState<GuideMessage[]>([]);
   const [input, setInput] = useState("");
   const [pending, setPending] = useState(false);
@@ -71,8 +71,28 @@ export function GuideWidget() {
   const shouldFocusInput = useRef(false);
 
   useEffect(() => {
-    setOpen(pathname === "/");
-  }, [pathname]);
+    try {
+      setShowWelcome(
+        window.localStorage.getItem("vexon-guide-welcomed") !== "yes",
+      );
+    } catch {
+      setShowWelcome(true);
+    }
+  }, []);
+
+  function dismissWelcome() {
+    setShowWelcome(false);
+    try {
+      window.localStorage.setItem("vexon-guide-welcomed", "yes");
+    } catch {
+      // The welcome cue can still be dismissed for this visit when storage is unavailable.
+    }
+  }
+
+  function openGuide() {
+    dismissWelcome();
+    setOpen(true);
+  }
 
   useEffect(() => {
     if (!open) return;
@@ -128,12 +148,12 @@ export function GuideWidget() {
   }
 
   return (
-    <div className="guide-widget-dock fixed inset-x-0 z-50 flex flex-col items-end px-3 pointer-events-none sm:px-5">
+    <div className="guide-widget-dock fixed inset-x-0 z-50 flex flex-col items-center px-3 pointer-events-none">
       {open && (
         <section
           role="dialog"
           aria-label="VEXON Guide"
-          className="pointer-events-auto mb-3 flex max-h-[min(34rem,calc(100dvh-5.5rem))] w-full max-w-[24rem] flex-col overflow-hidden rounded-[1.6rem] border border-white/20 bg-[#111111]/85 text-foreground shadow-[0_24px_90px_-24px_rgba(0,0,0,.8)] backdrop-blur-2xl animate-in fade-in slide-in-from-bottom-4"
+          className="pointer-events-auto mb-5 flex max-h-[min(34rem,calc(100dvh-8rem))] w-full max-w-[24rem] flex-col overflow-hidden rounded-[1.6rem] border border-[#e6b94a]/35 bg-[#111111]/90 text-foreground shadow-[0_24px_90px_-24px_rgba(0,0,0,.8),0_0_50px_-24px_rgba(230,185,74,.65)] backdrop-blur-2xl animate-in fade-in slide-in-from-bottom-4"
         >
           <header className="flex shrink-0 items-center justify-between border-b border-white/10 bg-white/[0.035] px-4 py-3">
             <div className="flex items-center gap-3">
@@ -243,24 +263,65 @@ export function GuideWidget() {
         </section>
       )}
 
+      {!open && showWelcome && (
+        <div className="guide-welcome pointer-events-auto absolute bottom-[calc(100%+1.25rem)] left-1/2 w-[min(21rem,calc(100vw-2rem))] -translate-x-1/2 rounded-2xl border border-[#e6b94a]/35 bg-[#111111]/95 px-4 py-3.5 text-center shadow-[0_16px_50px_-20px_rgba(230,185,74,.5)] backdrop-blur-xl animate-in fade-in slide-in-from-bottom-2">
+          <button
+            type="button"
+            aria-label="Dismiss welcome message"
+            onClick={dismissWelcome}
+            className="absolute right-2 top-2 grid size-8 place-items-center rounded-full text-white/55 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e6b94a]/70"
+          >
+            <X className="size-3.5" />
+          </button>
+          <p className="flex items-center justify-center gap-2 font-mono text-[0.62rem] uppercase tracking-[0.2em] text-[#f0cc70]">
+            <Sparkles className="size-3.5" /> Your VEXON guide
+          </p>
+          <p className="mt-2 pr-3 text-sm leading-relaxed text-white/80">
+            New here? Tap the golden V and I’ll help you find your way around.
+          </p>
+          <button
+            type="button"
+            onClick={openGuide}
+            className="mt-2 min-h-10 rounded-full px-4 font-mono text-[0.65rem] uppercase tracking-[0.15em] text-[#f0cc70] transition-colors hover:bg-[#e6b94a]/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e6b94a]/70"
+          >
+            Meet the guide
+          </button>
+          <ArrowDown
+            aria-hidden="true"
+            className="absolute -bottom-6 left-1/2 size-5 -translate-x-1/2 text-[#f0cc70] drop-shadow-[0_0_8px_rgba(230,185,74,.9)]"
+          />
+        </div>
+      )}
+
       {!open && (
         <button
           ref={openButton}
           type="button"
+          onMouseEnter={() => {
+            if (window.matchMedia("(hover: hover) and (pointer: fine)").matches)
+              openGuide();
+          }}
           onClick={() => {
             shouldFocusInput.current = true;
-            setOpen(true);
+            openGuide();
           }}
           aria-haspopup="dialog"
-          className="bracket-btn pointer-events-auto flex min-h-12 items-center gap-3 rounded-full bg-background/55 px-5 py-3 font-mono text-xs uppercase tracking-[0.14em] text-foreground shadow-xl shadow-black/30 backdrop-blur-2xl transition-all hover:-translate-y-0.5 hover:bg-background/75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 sm:px-6"
+          aria-label="Open the VEXON AI Guide"
+          className="guide-v-launcher pointer-events-auto relative grid size-[4.75rem] place-items-center rounded-full border border-[#f0cc70]/70 bg-[#100d08]/95 text-[#ffe7a2] shadow-[0_0_22px_2px_rgba(230,185,74,.32),inset_0_0_20px_rgba(230,185,74,.12)] transition-transform duration-300 hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ffe7a2] focus-visible:ring-offset-4 focus-visible:ring-offset-background sm:size-[5.25rem]"
         >
           <span
             aria-hidden="true"
-            className="font-display text-base font-extrabold leading-none text-chrome"
+            className="guide-v-halo absolute -inset-2 rounded-full border border-[#e6b94a]/30"
+          />
+          <span
+            aria-hidden="true"
+            className="guide-v-letter relative -mt-1 font-display text-[3.25rem] font-extrabold italic leading-none tracking-[-0.14em]"
           >
             V
           </span>
-          Ask AI for guides
+          <span className="absolute -bottom-[1.45rem] rounded-full border border-[#e6b94a]/20 bg-[#100d08]/90 px-2.5 py-1 font-mono text-[0.5rem] uppercase tracking-[0.2em] text-[#e7cc8a]">
+            VEXON GUIDE
+          </span>
         </button>
       )}
     </div>
