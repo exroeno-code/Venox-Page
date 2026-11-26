@@ -119,7 +119,8 @@ html.lenis, html.lenis body { height: auto; }
   flex-direction: column;
   width: 100%;
   min-height: 100dvh;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   background: #0a1510;
   color: var(--auth-ink);
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -218,7 +219,7 @@ body:has(.auth-reference) .guide-widget-dock {
   position: relative;
   z-index: 3;
   display: none;
-  flex: 1;
+  flex: 1 0 auto;
   flex-direction: column;
   width: 100%;
   min-height: 58dvh;
@@ -569,6 +570,55 @@ body:has(.auth-reference) .guide-widget-dock {
 .auth-reference button:focus-visible {
   outline: 3px solid #83b93d;
   outline-offset: 3px;
+}
+
+@media (max-width: 390px) {
+  .auth-reference__screen {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .auth-reference__card {
+    gap: 14px;
+  }
+
+  .auth-reference__socials {
+    gap: 8px;
+  }
+}
+
+@media (max-height: 700px) and (max-width: 719px) {
+  .auth-reference__hero {
+    height: 45dvh;
+    min-height: 240px;
+  }
+
+  .auth-reference__welcome {
+    top: clamp(72px, 14vh, 100px);
+  }
+
+  .auth-reference__screen {
+    min-height: 62dvh;
+    margin-top: max(36dvh, 260px);
+    padding-top: 21px;
+  }
+
+  .auth-reference__brand {
+    margin-bottom: 17px;
+  }
+
+  .auth-reference h1 {
+    margin-bottom: 16px;
+    font-size: 31px;
+  }
+
+  .auth-reference__field input {
+    height: 54px;
+  }
+
+  .auth-reference__button {
+    min-height: 50px;
+  }
 }
 
 @media (min-width: 720px) {
