@@ -4,6 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 
 import { ParticleField } from "@/components/vexon/ParticleField";
 import { Wordmark } from "@/components/vexon/Wordmark";
+import { InstagramIcon, WhatsAppIcon } from "@/components/vexon/SocialIcons";
 import {
   ACCOUNTS_CONFIGURED,
   AuthError,
@@ -18,6 +19,7 @@ import {
   verifyWhatsAppOtp,
 } from "@/lib/auth-core";
 import { useAuth } from "@/lib/use-auth";
+import { SITE } from "@/lib/site-config";
 
 const TITLE = "Vexon account — VEXON TECH";
 const DESC = "Create a Vexon account or sign in to follow the VEXON TECH build.";
@@ -38,10 +40,10 @@ export const Route = createFileRoute("/auth")({
 type Mode = "create" | "signin";
 
 const FIELD =
-  "w-full rounded-md border bg-background/60 px-4 py-3 text-base outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-glow focus-visible:ring-2 focus-visible:ring-glow/40";
-const LABEL = "mb-2 block font-mono text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground";
+  "field-input w-full rounded-md border bg-background/60 px-4 py-3 text-base outline-none placeholder:text-muted-foreground/60 focus:border-glow focus-visible:ring-2 focus-visible:ring-glow/40";
+const LABEL = "field-label mb-2 block font-mono text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground";
 const BUTTON =
-  "bracket-btn w-full px-7 py-4 font-mono text-sm uppercase tracking-[0.2em] transition-colors hover:bg-foreground/5 disabled:opacity-60";
+  "form-btn bracket-btn w-full px-7 py-4 font-mono text-sm uppercase tracking-[0.2em] transition-colors hover:bg-foreground/5 disabled:opacity-60";
 
 function AuthPage() {
   const auth = useAuth();
@@ -228,7 +230,7 @@ function AuthPage() {
                 key={mode}
                 onSubmit={onSubmit}
                 noValidate
-                className="mt-6 space-y-5"
+                className="form-shell form-stagger mt-6 space-y-5"
               >
                 {mode === "create" && (
                   <div>
@@ -264,7 +266,7 @@ function AuthPage() {
                   )}
                 </div>
 
-                <button type="submit" disabled={pending} className={BUTTON}>
+                <button type="submit" disabled={pending} className={BUTTON} data-loading={pending}>
                   {pending ? (mode === "create" ? "Creating account…" : "Signing in…") : mode === "create" ? "Create account" : "Sign in"}
                 </button>
               </form>
@@ -285,13 +287,66 @@ function AuthPage() {
                 </>
               )}
 
+              {/* Social login buttons - WhatsApp & Instagram */}
+              <div className="my-6 flex items-center gap-4 font-mono text-[0.7rem] text-muted-foreground">
+                <span className="h-px flex-1 bg-border" /> or continue with <span className="h-px flex-1 bg-border" />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <a
+                  href={SITE.whatsappUrl}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="whatsapp-login-btn flex items-center justify-center gap-3 rounded-md border px-7 py-3.5 text-sm font-medium outline-none transition-all duration-300 focus-visible:ring-2 focus-visible:ring-green-500/60"
+                  style={{
+                    borderColor: "oklch(0.45 0.15 145 / 0.4)",
+                    background: "oklch(0.45 0.15 145 / 0.1)",
+                    color: "oklch(0.45 0.15 145)"
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = "oklch(0.45 0.15 145)";
+                    e.currentTarget.style.background = "oklch(0.45 0.15 145)";
+                    e.currentTarget.style.color = "white";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = "oklch(0.45 0.15 145 / 0.4)";
+                    e.currentTarget.style.background = "oklch(0.45 0.15 145 / 0.1)";
+                    e.currentTarget.style.color = "oklch(0.45 0.15 145)";
+                  }}
+                >
+                  <WhatsAppIcon className="size-5" /> WhatsApp
+                </a>
+                <a
+                  href={SITE.instagram.url}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="instagram-login-btn flex items-center justify-center gap-3 rounded-md border px-7 py-3.5 text-sm font-medium outline-none transition-all duration-300 focus-visible:ring-2 focus-visible:ring-pink-500/60"
+                  style={{
+                    borderColor: "oklch(0.55 0.25 340 / 0.4)",
+                    background: "oklch(0.55 0.25 340 / 0.1)",
+                    color: "oklch(0.55 0.25 340)"
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = "oklch(0.55 0.25 340)";
+                    e.currentTarget.style.background = "linear-gradient(45deg, oklch(0.55 0.25 340), oklch(0.65 0.22 20), oklch(0.55 0.25 340))";
+                    e.currentTarget.style.color = "white";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = "oklch(0.55 0.25 340 / 0.4)";
+                    e.currentTarget.style.background = "oklch(0.55 0.25 340 / 0.1)";
+                    e.currentTarget.style.color = "oklch(0.55 0.25 340)";
+                  }}
+                >
+                  <InstagramIcon className="size-5" /> Instagram
+                </a>
+              </div>
+
               {ACCOUNTS_CONFIGURED && (
                 <section className="mt-6 border-t pt-6" aria-label="WhatsApp sign-in">
                   <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
                     Or continue with a one-time code on WhatsApp. We’ll create an account if this number is new.
                   </p>
                   {otpTarget ? (
-                    <form onSubmit={onVerifyWhatsAppOtp} className="space-y-4">
+                    <form onSubmit={onVerifyWhatsAppOtp} className="form-stagger space-y-4">
                       <p className="text-sm text-muted-foreground">
                         Enter the 6-digit code sent to <span className="text-foreground">{otpTarget}</span>.
                       </p>
@@ -313,7 +368,7 @@ function AuthPage() {
                           className={FIELD}
                         />
                       </div>
-                      <button type="submit" disabled={pending || whatsAppCode.length !== 6} className={BUTTON}>
+                      <button type="submit" disabled={pending || whatsAppCode.length !== 6} className={BUTTON} data-loading={pending}>
                         {pending ? "Verifying code…" : "Verify code"}
                       </button>
                       <button
@@ -347,7 +402,7 @@ function AuthPage() {
                           className={FIELD}
                         />
                       </div>
-                      <button type="submit" disabled={pending || !whatsAppPhone.trim()} className={BUTTON}>
+                      <button type="submit" disabled={pending || !whatsAppPhone.trim()} className={BUTTON} data-loading={pending}>
                         {pending ? "Sending code…" : "Continue with WhatsApp"}
                       </button>
                     </form>
@@ -356,10 +411,18 @@ function AuthPage() {
               )}
 
               {error && (
-                <p role="alert" className="mt-5 rounded-md border border-red-400/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+                <p role="alert" className="form-error error-message mt-5 rounded-md border border-red-400/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
                   {error}
                 </p>
               )}
+
+              <div className="mt-6 flex items-center gap-4 font-mono text-[0.7rem] text-muted-foreground">
+                <span className="h-px flex-1 bg-border" />
+                <Link to="/auth/reset-request" className="underline-offset-2 hover:text-foreground hover:underline">
+                  Forgot password?
+                </Link>
+                <span className="h-px flex-1 bg-border" />
+              </div>
             </>
           )}
         </div>

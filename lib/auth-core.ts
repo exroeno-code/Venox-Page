@@ -7,7 +7,15 @@
  */
 import type { Session, SupabaseClient, User } from "@supabase/supabase-js";
 
-export type VexonUser = { id: string; name: string; email: string; phone?: string };
+export type VexonUser = {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  avatar_url?: string;
+  bio?: string;
+  social_links?: Record<string, string>;
+};
 
 export type AuthState =
   | { status: "loading" }
@@ -258,6 +266,71 @@ export async function updateDisplayName(input: string): Promise<void> {
   }
 }
 
+export async function updateAvatar(url: string): Promise<void> {
+  if (state.status !== "signed-in") throw new AuthError("Sign in to update your avatar.");
+  const userId = state.user.id;
+  const supabase = await requireClient();
+
+  const { error } = await supabase
+    .from("profiles")
+    .update({ avatar_url: url })
+    .eq("id", userId);
+  if (error) throw new AuthError("We could not save your avatar. Try again in a moment.");
+
+  try {
+    await supabase.auth.updateUser({ data: { avatar_url: url } });
+  } catch {
+    /* the profile row is the source of truth */
+  }
+  if (state.status === "signed-in" && state.user.id === userId) {
+    setState({ status: "signed-in", user: { ...state.user, avatar_url: url } });
+  }
+}
+
+export async function updateBio(bio: string): Promise<void> {
+  const cleanBio = bio.trim();
+  if (cleanBio.length > 500) throw new AuthError("Bio must be 500 characters or fewer.");
+  if (state.status !== "signed-in") throw new AuthError("Sign in to update your bio.");
+  const userId = state.user.id;
+  const supabase = await requireClient();
+
+  const { error } = await supabase
+    .from("profiles")
+    .update({ bio: cleanBio || null })
+    .eq("id", userId);
+  if (error) throw new AuthError("We could not save your bio. Try again in a moment.");
+
+  try {
+    await supabase.auth.updateUser({ data: { bio: cleanBio || null } });
+  } catch {
+    /* the profile row is the source of truth */
+  }
+  if (state.status === "signed-in" && state.user.id === userId) {
+    setState({ status: "signed-in", user: { ...state.user, bio: cleanBio || undefined } });
+  }
+}
+
+export async function updateSocialLinks(links: Record<string, string>): Promise<void> {
+  if (state.status !== "signed-in") throw new AuthError("Sign in to update your links.");
+  const userId = state.user.id;
+  const supabase = await requireClient();
+
+  const { error } = await supabase
+    .from("profiles")
+    .update({ social_links: links })
+    .eq("id", userId);
+  if (error) throw new AuthError("We could not save your links. Try again in a moment.");
+
+  try {
+    await supabase.auth.updateUser({ data: { social_links: links } });
+  } catch {
+    /* the profile row is the source of truth */
+  }
+  if (state.status === "signed-in" && state.user.id === userId) {
+    setState({ status: "signed-in", user: { ...state.user, social_links: links } });
+  }
+}
+
 export async function signOut(): Promise<void> {
   try {
     const supabase = await getClient();
@@ -265,6 +338,36 @@ export async function signOut(): Promise<void> {
   } catch {
     /* the local session is cleared either way */
   }
+  setState({ status: "signed-out" });
+}
+
+/** Sends a password reset email to the given address. */
+export async function sendPasswordReset(email: string): Promise<void> {
+  const cleanEmail = normalizeEmail(email);
+  validateEmail(cleanEmail);
+  const supabase = await requireClient();
+  const { error } = await supabase.auth.resetPasswordForEmail(cleanEmail, {
+    redirectTo: siteOrigin() + "/auth/reset",
+  });
+  if (error) throw toAuthError(error);
+}
+
+/** Updates the password for the currently signed-in user (after OTP verification). */
+export async function updatePassword(newPassword: string): Promise<void> {
+  if (newPassword.length < MIN_PASSWORD_LENGTH) {
+    throw new AuthError(`Password must be at least ${MIN_PASSWORD_LENGTH} characters.`);
+  }
+  const supabase = await requireClient();
+  const { error } = await supabase.auth.updateUser({ password: newPassword });
+  if (error) throw toAuthError(error);
+}
+
+/** Deletes the currently signed-in user's account. */
+export async function deleteAccount(): Promise<void> {
+  if (state.status !== "signed-in") throw new AuthError("Sign in to delete your account.");
+  const supabase = await requireClient();
+  const { error } = await supabase.auth.admin.deleteUser(state.user.id);
+  if (error) throw toAuthError(error);
   setState({ status: "signed-out" });
 }
 
@@ -286,7 +389,15 @@ function toUser(user: User): VexonUser {
     (v): v is string => typeof v === "string" && v.trim().length > 0,
   );
   const fallbackName = email ? email.split("@")[0]! : phone;
-  return { id: user.id, email, phone, name: (fromMeta ?? fallbackName).trim() };
+  return {
+    id: user.id,
+    email,
+    phone,
+    name: (fromMeta ?? fallbackName).trim(),
+    avatar_url: meta["avatar_url"] as string | undefined,
+    bio: meta["bio"] as string | undefined,
+    social_links: meta["social_links"] as Record<string, string> | undefined,
+  };
 }
 
 /** Where Supabase sends people back to after confirming their email. */

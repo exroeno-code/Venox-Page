@@ -24,6 +24,8 @@ import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TradingRouteImport } from './routes/trading'
 import { Route as ApiGuideRouteImport } from './routes/api/guide'
+import { Route as AuthResetRouteImport } from './routes/auth.reset'
+import { Route as AuthResetRequestRouteImport } from './routes/auth.reset-request'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -100,11 +102,21 @@ const ApiGuideRoute = ApiGuideRouteImport.update({
   path: '/api/guide',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthResetRoute = AuthResetRouteImport.update({
+  id: '/reset',
+  path: '/reset',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthResetRequestRoute = AuthResetRequestRouteImport.update({
+  id: '/reset-request',
+  path: '/reset-request',
+  getParentRoute: () => AuthRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/assistant': typeof AssistantRoute
-  '/auth': typeof AuthRoute
+  '/auth': typeof AuthRouteWithChildren
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
   '/goods-trade': typeof GoodsTradeRoute
@@ -117,11 +129,13 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/trading': typeof TradingRoute
   '/api/guide': typeof ApiGuideRoute
+  '/auth/reset': typeof AuthResetRoute
+  '/auth/reset-request': typeof AuthResetRequestRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/assistant': typeof AssistantRoute
-  '/auth': typeof AuthRoute
+  '/auth': typeof AuthRouteWithChildren
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
   '/goods-trade': typeof GoodsTradeRoute
@@ -134,12 +148,14 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/trading': typeof TradingRoute
   '/api/guide': typeof ApiGuideRoute
+  '/auth/reset': typeof AuthResetRoute
+  '/auth/reset-request': typeof AuthResetRequestRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/assistant': typeof AssistantRoute
-  '/auth': typeof AuthRoute
+  '/auth': typeof AuthRouteWithChildren
   '/community': typeof CommunityRoute
   '/contact': typeof ContactRoute
   '/goods-trade': typeof GoodsTradeRoute
@@ -152,6 +168,8 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/trading': typeof TradingRoute
   '/api/guide': typeof ApiGuideRoute
+  '/auth/reset': typeof AuthResetRoute
+  '/auth/reset-request': typeof AuthResetRequestRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -171,6 +189,8 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/trading'
     | '/api/guide'
+    | '/auth/reset'
+    | '/auth/reset-request'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -188,6 +208,8 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/trading'
     | '/api/guide'
+    | '/auth/reset'
+    | '/auth/reset-request'
   id:
     | '__root__'
     | '/'
@@ -205,12 +227,14 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/trading'
     | '/api/guide'
+    | '/auth/reset'
+    | '/auth/reset-request'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AssistantRoute: typeof AssistantRoute
-  AuthRoute: typeof AuthRoute
+  AuthRoute: typeof AuthRouteWithChildren
   CommunityRoute: typeof CommunityRoute
   ContactRoute: typeof ContactRoute
   GoodsTradeRoute: typeof GoodsTradeRoute
@@ -332,13 +356,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiGuideRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/reset': {
+      id: '/auth/reset'
+      path: '/reset'
+      fullPath: '/auth/reset'
+      preLoaderRoute: typeof AuthResetRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/auth/reset-request': {
+      id: '/auth/reset-request'
+      path: '/reset-request'
+      fullPath: '/auth/reset-request'
+      preLoaderRoute: typeof AuthResetRequestRouteImport
+      parentRoute: typeof AuthRoute
+    }
   }
 }
+
+interface AuthRouteChildren {
+  AuthResetRoute: typeof AuthResetRoute
+  AuthResetRequestRoute: typeof AuthResetRequestRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthResetRoute: AuthResetRoute,
+  AuthResetRequestRoute: AuthResetRequestRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AssistantRoute: AssistantRoute,
-  AuthRoute: AuthRoute,
+  AuthRoute: AuthRouteWithChildren,
   CommunityRoute: CommunityRoute,
   ContactRoute: ContactRoute,
   GoodsTradeRoute: GoodsTradeRoute,

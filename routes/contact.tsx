@@ -30,10 +30,10 @@ export const Route = createFileRoute("/contact")({
 });
 
 const FIELD =
-  "w-full rounded-md border bg-background/60 px-4 py-3 text-base outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-glow focus-visible:ring-2 focus-visible:ring-glow/40";
-const LABEL = "mb-2 block font-mono text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground";
+  "field-input w-full rounded-md border bg-background/60 px-4 py-3 text-base outline-none placeholder:text-muted-foreground/60 focus:border-glow focus-visible:ring-2 focus-visible:ring-glow/40";
+const LABEL = "field-label mb-2 block font-mono text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground";
 const BUTTON =
-  "bracket-btn w-full px-7 py-4 font-mono text-sm uppercase tracking-[0.2em] transition-colors hover:bg-foreground/5 disabled:opacity-60";
+  "form-btn bracket-btn w-full px-7 py-4 font-mono text-sm uppercase tracking-[0.2em] transition-colors hover:bg-foreground/5 disabled:opacity-60";
 const WHATSAPP_MESSAGE = "Hello VEXON TECH, I have a question and would prefer to chat on WhatsApp.";
 const WHATSAPP_HREF = `${SITE.whatsappUrl}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
 
@@ -152,7 +152,7 @@ export function Contact() {
                 )}
               </div>
             ) : (
-              <form onSubmit={onSubmit} noValidate className="space-y-4">
+              <form onSubmit={onSubmit} noValidate className="form-shell form-stagger space-y-4">
                 <div>
                   <label htmlFor="name" className={LABEL}>Name</label>
                   <input id="name" name="name" type="text" autoComplete="name" required maxLength={NAME_MAX} className={FIELD} />
@@ -171,11 +171,11 @@ export function Contact() {
                   <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
                 </div>
                 {error && (
-                  <p role="alert" className="rounded-md border border-red-400/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+                  <p role="alert" className="form-error error-message rounded-md border border-red-400/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
                     {error}
                   </p>
                 )}
-                <button type="submit" disabled={pending} className={BUTTON}>
+                <button type="submit" disabled={pending} className={BUTTON} data-loading={pending}>
                   {pending ? "Sending…" : "Send message"}
                 </button>
                 <a href={WHATSAPP_HREF} target="_blank" rel="noreferrer noopener" className={`${BUTTON} inline-flex items-center justify-center gap-2`}>

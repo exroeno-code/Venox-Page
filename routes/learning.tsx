@@ -36,10 +36,10 @@ export const Route = createFileRoute("/learning")({
 });
 
 const FIELD =
-  "w-full rounded-md border bg-background/60 px-4 py-3 text-base outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-glow focus-visible:ring-2 focus-visible:ring-glow/40";
-const LABEL = "mb-2 block font-mono text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground";
+  "field-input w-full rounded-md border bg-background/60 px-4 py-3 text-base outline-none placeholder:text-muted-foreground/60 focus:border-glow focus-visible:ring-2 focus-visible:ring-glow/40";
+const LABEL = "field-label mb-2 block font-mono text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground";
 const BUTTON =
-  "bracket-btn w-full px-7 py-4 font-mono text-sm uppercase tracking-[0.2em] transition-colors hover:bg-foreground/5 disabled:opacity-60";
+  "form-btn bracket-btn w-full px-7 py-4 font-mono text-sm uppercase tracking-[0.2em] transition-colors hover:bg-foreground/5 disabled:opacity-60";
 
 /** Animated backdrop: drifting colour glows, a moving perspective grid and a live particle field. */
 function Scene() {
@@ -234,7 +234,7 @@ function Learning() {
                 <p className="font-mono text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground">Level: {level.label}</p>
 
                 {APPLICATION_FORM_ENABLED ? (
-                  <form onSubmit={onSubmit} noValidate className="mt-6 space-y-5">
+                  <form onSubmit={onSubmit} noValidate className="form-shell form-stagger mt-6 space-y-5">
                     <div>
                       <label htmlFor="ap-phone" className={LABEL}>Phone / WhatsApp</label>
                       <input id="ap-phone" name="phone" type="tel" autoComplete="tel" required placeholder="+254 …" className={FIELD} />
@@ -257,11 +257,11 @@ function Learning() {
                       <input id="ap-website" name="website" type="text" tabIndex={-1} autoComplete="off" />
                     </div>
                     {error && (
-                      <p role="alert" className="rounded-md border border-red-400/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+                      <p role="alert" className="form-error error-message rounded-md border border-red-400/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
                         {error}
                       </p>
                     )}
-                    <button type="submit" disabled={pending} className={BUTTON}>
+                    <button type="submit" disabled={pending} className={BUTTON} data-loading={pending}>
                       {pending ? "Sending…" : "Submit application"}
                     </button>
                     <p className="text-center font-mono text-[0.65rem] text-muted-foreground">

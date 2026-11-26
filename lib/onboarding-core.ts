@@ -43,12 +43,41 @@ export const HELP_TOPIC_LABELS: Record<(typeof HELP_TOPICS)[number], string> = {
   other: "Other",
 };
 
+export const USER_ROLES = [
+  "founder",
+  "developer",
+  "business_owner",
+  "student",
+  "investor",
+  "other",
+] as const;
+
+export const USER_ROLE_LABELS: Record<(typeof USER_ROLES)[number], string> = {
+  founder: "Founder / Entrepreneur",
+  developer: "Developer / Engineer",
+  business_owner: "Business Owner / Operator",
+  student: "Student / Learner",
+  investor: "Investor / Advisor",
+  other: "Other",
+};
+
+export const USER_ROLE_DESCRIPTIONS: Record<(typeof USER_ROLES)[number], string> = {
+  founder: "Building a company or product from the ground up",
+  developer: "Writing code, shipping software, exploring AI tools",
+  business_owner: "Running an established business, exploring trade",
+  student: "Learning computing, building skills, seeking opportunities",
+  investor: "Evaluating ventures, advising founders, allocating capital",
+  other: "None of the above — I'll describe myself",
+};
+
 export type BusinessType = (typeof BUSINESS_TYPES)[number];
 export type HelpTopic = (typeof HELP_TOPICS)[number];
+export type UserRole = (typeof USER_ROLES)[number];
 export type OnboardingStatus = "pending" | "skipped" | "completed";
 export type BusinessOwnership = "yes" | "no" | "prefer_not_to_say";
 
 export type OnboardingAnswers = {
+  role: UserRole | "";
   businessOwnership: BusinessOwnership | "";
   businessType: BusinessType | "";
   businessTypeOther: string;
@@ -62,12 +91,22 @@ export type OnboardingRecord = OnboardingAnswers & {
 };
 
 export const EMPTY_ONBOARDING_ANSWERS: OnboardingAnswers = {
+  role: "",
   businessOwnership: "",
   businessType: "",
   businessTypeOther: "",
   helpTopics: [],
   helpOther: "",
   description: "",
+};
+
+export type OnboardingStep = "role" | "business" | "interests" | "complete";
+export const ONBOARDING_STEPS: OnboardingStep[] = ["role", "business", "interests", "complete"];
+export const STEP_LABELS: Record<OnboardingStep, string> = {
+  role: "Your role",
+  business: "Your business",
+  interests: "Your interests",
+  complete: "All set",
 };
 
 const MAX_DESCRIPTION_CHARS = 500;
@@ -91,6 +130,13 @@ export function validateOnboardingAnswers(input: unknown): OnboardingAnswers {
   if (!input || typeof input !== "object")
     throw new OnboardingError("Check the onboarding form and try again.");
   const raw = input as Record<string, unknown>;
+
+  // Role (required)
+  const role = raw["role"];
+  if (!USER_ROLES.includes(role as UserRole)) {
+    throw new OnboardingError("Choose the role that best describes you.");
+  }
+
   const ownership = raw["businessOwnership"];
   if (!BUSINESS_OWNERSHIP.includes(ownership as BusinessOwnership)) {
     throw new OnboardingError(
@@ -135,6 +181,7 @@ export function validateOnboardingAnswers(input: unknown): OnboardingAnswers {
   const ownsBusiness = ownership === "yes";
 
   return {
+    role: role as UserRole,
     businessOwnership: ownership as BusinessOwnership,
     businessType: ownsBusiness ? (businessType as BusinessType | "") : "",
     businessTypeOther:
@@ -152,7 +199,7 @@ export async function getMyOnboarding(): Promise<OnboardingRecord> {
   const { data, error } = await client
     .from("user_preferences")
     .select(
-      "owns_business,business_type,business_type_other,help_topics,help_other,description,onboarding_status",
+      "role,owns_business,business_type,business_type_other,help_topics,help_other,description,onboarding_status",
     )
     .eq("id", userId)
     .maybeSingle();
@@ -163,6 +210,7 @@ export async function getMyOnboarding(): Promise<OnboardingRecord> {
   if (!data) return { ...EMPTY_ONBOARDING_ANSWERS, status: "pending" };
 
   return {
+    role: (data.role ?? "") as UserRole | "",
     businessOwnership: (data.owns_business ?? "") as BusinessOwnership | "",
     businessType: (data.business_type ?? "") as BusinessType | "",
     businessTypeOther: data.business_type_other ?? "",
@@ -184,6 +232,7 @@ export async function saveMyOnboarding(
   const client = await requireSupabase();
   const row = {
     id: userId,
+    role: answers.role,
     owns_business: answers.businessOwnership,
     business_type: answers.businessType || null,
     business_type_other: answers.businessTypeOther || null,
@@ -200,6 +249,62 @@ export async function saveMyOnboarding(
       "We could not save your preferences. Please try again.",
     );
   return { ...answers, status: "completed" };
+}
+
+/** Save role only (for step 1) */
+export async function saveMyRole(role: UserRole): Promise<void> {
+  const userId = requireUserId();
+  const client = await requireSupabase();
+  const { error } = await client
+    .from("user_preferences")
+    .upsert({ id: userId, role, onboarding_status: "pending" }, { onConflict: "id" });
+  if (error)
+    throw new OnboardingError(
+      "We could not save your role. Please try again.",
+    );
+}
+
+/** Save business info (for step 2) */
+export async function saveMyBusiness(
+  input: Pick<OnboardingAnswers, "businessOwnership" | "businessType" | "businessTypeOther">
+): Promise<void> {
+  const userId = requireUserId();
+  const client = await requireSupabase();
+  const { error } = await client
+    .from("user_preferences")
+    .upsert({ id: userId, ...input, onboarding_status: "pending" }, { onConflict: "id" });
+  if (error)
+    throw new OnboardingError(
+      "We could not save your business info. Please try again.",
+    );
+}
+
+/** Save interests (for step 3) */
+export async function saveMyInterests(
+  input: Pick<OnboardingAnswers, "helpTopics" | "helpOther" | "description">
+): Promise<void> {
+  const userId = requireUserId();
+  const client = await requireSupabase();
+  const { error } = await client
+    .from("user_preferences")
+    .upsert({ id: userId, ...input, onboarding_status: "pending" }, { onConflict: "id" });
+  if (error)
+    throw new OnboardingError(
+      "We could not save your interests. Please try again.",
+    );
+}
+
+/** Mark onboarding as completed without replacing any saved answers. */
+export async function completeMyOnboarding(): Promise<void> {
+  const userId = requireUserId();
+  const client = await requireSupabase();
+  const { error } = await client
+    .from("user_preferences")
+    .upsert({ id: userId, onboarding_status: "completed" }, { onConflict: "id" });
+  if (error)
+    throw new OnboardingError(
+      "We could not complete onboarding. Please try again.",
+    );
 }
 
 /** Mark onboarding as skipped without replacing any saved answers. */

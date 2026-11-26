@@ -99,6 +99,230 @@
   .aurora::before, .aurora::after, .grid-floor { animation: none; }
 }
 
+/* ===========================================
+   FORM ANIMATIONS
+   =========================================== */
+
+/* Staggered entrance for form fields */
+.form-stagger > * {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: form-field-in 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+.form-stagger > *:nth-child(1) { animation-delay: 0.05s; }
+.form-stagger > *:nth-child(2) { animation-delay: 0.1s; }
+.form-stagger > *:nth-child(3) { animation-delay: 0.15s; }
+.form-stagger > *:nth-child(4) { animation-delay: 0.2s; }
+.form-stagger > *:nth-child(5) { animation-delay: 0.25s; }
+.form-stagger > *:nth-child(6) { animation-delay: 0.3s; }
+.form-stagger > *:nth-child(7) { animation-delay: 0.35s; }
+.form-stagger > *:nth-child(8) { animation-delay: 0.4s; }
+
+@keyframes form-field-in {
+  to { opacity: 1; transform: none; }
+}
+
+/* Field focus glow animation */
+.field-input {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+.field-input:focus {
+  animation: field-focus-pulse 1.5s ease-out infinite;
+}
+@keyframes field-focus-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--glow); }
+  50% { box-shadow: 0 0 0 4px var(--glow); }
+}
+
+/* Label float animation on focus/filled */
+.field-group { position: relative; }
+.field-label {
+  transition: transform 0.2s cubic-bezier(0.2, 0.7, 0.2, 1), color 0.2s ease, opacity 0.2s ease;
+  transform-origin: left top;
+}
+.field-input:focus + .field-label,
+.field-input:not(:placeholder-shown) + .field-label,
+.field-input:-webkit-autofill + .field-label {
+  transform: translateY(-1.5rem) scale(0.85);
+  color: var(--glow);
+}
+
+/* Button press/loading animation */
+.form-btn {
+  transition: transform 0.1s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+.form-btn:active:not(:disabled) { transform: scale(0.98); }
+.form-btn:disabled { pointer-events: none; }
+.form-btn[data-loading="true"] {
+  position: relative;
+  color: transparent !important;
+}
+.form-btn[data-loading="true"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, currentColor, transparent);
+  background-size: 200% 100%;
+  animation: btn-loading-shimmer 1.5s infinite;
+  border-radius: inherit;
+}
+@keyframes btn-loading-shimmer {
+  to { background-position: 200% 0; }
+}
+
+/* Error shake animation */
+.form-error {
+  animation: form-error-shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+@keyframes form-error-shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-8px); }
+  40%, 80% { transform: translateX(8px); }
+}
+
+/* Error message slide in */
+.error-message {
+  animation: error-slide-in 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+@keyframes error-slide-in {
+  from { opacity: 0; transform: translateY(-10px) scale(0.95); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Success checkmark animation */
+.success-check {
+  animation: success-pop 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+@keyframes success-pop {
+  0% { transform: scale(0); opacity: 0; }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* FormShell entrance */
+.form-shell {
+  animation: form-shell-in 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+@keyframes form-shell-in {
+  from { opacity: 0; transform: translateY(30px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Floating label variant (for fields with floating label pattern) */
+.floating-field { position: relative; }
+.floating-field input,
+.floating-field textarea {
+  width: 100%;
+  padding: 1rem 0.75rem 0.5rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--foreground);
+  font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.floating-field label {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+  pointer-events: none;
+  transition: transform 0.2s cubic-bezier(0.2, 0.7, 0.2, 1), color 0.2s ease, font-size 0.2s ease;
+  transform-origin: left center;
+}
+.floating-field input:focus,
+.floating-field textarea:focus {
+  outline: none;
+  border-color: var(--glow);
+  box-shadow: 0 0 0 3px var(--glow) / 20%;
+}
+.floating-field input:focus + label,
+.floating-field textarea:focus + label,
+.floating-field input:not(:placeholder-shown) + label,
+.floating-field textarea:not(:placeholder-shown) + label {
+  transform: translateY(-2.25rem) scale(0.8);
+  color: var(--glow);
+  font-size: 0.75rem;
+}
+
+/* Input fill animation on focus */
+.field-fill {
+  position: relative;
+}
+.field-fill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--glow), var(--primary));
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.3s ease;
+  pointer-events: none;
+  z-index: -1;
+}
+.field-fill:focus-within::before {
+  opacity: 0.08;
+  transform: scaleX(1);
+}
+
+/* Character count indicator */
+.char-count {
+  transition: color 0.2s ease;
+}
+.char-count.warning { color: var(--accent); }
+.char-count.danger { color: var(--destructive); animation: count-pulse 1s ease-in-out infinite; }
+@keyframes count-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Toast/notification slide */
+.form-toast {
+  animation: toast-in 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+@keyframes toast-in {
+  from { opacity: 0; transform: translateX(100%) translateY(-50%); }
+  to { opacity: 1; transform: translateX(0) translateY(-50%); }
+}
+
+/* Form progress steps */
+.form-step {
+  transition: all 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.form-step.active {
+  animation: step-activate 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+@keyframes step-activate {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* Prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .form-stagger > *,
+  .field-input:focus,
+  .field-label,
+  .form-btn[data-loading="true"]::after,
+  .form-error,
+  .error-message,
+  .success-check,
+  .form-shell,
+  .floating-field label,
+  .field-fill::before,
+  .char-count.danger,
+  .form-toast,
+  .form-step.active {
+    animation: none !important;
+    transition: none !important;
+  }
+  .form-stagger > * { opacity: 1; transform: none; }
+}
+
 
 /* Lenis smooth scroll (https://lenis.dev) */
 html.lenis, html.lenis body { height: auto; }
