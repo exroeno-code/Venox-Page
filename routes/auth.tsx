@@ -365,7 +365,7 @@ function AuthPage() {
                     id="signup-name"
                     name="name"
                     autoComplete="name"
-                    placeholder="Jane Mwangi"
+                    placeholder="Enosh Yeswa"
                     required
                     maxLength={60}
                   />
