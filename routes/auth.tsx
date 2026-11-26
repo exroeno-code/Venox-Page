@@ -267,7 +267,7 @@ function AuthPage() {
                 <GoogleMark /> Continue with Google
               </button>
             )}
-            {WHATSAPP_ENABLED && (
+            {WHATSAPP_ENABLED ? (
               <button
                 type="button"
                 className="signup-flow__social signup-flow__social--whatsapp"
@@ -279,6 +279,23 @@ function AuthPage() {
               >
                 <WhatsAppIcon className="size-[18px]" /> Continue with WhatsApp
               </button>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  className="signup-flow__social signup-flow__social--whatsapp"
+                  disabled
+                  aria-describedby="whatsapp-auth-note"
+                  title="WhatsApp sign-in requires phone authentication to be enabled in Supabase."
+                >
+                  <WhatsAppIcon className="size-[18px]" />
+                  Continue with WhatsApp
+                </button>
+                <p id="whatsapp-auth-note" className="signup-flow__note">
+                  WhatsApp sign-in is coming soon; phone authentication and
+                  WhatsApp OTP delivery must be enabled in Supabase first.
+                </p>
+              </>
             )}
             <div className="signup-flow__or">or</div>
             <button
