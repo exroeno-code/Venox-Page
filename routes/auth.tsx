@@ -9,13 +9,11 @@ import {
   MIN_PASSWORD_LENGTH,
   WHATSAPP_ENABLED,
   initials,
-  resendSignupEmailOtp,
   sendWhatsAppOtp,
   signIn,
   signInWithGoogle,
   signOut,
   signUp,
-  verifySignupEmailOtp,
   verifyWhatsAppOtp,
 } from "@/lib/auth-core";
 import { useAuth } from "@/lib/use-auth";
@@ -38,7 +36,6 @@ export const Route = createFileRoute("/auth")({
 
 type Mode = "create" | "signin";
 type Stage = "methods" | "email" | "phone" | "code" | "success";
-type CodePath = "email" | "phone";
 
 function GoogleMark() {
   return (
@@ -68,7 +65,6 @@ function AuthPage() {
   const navigate = useNavigate();
   const [mode, setMode] = useState<Mode>("create");
   const [stage, setStage] = useState<Stage>("methods");
-  const [codePath, setCodePath] = useState<CodePath>("email");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [code, setCode] = useState("");
@@ -93,7 +89,7 @@ function AuthPage() {
   function back() {
     setError(null);
     setCode("");
-    if (stage === "code") setStage(codePath === "email" ? "email" : "phone");
+    if (stage === "code") setStage("phone");
     else if (stage === "email" || stage === "phone")
       setStage(mode === "create" ? "methods" : "email");
   }
@@ -120,18 +116,11 @@ function AuthPage() {
     const password = String(data.get("password") ?? "");
     void run(async () => {
       if (mode === "create") {
-        const result = await signUp({
+        await signUp({
           name: String(data.get("name") ?? ""),
           email: inputEmail,
           password,
         });
-        setEmail(inputEmail);
-        if (result.needsConfirmation) {
-          setCodePath("email");
-          setCode("");
-          setStage("code");
-          return;
-        }
       } else {
         await signIn({ email: inputEmail, password });
       }
@@ -142,7 +131,6 @@ function AuthPage() {
     event.preventDefault();
     void run(async () => {
       await sendWhatsAppOtp(phone);
-      setCodePath("phone");
       setCode("");
       setStage("code");
     });
@@ -150,15 +138,13 @@ function AuthPage() {
   function onCodeSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     void run(async () => {
-      if (codePath === "email") await verifySignupEmailOtp(email, code);
-      else await verifyWhatsAppOtp(phone, code);
+      await verifyWhatsAppOtp(phone, code);
       setStage("success");
     });
   }
   function onResendCode() {
     void run(async () => {
-      if (codePath === "email") await resendSignupEmailOtp(email);
-      else await sendWhatsAppOtp(phone);
+      await sendWhatsAppOtp(phone);
       setStatusMessage("New code sent.");
     });
   }
@@ -306,7 +292,7 @@ function AuthPage() {
                 setStage("email");
               }}
             >
-              Use email instead
+              Continue with email and password
             </button>
             <button
               type="button"
@@ -341,7 +327,7 @@ function AuthPage() {
             </h1>
             <p className="signup-flow__sub">
               {mode === "create"
-                ? "Check your inbox for a 6-digit code or confirmation link."
+                ? "Create your account with your email and password."
                 : "Sign in to your Vexon account."}
             </p>
             {!ACCOUNTS_CONFIGURED && (
@@ -487,10 +473,10 @@ function AuthPage() {
           </div>
         ) : (
           <div className="signup-flow__content">
-            <h1 id="auth-title">Enter the code</h1>
+            <h1 id="auth-title">Enter your WhatsApp code</h1>
             <p className="signup-flow__sub">
-              If your details are valid, a code is on its way to{" "}
-              <strong>{codePath === "email" ? email : phone}</strong>.
+              If your number is valid, a code is on its way to{" "}
+              <strong>{phone}</strong>.
             </p>
             {statusMessage && (
               <p
@@ -506,7 +492,7 @@ function AuthPage() {
               noValidate
             >
               <div className="signup-flow__field">
-                <label htmlFor="signup-code">6-digit verification code</label>
+                <label htmlFor="signup-code">6-digit WhatsApp code</label>
                 <input
                   id="signup-code"
                   type="text"
@@ -555,12 +541,6 @@ function AuthPage() {
                 Resend code
               </button>
             </div>
-            {codePath === "email" && (
-              <p className="signup-flow__note">
-                To receive a numeric code, set your Supabase Confirm signup
-                email template to include <code>{"{{ .Token }}"}</code>.
-              </p>
-            )}
           </div>
         )}
 

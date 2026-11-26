@@ -192,7 +192,7 @@ export async function signUp(input: {
   name: string;
   email: string;
   password: string;
-}): Promise<{ needsConfirmation: boolean }> {
+}): Promise<VexonUser> {
   const name = input.name.trim().replace(/\s+/g, " ");
   const email = normalizeEmail(input.email);
   if (name.length < 1) throw new AuthError("Enter your name.");
@@ -208,7 +208,7 @@ export async function signUp(input: {
   const { data, error } = await supabase.auth.signUp({
     email,
     password: input.password,
-    options: { data: { display_name: name }, ...redirectOptions() },
+    options: { data: { display_name: name } },
   });
   if (error) throw toAuthError(error);
   // For an email that already has an account, Supabase answers with a user that has no
@@ -218,42 +218,12 @@ export async function signUp(input: {
       "An account with this email already exists. Sign in instead.",
     );
   }
-  if (data.session) applySession(data.session);
-  return { needsConfirmation: !data.session };
-}
-
-/** Verifies the six-digit signup token delivered by Supabase's email confirmation template. */
-export async function verifySignupEmailOtp(
-  inputEmail: string,
-  inputToken: string,
-): Promise<VexonUser> {
-  const email = normalizeEmail(inputEmail);
-  const token = inputToken.trim();
-  validateEmail(email);
-  if (!/^\d{6}$/.test(token))
-    throw new AuthError("Enter the 6-digit code we sent to your email.");
-  const supabase = await requireClient();
-  const { data, error } = await supabase.auth.verifyOtp({
-    email,
-    token,
-    type: "signup",
-  });
-  if (error) throw toAuthError(error);
   if (!data.session || !data.user)
     throw new AuthError(
-      "We could not verify that code. Request a new one and try again.",
+      "Email confirmation is still enabled. Disable Confirm email in Supabase Auth settings to sign up and sign in without email codes.",
     );
   applySession(data.session);
   return toUser(data.user);
-}
-
-/** Resends the signup confirmation code without exposing Supabase error details. */
-export async function resendSignupEmailOtp(inputEmail: string): Promise<void> {
-  const email = normalizeEmail(inputEmail);
-  validateEmail(email);
-  const supabase = await requireClient();
-  const { error } = await supabase.auth.resend({ type: "signup", email });
-  if (error) throw toAuthError(error);
 }
 
 export async function signIn(input: {
@@ -600,14 +570,8 @@ function toUser(user: User): VexonUser {
   };
 }
 
-/** Where Supabase sends people back to after confirming their email. */
 function siteOrigin(): string {
   return globalThis.location?.origin ?? "";
-}
-
-function redirectOptions(): { emailRedirectTo?: string } {
-  const origin = siteOrigin();
-  return origin ? { emailRedirectTo: origin } : {};
 }
 
 function normalizeEmail(email: string) {
@@ -639,7 +603,7 @@ function toAuthError(error: {
       return new AuthError("Email or password is incorrect.");
     case "email_not_confirmed":
       return new AuthError(
-        "Confirm your email first. Open the link we sent to your inbox, then sign in.",
+        "Email confirmation is still enabled. Disable Confirm email in Supabase Auth settings to use password-only sign-in.",
       );
     case "user_already_exists":
     case "email_exists":

@@ -1,6 +1,6 @@
 # Supabase account setup
 
-The `/auth` page uses the repository's Supabase Auth client. Email/password signup and confirmation, profile provisioning, Google OAuth, and WhatsApp one-time codes are handled by Supabase; there is no demo-mode account creation. Optional provider buttons stay hidden unless the provider is enabled in Supabase and its `VITE_ENABLE_*_AUTH` flag is `true`. The connected Vexon project currently has email auth enabled and Google/phone auth disabled.
+The `/auth` page uses the repository's Supabase Auth client. Email/password signup signs the person in immediately; email confirmation must therefore be disabled in the connected Supabase project. Google and WhatsApp sign-in remain optional providers and are shown only when each provider is enabled in Supabase and its `VITE_ENABLE_*_AUTH` flag is `true`. The connected Vexon project currently has email auth enabled and Google/phone auth disabled.
 
 ## 1. Configure the site
 
@@ -23,28 +23,26 @@ The connected project already had the core profile/preferences tables, signup tr
 
 Before applying changes, verify that the Supabase CLI/project link targets the intended project. Account and profile data are durable user data; do not test by deleting production records.
 
-## 3. Enable signup email codes
+## 3. Allow password-only signup (no email code)
 
-In Supabase Dashboard, open **Authentication → Email Templates → Confirm signup** and make sure the template displays the one-time code, for example:
+In the Supabase Dashboard, open **Authentication → Sign In / Providers → User Signups** and turn **Confirm email** off. With this setting disabled, Supabase returns a session after email/password signup, and the user is signed in immediately. The VEXON signup flow intentionally does not ask for or resend an email verification code.
 
-```html
-<p>Your Vexon confirmation code is <strong>{{ .Token }}</strong>.</p>
-```
+If **Confirm email** is still on, Supabase may send a confirmation message and withhold the session; the app will show a setup error rather than pretending that the user is signed in. Disable the setting in the correct Supabase project and test a new account before launch.
 
-The account page accepts a six-digit token and verifies it with Supabase Auth `verifyOtp` using type `signup`. If the template only contains a confirmation link, users will not see the code required by this page. Configure SMTP/deliverability and confirmation policy in Supabase before production use.
+**Security tradeoff:** without email confirmation, users can register an email address they do not own, so do not rely on account email as a verified contact address. Password sign-in and the existing profile row-level security remain in place. Consider rate limits or abuse protection if account creation is exposed publicly. Password-reset emails still use Supabase's recovery link; this change removes signup verification codes, not account recovery.
 
-Set the Supabase **Site URL** to the deployed Vexon origin and add each intended local and production origin under **Redirect URLs**. The app returns users to the current site origin after confirmation or OAuth. Email signup is enabled in the connected project, signup is not globally disabled, and email confirmations are required; verify that the Confirm signup template includes `{{ .Token }}` because the page accepts a six-digit code.
+Set the Supabase **Site URL** to the deployed VEXON origin and add each intended local and production origin under **Redirect URLs** for OAuth and password-recovery links.
 
 ## 4. Optional social/phone providers
 
 - **Google:** Enable Google under **Authentication → Providers**, configure Google OAuth client credentials and the Supabase callback URL in Google Cloud, then set `VITE_ENABLE_GOOGLE_AUTH=true`. Keep it `false` until the provider is working. Credentials stay in provider settings, not in frontend code.
-- **WhatsApp:** Configure phone authentication and the WhatsApp delivery channel/provider in Supabase (including the required Twilio/WhatsApp credentials and templates for the chosen setup), then set `VITE_ENABLE_WHATSAPP_AUTH=true`. Keep it `false` until delivery works. Test to an authorized number and check rate limits before launch. The app submits E.164 numbers such as `+254712345678` and verifies the returned six-digit code through Supabase.
+- **WhatsApp:** Configure phone authentication and the WhatsApp delivery channel/provider in Supabase (including the required Twilio/WhatsApp credentials and templates for the chosen setup), then set `VITE_ENABLE_WHATSAPP_AUTH=true`. WhatsApp phone sign-in still uses a one-time code, independent of email/password sign-in. Test to an authorized number and check rate limits before launch.
 - **Instagram:** Instagram is shown as unavailable rather than as a false login. Supabase Auth does not provide a supported Instagram identity provider for this flow. Do not route it to the public Instagram profile and describe that as authentication. A future implementation needs a supported identity/auth architecture, not an Instagram URL.
 
 ## 5. Verify before launch
 
-1. Confirm the Vexon origin is listed in Supabase Auth's site/redirect settings.
+1. Confirm the VEXON origin is listed in Supabase Auth's site/redirect settings.
 2. Confirm all project migrations ran successfully and `public.profiles` has RLS enabled.
-3. Test email signup, the actual email code, sign-in, sign-out, Google (if enabled), and WhatsApp (if enabled) with test accounts/numbers.
+3. Confirm **Confirm email** is off, then test email/password signup, immediate sign-in, sign-out, and password recovery. Test Google and WhatsApp only if enabled.
 4. Confirm the profile row is created for a new user and that the browser uses only the publishable key.
 5. Configure the production hosting environment variables and redeploy after values are added. A local build without project credentials validates compilation only; it does not prove a live Supabase connection.

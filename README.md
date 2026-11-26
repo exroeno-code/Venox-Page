@@ -10,19 +10,19 @@ The online forex trading workstream is at **Idea** stage. VEXON TECH does not cu
 
 ## Main routes
 
-| Area                 | Route               | Visitor-facing behavior                                                                                     |
-| -------------------- | ------------------- | ----------------------------------------------------------------------------------------------------------- |
-| Home                 | `/`                 | Brand, foundation, principles, and workstreams.                                                             |
-| AI Assistant         | `/assistant`        | Concept page and waitlist; the future assistant is not yet a live offering.                                 |
-| Online Forex Trading | `/forex-trading`    | Idea-stage concept page with explicit no-broker/no-live-service boundaries and a risk notice.               |
-| Legacy URL           | `/goods-trade`      | Redirects to `/forex-trading` so old bookmarks remain usable.                                               |
-| Roadmap              | `/roadmap`          | Initiatives labelled Idea, Prototype, Pilot, or Live; keep status aligned with reality.                     |
-| Learning             | `/learning`         | Computing programmes and applications of interest; fees, accreditation, and dates are unconfirmed.          |
-| Trading              | `/trading`          | Proposed trading education, with risk notice; no personalized investment advice.                            |
-| Community            | `/community`        | WhatsApp community group, official channel, and trading group.                                              |
-| Leadership           | `/leadership`       | People behind VEXON TECH.                                                                                   |
-| Contact              | `/contact`          | Enquiry form and public channels.                                                                           |
-| Accounts             | `/auth`, `/profile` | Supabase-backed sign-up/sign-in, email confirmation codes, Google and WhatsApp options, profile, and optional onboarding. Preferences are stored in the user's RLS-protected Supabase row. |
+| Area                 | Route               | Visitor-facing behavior                                                                                                                                                                                          |
+| -------------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Home                 | `/`                 | Brand, foundation, principles, and workstreams.                                                                                                                                                                  |
+| AI Assistant         | `/assistant`        | Concept page and waitlist; the future assistant is not yet a live offering.                                                                                                                                      |
+| Online Forex Trading | `/forex-trading`    | Idea-stage concept page with explicit no-broker/no-live-service boundaries and a risk notice.                                                                                                                    |
+| Legacy URL           | `/goods-trade`      | Redirects to `/forex-trading` so old bookmarks remain usable.                                                                                                                                                    |
+| Roadmap              | `/roadmap`          | Initiatives labelled Idea, Prototype, Pilot, or Live; keep status aligned with reality.                                                                                                                          |
+| Learning             | `/learning`         | Computing programmes and applications of interest; fees, accreditation, and dates are unconfirmed.                                                                                                               |
+| Trading              | `/trading`          | Proposed trading education, with risk notice; no personalized investment advice.                                                                                                                                 |
+| Community            | `/community`        | WhatsApp community group, official channel, and trading group.                                                                                                                                                   |
+| Leadership           | `/leadership`       | People behind VEXON TECH.                                                                                                                                                                                        |
+| Contact              | `/contact`          | Enquiry form and public channels.                                                                                                                                                                                |
+| Accounts             | `/auth`, `/profile` | Supabase-backed email/password sign-up and sign-in (no email verification code), optional Google and WhatsApp sign-in, profile, and onboarding. Preferences are stored in the user's RLS-protected Supabase row. |
 
 ## Guide and onboarding
 
@@ -34,6 +34,6 @@ The onboarding form offers online forex as a current interest. Existing `respons
 
 ## Development
 
-Set up the Supabase project, email confirmation template, optional providers, and deployment variables using [the Supabase auth setup guide](docs/SUPABASE_AUTH_SETUP.md). Never put privileged Supabase keys in client-side environment variables.
+Set up the Supabase project, password-only email signup, optional providers, and deployment variables using [the Supabase auth setup guide](docs/SUPABASE_AUTH_SETUP.md). Never put privileged Supabase keys in client-side environment variables.
 
 Use `bun run build`, `bun run lint`, and `bun run test` for local checks. The route tree is generated by the TanStack Start Vite plugin. The static page route inventory lives at `public/manus-routes.json`.

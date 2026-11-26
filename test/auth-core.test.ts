@@ -7,8 +7,6 @@ import {
   cleanDisplayName,
   getAuthState,
   initials,
-  resendSignupEmailOtp,
-  verifySignupEmailOtp,
   resetAuthForTesting,
   sendWhatsAppOtp,
   signIn,
@@ -34,7 +32,6 @@ function makeFakeSupabase(opts: { confirmEmails: boolean }) {
   let session: { user: Record<string, unknown> } | null = null;
   let lastOtpRequest: { phone: string; channel?: string } | null = null;
   let lastOtpVerificationType: string | null = null;
-  let lastEmailResend: { type: string; email: string } | null = null;
   const authUser = (u: Row) => ({
     id: u.id,
     email: u.email,
@@ -128,35 +125,15 @@ function makeFakeSupabase(opts: { confirmEmails: boolean }) {
         return { data: {}, error: null };
       },
       async verifyOtp({
-        email,
         phone,
         token,
         type,
       }: {
-        email?: string;
         phone?: string;
         token: string;
         type: string;
       }) {
         lastOtpVerificationType = type;
-        if (email) {
-          const row = users.get(email);
-          if (!row || token !== "123456") {
-            return {
-              data: { user: null, session: null },
-              error: {
-                code: "otp_expired",
-                message: "Invalid code",
-                status: 400,
-              },
-            };
-          }
-          row.confirmed = true;
-          const user = authUser(row);
-          session = { user };
-          emit("SIGNED_IN");
-          return { data: { user, session }, error: null };
-        }
         if (!phone)
           return {
             data: { user: null, session: null },
@@ -190,10 +167,6 @@ function makeFakeSupabase(opts: { confirmEmails: boolean }) {
         emit("SIGNED_OUT");
         return { error: null };
       },
-      async resend({ type, email }: { type: string; email: string }) {
-        lastEmailResend = { type, email };
-        return { data: {}, error: null };
-      },
     },
     from: () => ({
       select: () => ({
@@ -219,7 +192,6 @@ function makeFakeSupabase(opts: { confirmEmails: boolean }) {
   };
   return {
     client: fake as unknown as SupabaseClient,
-    confirm: (email: string) => void (users.get(email)!.confirmed = true),
     setProfileName: (email: string, name: string) =>
       void profiles.set(users.get(email)!.id, name),
     get lastOtpRequest() {
@@ -227,9 +199,6 @@ function makeFakeSupabase(opts: { confirmEmails: boolean }) {
     },
     get lastOtpVerificationType() {
       return lastOtpVerificationType;
-    },
-    get lastEmailResend() {
-      return lastEmailResend;
     },
   };
 }
@@ -239,30 +208,18 @@ const flush = () => new Promise((r) => setTimeout(r, 0));
 describe("Vexon accounts (Supabase)", () => {
   let fake: ReturnType<typeof makeFakeSupabase>;
   beforeEach(() => {
-    fake = makeFakeSupabase({ confirmEmails: true });
+    fake = makeFakeSupabase({ confirmEmails: false });
     resetAuthForTesting(fake.client);
   });
 
-  it("creates an account that must be confirmed by email before sign-in", async () => {
+  it("creates an account and signs in immediately with email and password", async () => {
     startAuth();
     await flush();
     expect(getAuthState().status).toBe("signed-out");
 
-    const result = await signUp({
+    const user = await signUp({
       name: "  Enosh   Yeswa ",
       email: "Enosh@Example.com ",
-      password: "correct horse",
-    });
-    expect(result).toEqual({ needsConfirmation: true });
-    expect(getAuthState().status).toBe("signed-out");
-
-    await expect(
-      signIn({ email: "enosh@example.com", password: "correct horse" }),
-    ).rejects.toThrow("Confirm your email");
-
-    fake.confirm("enosh@example.com");
-    const user = await signIn({
-      email: "ENOSH@example.com",
       password: "correct horse",
     });
     expect(user).toMatchObject({
@@ -275,28 +232,16 @@ describe("Vexon accounts (Supabase)", () => {
     expect(getAuthState().status).toBe("signed-out");
   });
 
-  it("verifies a signup email OTP and starts a Supabase session", async () => {
-    const result = await signUp({
-      name: "Vince",
-      email: "vince@example.com",
-      password: "password123",
-    });
-    expect(result.needsConfirmation).toBe(true);
+  it("explains that email confirmation must be disabled for password-only signup", async () => {
+    resetAuthForTesting(makeFakeSupabase({ confirmEmails: true }).client);
     await expect(
-      verifySignupEmailOtp("vince@example.com", "12"),
-    ).rejects.toThrow("6-digit code");
-    const user = await verifySignupEmailOtp(" Vince@Example.com ", "123456");
-    expect(fake.lastOtpVerificationType).toBe("signup");
-    expect(user).toMatchObject({ email: "vince@example.com", name: "Vince" });
-    expect(getAuthState()).toEqual({ status: "signed-in", user });
-  });
-
-  it("resends a signup confirmation code through Supabase Auth", async () => {
-    await resendSignupEmailOtp(" VEXON@Example.com ");
-    expect(fake.lastEmailResend).toEqual({
-      type: "signup",
-      email: "vexon@example.com",
-    });
+      signUp({
+        name: "Vince",
+        email: "vince@example.com",
+        password: "password123",
+      }),
+    ).rejects.toThrow("Email confirmation is still enabled");
+    expect(getAuthState().status).not.toBe("signed-in");
   });
 
   it("uses the display name stored in the profiles table", async () => {
@@ -305,7 +250,6 @@ describe("Vexon accounts (Supabase)", () => {
       email: "vince@example.com",
       password: "password123",
     });
-    fake.confirm("vince@example.com");
     fake.setProfileName("vince@example.com", "Vince Odhiambo");
     await signIn({ email: "vince@example.com", password: "password123" });
     await flush();
@@ -321,7 +265,6 @@ describe("Vexon accounts (Supabase)", () => {
       email: "vince@example.com",
       password: "password123",
     });
-    fake.confirm("vince@example.com");
     await signIn({ email: "vince@example.com", password: "password123" });
 
     await updateDisplayName("Vince Odhiambo");
@@ -345,7 +288,6 @@ describe("Vexon accounts (Supabase)", () => {
       email: "vince@example.com",
       password: "password123",
     });
-    fake.confirm("vince@example.com");
     await signIn({ email: "vince@example.com", password: "password123" });
     resetAuthForTesting(fake.client);
     expect(getAuthState().status).toBe("loading");
@@ -360,13 +302,13 @@ describe("Vexon accounts (Supabase)", () => {
       email: "vince@example.com",
       password: "password123",
     });
-    fake.confirm("vince@example.com");
     await expect(
       signIn({ email: "vince@example.com", password: "wrong-password" }),
     ).rejects.toThrow("Email or password is incorrect.");
     await expect(
       signIn({ email: "nobody@example.com", password: "password123" }),
     ).rejects.toThrow("Email or password is incorrect.");
+    await signOut();
     await expect(
       signUp({
         name: "Other",
@@ -396,7 +338,7 @@ describe("Vexon accounts (Supabase)", () => {
       email: "vince@example.com",
       password: "password123",
     });
-    expect(result).toEqual({ needsConfirmation: false });
+    expect(result).toMatchObject({ email: "vince@example.com", name: "Vince" });
     expect(getAuthState().status).toBe("signed-in");
   });
 
