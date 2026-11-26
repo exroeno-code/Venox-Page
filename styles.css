@@ -59,6 +59,70 @@
     -webkit-font-smoothing: antialiased;
   }
 }
+.vexon-menu-link {
+  position: relative;
+  isolation: isolate;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 140ms ease;
+}
+.vexon-menu-link::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    108deg,
+    transparent 8%,
+    rgb(230 185 74 / 3.5%) 25%,
+    rgb(255 233 162 / 15%) 47%,
+    rgb(230 185 74 / 5%) 68%,
+    transparent 91%
+  );
+  background-position: 100% 50%;
+  background-size: 220% 100%;
+  content: "";
+  opacity: 0;
+  pointer-events: none;
+}
+@keyframes vexon-menu-gold-wave {
+  from {
+    background-position: 100% 50%;
+    opacity: 0.25;
+  }
+  to {
+    background-position: 0 50%;
+    opacity: 0.8;
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  .vexon-menu-link:hover::before {
+    animation: vexon-menu-gold-wave 1.8s ease-in-out infinite alternate;
+  }
+}
+.vexon-menu-link:active {
+  transform: scale(0.995);
+}
+.vexon-menu-link:active::before,
+.vexon-menu-link:focus-visible::before {
+  background-position: 50% 50%;
+  opacity: 0.65;
+}
+.vexon-menu-link:focus-visible {
+  outline: 1px solid rgb(240 204 112 / 55%);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .vexon-menu-link,
+  .vexon-menu-link::before {
+    animation: none !important;
+    transition: none !important;
+  }
+  .vexon-menu-link:hover::before {
+    background-position: 50% 50%;
+    opacity: 0.45;
+  }
+}
 .guide-widget-dock {
   bottom: calc(2.25rem + env(safe-area-inset-bottom));
 }

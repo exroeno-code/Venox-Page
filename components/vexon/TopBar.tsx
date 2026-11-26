@@ -141,13 +141,13 @@ export function TopBar({ tag, onAnchor }: Props) {
                       <Link
                         to={p.to}
                         onClick={close}
-                        className="group flex items-baseline gap-2 font-display text-3xl font-extrabold uppercase leading-[1.05] text-muted-foreground transition-colors hover:text-foreground sm:gap-4 sm:text-5xl md:text-4xl lg:text-5xl xl:text-7xl"
+                        className="vexon-menu-link group flex items-baseline gap-2 font-display text-3xl font-extrabold uppercase leading-[1.05] text-muted-foreground transition-colors hover:text-[#ffe9a2] active:text-[#ffe9a2] sm:gap-4 sm:text-5xl md:text-4xl lg:text-5xl xl:text-7xl"
                         activeProps={{
                           className:
-                            "group flex items-baseline gap-2 font-display text-3xl font-extrabold uppercase leading-[1.05] text-foreground sm:gap-4 sm:text-5xl md:text-4xl lg:text-5xl xl:text-7xl",
+                            "vexon-menu-link group flex items-baseline gap-2 font-display text-3xl font-extrabold uppercase leading-[1.05] text-foreground hover:text-[#ffe9a2] active:text-[#ffe9a2] sm:gap-4 sm:text-5xl md:text-4xl lg:text-5xl xl:text-7xl",
                         }}
                       >
-                        <span className="shrink-0 font-mono text-[0.65rem] tracking-[0.1em] text-muted-foreground sm:text-xs sm:tracking-[0.2em]">
+                        <span className="shrink-0 font-mono text-[0.65rem] tracking-[0.1em] text-muted-foreground transition-colors group-hover:text-[#f0cc70] group-active:text-[#ffe9a2] sm:text-xs sm:tracking-[0.2em]">
                           0{i + 1}
                         </span>
                         <span className="transition-transform duration-500 group-hover:translate-x-2">
@@ -172,7 +172,7 @@ export function TopBar({ tag, onAnchor }: Props) {
                               close();
                               onAnchor(`#${id}`)(e);
                             }}
-                            className="group flex items-center gap-1 transition-colors hover:text-foreground"
+                            className="vexon-menu-link group flex items-center gap-1 transition-colors hover:text-[#f0cc70] active:text-[#ffe9a2]"
                           >
                             {label}
                             <ArrowUpRight className="size-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
@@ -182,7 +182,7 @@ export function TopBar({ tag, onAnchor }: Props) {
                             to="/"
                             hash={id}
                             onClick={close}
-                            className="group flex items-center gap-1 transition-colors hover:text-foreground"
+                            className="vexon-menu-link group flex items-center gap-1 transition-colors hover:text-[#f0cc70] active:text-[#ffe9a2]"
                           >
                             {label}
                             <ArrowUpRight className="size-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
