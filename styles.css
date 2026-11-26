@@ -63,6 +63,24 @@
 @media (prefers-reduced-motion: reduce) {
   .guide-v-halo { animation: none; }
 }
+.guide-welcome-arrow {
+  animation: guide-arrow-nudge 1.3s ease-in-out infinite;
+}
+.guide-welcome-step {
+  animation: guide-step-in 260ms ease-out both;
+}
+@keyframes guide-arrow-nudge {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(5px); }
+}
+@keyframes guide-step-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .guide-welcome-arrow,
+  .guide-welcome-step { animation: none; }
+}
 
 @utility text-chrome {
   background: var(--text-chrome);

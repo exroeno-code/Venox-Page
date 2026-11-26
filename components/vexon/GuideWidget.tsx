@@ -19,6 +19,20 @@ import {
 const GREETING =
   "Hi, I'm the VEXON Guide. I can explain what VEXON TECH does, what is still a concept, and help you find information or contact the team.";
 const LINK_RE = /\[([^\]]+)\]\(([^)\s]+)\)/g;
+const WELCOME_STEPS = [
+  {
+    title: "A guide to VEXON",
+    text: "I can help you explore what VEXON TECH is building and find the right place to start.",
+  },
+  {
+    title: "Ask anything about this site",
+    text: "Ask about our work, services, plans, or where to find something. I’ll point you in the right direction.",
+  },
+  {
+    title: "Open me when you’re ready",
+    text: "Tap or click the golden V to open the guide. Hovering only gives a soft sound — it won’t open by itself.",
+  },
+];
 
 /** Renders [label](/path) as a site link and [label](https://…whatsapp…) as an external link. Everything else is plain text. */
 function renderReply(text: string, onNavigate: () => void): ReactNode[] {
@@ -62,6 +76,7 @@ function renderReply(text: string, onNavigate: () => void): ReactNode[] {
 export function GuideWidget() {
   const [open, setOpen] = useState(false);
   const [showWelcome, setShowWelcome] = useState(false);
+  const [welcomeStep, setWelcomeStep] = useState(0);
   const [messages, setMessages] = useState<GuideMessage[]>([]);
   const [input, setInput] = useState("");
   const [pending, setPending] = useState(false);
@@ -69,6 +84,7 @@ export function GuideWidget() {
   const inputRef = useRef<HTMLInputElement>(null);
   const openButton = useRef<HTMLButtonElement>(null);
   const shouldFocusInput = useRef(false);
+  const audioContext = useRef<AudioContext | null>(null);
 
   useEffect(() => {
     try {
@@ -89,7 +105,40 @@ export function GuideWidget() {
     }
   }
 
+  function playSound(kind: "hover" | "click") {
+    try {
+      const context = audioContext.current ?? new AudioContext();
+      audioContext.current = context;
+      void context.resume().then(() => {
+        if (context.state !== "running") return;
+        const oscillator = context.createOscillator();
+        const gain = context.createGain();
+        const now = context.currentTime;
+        const startFrequency = kind === "hover" ? 740 : 520;
+        oscillator.type = "sine";
+        oscillator.frequency.setValueAtTime(startFrequency, now);
+        oscillator.frequency.exponentialRampToValueAtTime(
+          kind === "hover" ? 920 : 780,
+          now + (kind === "hover" ? 0.075 : 0.12),
+        );
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(
+          kind === "hover" ? 0.012 : 0.026,
+          now + 0.012,
+        );
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.15);
+        oscillator.connect(gain);
+        gain.connect(context.destination);
+        oscillator.start(now);
+        oscillator.stop(now + 0.16);
+      });
+    } catch {
+      // Sound is decorative; unsupported or blocked audio never affects the guide.
+    }
+  }
+
   function openGuide() {
+    playSound("click");
     dismissWelcome();
     setOpen(true);
   }
@@ -273,22 +322,69 @@ export function GuideWidget() {
           >
             <X className="size-3.5" />
           </button>
-          <p className="flex items-center justify-center gap-2 font-mono text-[0.62rem] uppercase tracking-[0.2em] text-[#f0cc70]">
-            <Sparkles className="size-3.5" /> Your VEXON guide
+          <p className="flex items-center justify-center gap-2 pr-3 font-mono text-[0.6rem] uppercase tracking-[0.2em] text-[#f0cc70]">
+            <Sparkles className="size-3.5" /> A quick VEXON tour
           </p>
-          <p className="mt-2 pr-3 text-sm leading-relaxed text-white/80">
-            New here? Tap the golden V and I’ll help you find your way around.
-          </p>
-          <button
-            type="button"
-            onClick={openGuide}
-            className="mt-2 min-h-10 rounded-full px-4 font-mono text-[0.65rem] uppercase tracking-[0.15em] text-[#f0cc70] transition-colors hover:bg-[#e6b94a]/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e6b94a]/70"
+          <div
+            aria-live="polite"
+            aria-atomic="true"
+            key={welcomeStep}
+            className="guide-welcome-step mt-3"
           >
-            Meet the guide
-          </button>
+            <h2 className="font-display text-base font-semibold text-white">
+              {WELCOME_STEPS[welcomeStep]?.title}
+            </h2>
+            <p className="mt-1.5 text-sm leading-relaxed text-white/75">
+              {WELCOME_STEPS[welcomeStep]?.text}
+            </p>
+          </div>
+          <div
+            className="mt-4 flex items-center justify-center gap-1.5"
+            aria-label={`Step ${welcomeStep + 1} of ${WELCOME_STEPS.length}`}
+          >
+            {WELCOME_STEPS.map((step, index) => (
+              <span
+                key={step.title}
+                aria-hidden="true"
+                className={`h-1 rounded-full transition-all duration-300 ${index === welcomeStep ? "w-7 bg-[#f0cc70]" : "w-2 bg-white/25"}`}
+              />
+            ))}
+            <span className="ml-1 font-mono text-[0.6rem] text-white/45">
+              {String(welcomeStep + 1).padStart(2, "0")} /{" "}
+              {String(WELCOME_STEPS.length).padStart(2, "0")}
+            </span>
+          </div>
+          <div className="mt-3 flex min-h-10 items-center justify-between gap-2">
+            <button
+              type="button"
+              onClick={dismissWelcome}
+              className="min-h-10 rounded-full px-3 font-mono text-[0.62rem] uppercase tracking-[0.12em] text-white/55 transition-colors hover:bg-white/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e6b94a]/70"
+            >
+              Skip tour
+            </button>
+            {welcomeStep > 0 && (
+              <button
+                type="button"
+                onClick={() => setWelcomeStep((step) => Math.max(0, step - 1))}
+                className="min-h-10 rounded-full px-3 font-mono text-[0.62rem] uppercase tracking-[0.12em] text-white/65 transition-colors hover:bg-white/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e6b94a]/70"
+              >
+                Back
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={() => {
+                if (welcomeStep === WELCOME_STEPS.length - 1) dismissWelcome();
+                else setWelcomeStep((step) => step + 1);
+              }}
+              className="min-h-10 rounded-full border border-[#e6b94a]/45 bg-[#e6b94a]/10 px-4 font-mono text-[0.62rem] uppercase tracking-[0.12em] text-[#f0cc70] transition-colors hover:bg-[#e6b94a]/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e6b94a]/70"
+            >
+              {welcomeStep === WELCOME_STEPS.length - 1 ? "Done" : "Next"}
+            </button>
+          </div>
           <ArrowDown
             aria-hidden="true"
-            className="absolute -bottom-6 left-1/2 size-5 -translate-x-1/2 text-[#f0cc70] drop-shadow-[0_0_8px_rgba(230,185,74,.9)]"
+            className="guide-welcome-arrow absolute -bottom-6 left-1/2 size-5 -translate-x-1/2 text-[#f0cc70] drop-shadow-[0_0_8px_rgba(230,185,74,.9)]"
           />
         </div>
       )}
@@ -299,7 +395,7 @@ export function GuideWidget() {
           type="button"
           onMouseEnter={() => {
             if (window.matchMedia("(hover: hover) and (pointer: fine)").matches)
-              openGuide();
+              playSound("hover");
           }}
           onClick={() => {
             shouldFocusInput.current = true;
