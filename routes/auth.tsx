@@ -268,7 +268,8 @@ function AuthPage() {
                   setStage("phone");
                 }}
               >
-                <WhatsAppIcon className="size-[18px]" /> Continue with WhatsApp
+                <WhatsAppIcon className="size-[18px]" variant="inverse" />{" "}
+                Continue with WhatsApp
               </button>
             ) : (
               <>
@@ -279,7 +280,7 @@ function AuthPage() {
                   aria-describedby="whatsapp-auth-note"
                   title="WhatsApp sign-in requires phone authentication to be enabled in Supabase."
                 >
-                  <WhatsAppIcon className="size-[18px]" />
+                  <WhatsAppIcon className="size-[18px]" variant="inverse" />
                   Continue with WhatsApp
                 </button>
                 <p id="whatsapp-auth-note" className="signup-flow__note">
