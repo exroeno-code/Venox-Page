@@ -12,7 +12,7 @@ import { ogImageMeta } from "@/lib/seo";
 
 const TITLE = "VEXVANO LABS — Useful ideas, made practical";
 const DESC =
-  "VEXVANO LABS is a Kenya-based, builder-led venture in concept development, exploring useful technology and a foreign exchange trading idea with clear status and risks.";
+  "VEXVANO LABS is a Kenya-based builder-led venture. VEXON TECH offers practical AI workflow setup while exploring useful digital services with clear status and risks.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -176,10 +176,10 @@ function Index() {
               </span>
             </div>
             <p className="mt-8 max-w-md text-base leading-relaxed text-muted-foreground">
-              VEXVANO LABS is a Kenya-based, builder-led venture in concept
-              development. We’re exploring practical software, responsible
-              AI-enabled workflows, and a foreign exchange trading idea—with
-              clear risks and no hype.
+              VEXVANO LABS is a Kenya-based, builder-led venture. Through VEXON
+              TECH, we help businesses explore practical digital systems and
+              human-reviewed AI workflows, while keeping future ideas clearly
+              labelled and free of hype.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-6">
               <Link
@@ -350,10 +350,17 @@ function Index() {
               </p>
               <div className="reveal mt-8 flex flex-wrap items-center gap-6">
                 <Link
-                  to="/contact"
+                  to="/ai-workflow"
                   className="bracket-btn px-7 py-4 font-mono text-sm uppercase tracking-[0.2em] transition-colors hover:bg-foreground/5"
                 >
                   Book an AI workflow audit
+                </Link>
+                <Link
+                  to="/services"
+                  className="group flex items-center gap-2 text-sm"
+                >
+                  See all services{" "}
+                  <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                 </Link>
                 <a
                   href={`${SITE.whatsappUrl}?text=${encodeURIComponent("Hello VEXON TECH, I'd like to learn about the AI Workflow Sprint.")}`}
@@ -533,8 +540,8 @@ function Index() {
               />
             </h2>
             <p className="reveal mx-auto mt-8 max-w-xl text-muted-foreground">
-              We’re still developing the VEXVANO LABS concept. Have a question, an
-              idea, or want to work with us? We’d like to hear from you.
+              We’re still developing the VEXVANO LABS concept. Have a question,
+              an idea, or want to work with us? We’d like to hear from you.
             </p>
             <div className="reveal mt-10 flex justify-center">
               <Link

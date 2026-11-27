@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AiWorkflowRouteImport } from './routes/ai-workflow'
 import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CommunityRouteImport } from './routes/community'
@@ -22,6 +23,7 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as RoadmapRouteImport } from './routes/roadmap'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
+import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TradingRouteImport } from './routes/trading'
 import { Route as ApiGuideRouteImport } from './routes/api/guide'
@@ -31,6 +33,11 @@ import { Route as AuthResetRequestRouteImport } from './routes/auth.reset-reques
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AiWorkflowRoute = AiWorkflowRouteImport.update({
+  id: '/ai-workflow',
+  path: '/ai-workflow',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AssistantRoute = AssistantRouteImport.update({
@@ -93,6 +100,11 @@ const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
   path: '/robots.txt',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ServicesRoute = ServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
@@ -121,6 +133,7 @@ const AuthResetRequestRoute = AuthResetRequestRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ai-workflow': typeof AiWorkflowRoute
   '/assistant': typeof AssistantRoute
   '/auth': typeof AuthRouteWithChildren
   '/community': typeof CommunityRoute
@@ -133,6 +146,7 @@ export interface FileRoutesByFullPath {
   '/profile': typeof ProfileRoute
   '/roadmap': typeof RoadmapRoute
   '/robots.txt': typeof RobotsDottxtRoute
+  '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/trading': typeof TradingRoute
   '/api/guide': typeof ApiGuideRoute
@@ -141,6 +155,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ai-workflow': typeof AiWorkflowRoute
   '/assistant': typeof AssistantRoute
   '/auth': typeof AuthRouteWithChildren
   '/community': typeof CommunityRoute
@@ -153,6 +168,7 @@ export interface FileRoutesByTo {
   '/profile': typeof ProfileRoute
   '/roadmap': typeof RoadmapRoute
   '/robots.txt': typeof RobotsDottxtRoute
+  '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/trading': typeof TradingRoute
   '/api/guide': typeof ApiGuideRoute
@@ -162,6 +178,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ai-workflow': typeof AiWorkflowRoute
   '/assistant': typeof AssistantRoute
   '/auth': typeof AuthRouteWithChildren
   '/community': typeof CommunityRoute
@@ -174,6 +191,7 @@ export interface FileRoutesById {
   '/profile': typeof ProfileRoute
   '/roadmap': typeof RoadmapRoute
   '/robots.txt': typeof RobotsDottxtRoute
+  '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/trading': typeof TradingRoute
   '/api/guide': typeof ApiGuideRoute
@@ -184,6 +202,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/ai-workflow'
     | '/assistant'
     | '/auth'
     | '/community'
@@ -196,6 +215,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/roadmap'
     | '/robots.txt'
+    | '/services'
     | '/sitemap.xml'
     | '/trading'
     | '/api/guide'
@@ -204,6 +224,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/ai-workflow'
     | '/assistant'
     | '/auth'
     | '/community'
@@ -216,6 +237,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/roadmap'
     | '/robots.txt'
+    | '/services'
     | '/sitemap.xml'
     | '/trading'
     | '/api/guide'
@@ -224,6 +246,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/ai-workflow'
     | '/assistant'
     | '/auth'
     | '/community'
@@ -236,6 +259,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/roadmap'
     | '/robots.txt'
+    | '/services'
     | '/sitemap.xml'
     | '/trading'
     | '/api/guide'
@@ -245,6 +269,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AiWorkflowRoute: typeof AiWorkflowRoute
   AssistantRoute: typeof AssistantRoute
   AuthRoute: typeof AuthRouteWithChildren
   CommunityRoute: typeof CommunityRoute
@@ -257,6 +282,7 @@ export interface RootRouteChildren {
   ProfileRoute: typeof ProfileRoute
   RoadmapRoute: typeof RoadmapRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
+  ServicesRoute: typeof ServicesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TradingRoute: typeof TradingRoute
   ApiGuideRoute: typeof ApiGuideRoute
@@ -269,6 +295,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ai-workflow': {
+      id: '/ai-workflow'
+      path: '/ai-workflow'
+      fullPath: '/ai-workflow'
+      preLoaderRoute: typeof AiWorkflowRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/assistant': {
@@ -355,6 +388,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RobotsDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/services': {
+      id: '/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
@@ -407,6 +447,7 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AiWorkflowRoute: AiWorkflowRoute,
   AssistantRoute: AssistantRoute,
   AuthRoute: AuthRouteWithChildren,
   CommunityRoute: CommunityRoute,
@@ -419,6 +460,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProfileRoute: ProfileRoute,
   RoadmapRoute: RoadmapRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
+  ServicesRoute: ServicesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TradingRoute: TradingRoute,
   ApiGuideRoute: ApiGuideRoute,

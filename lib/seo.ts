@@ -3,6 +3,8 @@
 /** Public pages listed in sitemap.xml. Sign-in, profile and API routes are left out on purpose. */
 export const SITEMAP_PATHS = [
   "/",
+  "/services",
+  "/ai-workflow",
   "/learning",
   "/trading",
   "/community",

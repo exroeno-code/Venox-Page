@@ -33,10 +33,21 @@ const ITEMS: {
   stage: Stage;
   note: string;
   link?: {
-    to: "/assistant" | "/forex-trading" | "/leadership" | "/contact";
+    to:
+      | "/assistant"
+      | "/forex-trading"
+      | "/leadership"
+      | "/contact"
+      | "/ai-workflow";
     label: string;
   };
 }[] = [
+  {
+    title: "AI workflow audit and sprint",
+    stage: "Pilot",
+    note: "Our first commercial service direction: human-led setup of practical AI workflows for repetitive business work. Scope, tools, and delivery are discussed with each business before work begins.",
+    link: { to: "/ai-workflow", label: "Explore the AI Workflow Sprint" },
+  },
   {
     title: "VEXVANO LABS website",
     stage: "Live",
@@ -57,6 +68,12 @@ const ITEMS: {
       to: "/forex-trading",
       label: "Read about the foreign exchange trading idea",
     },
+  },
+  {
+    title: "Business systems and support services",
+    stage: "Idea",
+    note: "We are considering hotel, school, payment, website, automation, software integration, and basic IT/cloud/cybersecurity setup services. These are proposed, not confirmed packages.",
+    link: { to: "/contact", label: "Discuss a possible service" },
   },
 ];
 
