@@ -17,6 +17,7 @@ import { Route as CommunityRouteImport } from './routes/community'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ForexTradingRouteImport } from './routes/forex-trading'
 import { Route as GoodsTradeRouteImport } from './routes/goods-trade'
+import { Route as HotelRouteImport } from './routes/hotel'
 import { Route as LeadershipRouteImport } from './routes/leadership'
 import { Route as LearningRouteImport } from './routes/learning'
 import { Route as PrivacyRouteImport } from './routes/privacy'
@@ -68,6 +69,11 @@ const ForexTradingRoute = ForexTradingRouteImport.update({
 const GoodsTradeRoute = GoodsTradeRouteImport.update({
   id: '/goods-trade',
   path: '/goods-trade',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HotelRoute = HotelRouteImport.update({
+  id: '/hotel',
+  path: '/hotel',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LeadershipRoute = LeadershipRouteImport.update({
@@ -140,6 +146,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/forex-trading': typeof ForexTradingRoute
   '/goods-trade': typeof GoodsTradeRoute
+  '/hotel': typeof HotelRoute
   '/leadership': typeof LeadershipRoute
   '/learning': typeof LearningRoute
   '/privacy': typeof PrivacyRoute
@@ -162,6 +169,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/forex-trading': typeof ForexTradingRoute
   '/goods-trade': typeof GoodsTradeRoute
+  '/hotel': typeof HotelRoute
   '/leadership': typeof LeadershipRoute
   '/learning': typeof LearningRoute
   '/privacy': typeof PrivacyRoute
@@ -185,6 +193,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/forex-trading': typeof ForexTradingRoute
   '/goods-trade': typeof GoodsTradeRoute
+  '/hotel': typeof HotelRoute
   '/leadership': typeof LeadershipRoute
   '/learning': typeof LearningRoute
   '/privacy': typeof PrivacyRoute
@@ -209,6 +218,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/forex-trading'
     | '/goods-trade'
+    | '/hotel'
     | '/leadership'
     | '/learning'
     | '/privacy'
@@ -231,6 +241,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/forex-trading'
     | '/goods-trade'
+    | '/hotel'
     | '/leadership'
     | '/learning'
     | '/privacy'
@@ -253,6 +264,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/forex-trading'
     | '/goods-trade'
+    | '/hotel'
     | '/leadership'
     | '/learning'
     | '/privacy'
@@ -276,6 +288,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   ForexTradingRoute: typeof ForexTradingRoute
   GoodsTradeRoute: typeof GoodsTradeRoute
+  HotelRoute: typeof HotelRoute
   LeadershipRoute: typeof LeadershipRoute
   LearningRoute: typeof LearningRoute
   PrivacyRoute: typeof PrivacyRoute
@@ -344,6 +357,13 @@ declare module '@tanstack/react-router' {
       path: '/goods-trade'
       fullPath: '/goods-trade'
       preLoaderRoute: typeof GoodsTradeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hotel': {
+      id: '/hotel'
+      path: '/hotel'
+      fullPath: '/hotel'
+      preLoaderRoute: typeof HotelRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/leadership': {
@@ -454,6 +474,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   ForexTradingRoute: ForexTradingRoute,
   GoodsTradeRoute: GoodsTradeRoute,
+  HotelRoute: HotelRoute,
   LeadershipRoute: LeadershipRoute,
   LearningRoute: LearningRoute,
   PrivacyRoute: PrivacyRoute,

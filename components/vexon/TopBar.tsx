@@ -8,16 +8,83 @@ import { SocialLinks } from "@/components/vexon/SocialIcons";
 import { Wordmark } from "@/components/vexon/Wordmark";
 
 const PAGES = [
-  { to: "/services", label: "Services" },
-  { to: "/ai-workflow", label: "AI Workflow Sprint" },
-  { to: "/assistant", label: "AI Assistant" },
-  { to: "/roadmap", label: "Roadmap" },
-  { to: "/forex-trading", label: "Foreign exchange trading" },
-  { to: "/learning", label: "Learning" },
-  { to: "/trading", label: "Trading" },
-  { to: "/community", label: "Community" },
-  { to: "/leadership", label: "Leadership" },
-  { to: "/contact", label: "Contact" },
+  {
+    to: "/services",
+    label: "Services",
+    category: "What we do",
+    description: "Practical digital services for growing ideas.",
+    tone: "from-amber-600/60 via-stone-950 to-[#09090d]",
+  },
+  {
+    to: "/ai-workflow",
+    label: "AI Workflow Sprint",
+    category: "AI systems",
+    description: "Design a workflow around real work.",
+    tone: "from-blue-600/70 via-indigo-950 to-[#09090d]",
+  },
+  {
+    to: "/assistant",
+    label: "AI Assistant",
+    category: "Intelligence",
+    description: "Turn questions into clear next steps.",
+    tone: "from-violet-600/60 via-slate-950 to-[#09090d]",
+  },
+  {
+    to: "/roadmap",
+    label: "Roadmap",
+    category: "Our direction",
+    description: "Explore the milestones shaping Vexon.",
+    tone: "from-rose-600/50 via-stone-950 to-[#09090d]",
+  },
+  {
+    to: "/forex-trading",
+    label: "Foreign exchange trading",
+    category: "Markets",
+    description: "Learn the essentials of online forex.",
+    tone: "from-emerald-600/60 via-slate-950 to-[#09090d]",
+  },
+  {
+    to: "/learning",
+    label: "Learning",
+    category: "Education",
+    description: "Build practical computer skills.",
+    tone: "from-cyan-500/50 via-blue-950 to-[#09090d]",
+  },
+  {
+    to: "/trading",
+    label: "Trading",
+    category: "Education",
+    description: "Understand markets, strategy, and risk.",
+    tone: "from-fuchsia-600/50 via-indigo-950 to-[#09090d]",
+  },
+  {
+    to: "/community",
+    label: "Community",
+    category: "Connect",
+    description: "Join conversations and shared learning.",
+    tone: "from-teal-500/50 via-slate-950 to-[#09090d]",
+  },
+  {
+    to: "/leadership",
+    label: "Leadership",
+    category: "People",
+    description: "Meet the people behind Vexon.",
+    tone: "from-orange-600/50 via-stone-950 to-[#09090d]",
+  },
+  {
+    to: "/hotel",
+    label: "Hotel",
+    category: "Stay & explore",
+    description: "Discover considered, memorable stays.",
+    tone: "from-teal-500/50 via-slate-950 to-[#09090d]",
+  },
+  {
+    to: "/contact",
+    label: "Contact",
+    category: "Start a conversation",
+    description: "Tell us what you are looking to build.",
+    tone: "from-slate-500/50 via-slate-950 to-[#09090d]",
+  },
 ] as const;
 
 const SECTIONS = [
@@ -27,9 +94,9 @@ const SECTIONS = [
 ] as const;
 
 function showTouchWave(link: HTMLAnchorElement) {
-  link.dataset.touching = "true";
+  link.dataset["touching"] = "true";
   window.setTimeout(() => {
-    delete link.dataset.touching;
+    delete link.dataset["touching"];
   }, 420);
 }
 
@@ -140,11 +207,8 @@ export function TopBar({ tag, onAnchor }: Props) {
                 </button>
               </div>
 
-              <nav
-                aria-label="Main"
-                className="mt-2 mb-2 grid gap-8 py-0 md:grid-cols-[2fr_1fr]"
-              >
-                <ul className="space-y-1">
+              <nav aria-label="Main" className="mt-8 mb-8 grid gap-8 py-0">
+                <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {PAGES.map((p, i) => (
                     <li key={p.to}>
                       <Link
@@ -155,17 +219,30 @@ export function TopBar({ tag, onAnchor }: Props) {
                             showTouchWave(event.currentTarget);
                           }
                         }}
-                        className="vexon-menu-link group flex items-baseline gap-2 font-display text-3xl font-extrabold uppercase leading-[1.05] text-muted-foreground transition-colors hover:text-[#ffe9a2] active:text-[#ffe9a2] sm:gap-4 sm:text-5xl md:text-4xl lg:text-5xl xl:text-7xl"
+                        className={`vexon-menu-link group relative flex min-h-52 flex-col justify-between overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br ${p.tone} p-5 text-white shadow-xl transition duration-500 hover:-translate-y-1 hover:border-white/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f0cc70]/70 sm:p-6`}
                         activeProps={{
-                          className:
-                            "vexon-menu-link group flex items-baseline gap-2 font-display text-3xl font-extrabold uppercase leading-[1.05] text-foreground hover:text-[#ffe9a2] active:text-[#ffe9a2] sm:gap-4 sm:text-5xl md:text-4xl lg:text-5xl xl:text-7xl",
+                          className: `vexon-menu-link group relative flex min-h-52 flex-col justify-between overflow-hidden rounded-2xl border border-[#e6b94a]/70 bg-gradient-to-br ${p.tone} p-5 text-white shadow-xl ring-1 ring-[#e6b94a]/30 sm:p-6`,
                         }}
                       >
-                        <span className="shrink-0 font-mono text-[0.65rem] tracking-[0.1em] text-muted-foreground transition-colors group-hover:text-[#f0cc70] group-active:text-[#ffe9a2] sm:text-xs sm:tracking-[0.2em]">
-                          0{i + 1}
+                        <span
+                          aria-hidden
+                          className="pointer-events-none absolute -right-8 -top-10 h-44 w-44 rounded-full bg-white/10 blur-3xl transition duration-700 group-hover:scale-150"
+                        />
+                        <span className="relative flex items-center justify-between">
+                          <span className="rounded-full border border-white/20 bg-black/20 px-3 py-1 font-mono text-[0.62rem] uppercase tracking-[0.2em] text-white/80">
+                            {p.category}
+                          </span>
+                          <span className="grid size-9 place-items-center rounded-full border border-white/20 bg-black/20 transition group-hover:rotate-45 group-hover:bg-white group-hover:text-black">
+                            <ArrowUpRight className="size-4" />
+                          </span>
                         </span>
-                        <span className="transition-transform duration-500 group-hover:translate-x-2">
-                          {p.label}
+                        <span className="relative mt-8">
+                          <span className="block font-display text-2xl font-bold tracking-tight sm:text-3xl">
+                            {p.label}
+                          </span>
+                          <span className="mt-2 block max-w-xs text-sm leading-relaxed text-white/70">
+                            {p.description}
+                          </span>
                         </span>
                       </Link>
                     </li>

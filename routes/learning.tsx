@@ -130,23 +130,68 @@ function Learning() {
   return (
     <PageShell tag="[ LEARNING ]" scene={<Scene />}>
       <section className="pb-6 pt-4 md:pt-8">
-        <span className="inline-flex items-center gap-3 font-mono text-xs tracking-[0.3em] text-muted-foreground">
-          <span className="live-dot size-2 rounded-full bg-glow" /> [ PROPOSED
-          ONLINE COMPUTER CLASSES · SHARE YOUR INTEREST ]
-        </span>
-        <h1 className="mt-6 font-display text-6xl font-extrabold uppercase leading-[0.9] md:text-[8.5rem]">
-          <span className="block">
-            <Words text="Learn" className="text-chrome" />
-          </span>
-          <span className="block">
-            <Words text="computing" base={200} className="text-chrome" />
-          </span>
-        </h1>
-        <p className="mt-8 max-w-xl text-muted-foreground">
-          Explore {total} proposed programmes and choose the level that feels
-          right. Share your interest and we’ll follow up; the classes are still
-          in development, so details are not confirmed yet.
-        </p>
+        <div className="rounded-3xl border border-white/10 bg-[#f1f3f7] p-5 text-[#101112] shadow-2xl md:p-9">
+          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-start">
+            <div>
+              <span className="inline-flex items-center gap-3 font-mono text-[0.65rem] tracking-[0.2em] text-[#73789c]">
+                <span className="live-dot size-2 rounded-full bg-[#6acbd2]" />{" "}
+                VEXON LEARNING · PROGRAMME DASHBOARD
+              </span>
+              <h1 className="mt-5 font-display text-4xl font-bold leading-tight tracking-tight md:text-6xl">
+                Your next skill
+                <br />
+                starts here.
+              </h1>
+              <p className="mt-4 max-w-xl text-sm leading-relaxed text-[#46424a]/75 md:text-base">
+                Explore proposed computer classes by level, compare programme
+                paths, and share your interest when you find the right fit.
+              </p>
+              <p className="mt-3 text-xs text-[#46424a]/60">
+                Programmes are in development; class details and dates are not
+                confirmed.
+              </p>
+            </div>
+            <div className="rounded-2xl bg-[#6acbd2] px-5 py-4 text-[#101112] md:min-w-52">
+              <span className="font-mono text-[0.62rem] uppercase tracking-[0.18em]">
+                Proposed programmes
+              </span>
+              <strong className="mt-1 block font-display text-4xl">
+                {total}
+              </strong>
+              <span className="mt-1 block text-xs">
+                across 3 learning levels
+              </span>
+            </div>
+          </div>
+          <div className="mt-7 grid gap-3 sm:grid-cols-3">
+            {LEVELS.map((item, i) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => {
+                  setLevelId(item.id);
+                  setSelected(null);
+                  setSentFor(null);
+                  setError(null);
+                }}
+                className="group rounded-2xl border border-[#73789c]/15 bg-white/80 p-4 text-left transition hover:-translate-y-0.5 hover:border-[#6acbd2] hover:shadow-lg"
+              >
+                <span className="flex items-center justify-between font-mono text-[0.6rem] uppercase tracking-[0.16em] text-[#73789c]">
+                  LEVEL 0{i + 1}
+                  <span className="rounded-full bg-[#b1c9d3]/35 px-2 py-1 text-[#46424a]">
+                    {item.programmes.length} paths
+                  </span>
+                </span>
+                <strong className="mt-4 block font-display text-xl">
+                  {item.label}
+                </strong>
+                <span className="mt-1 block text-xs leading-relaxed text-[#46424a]/70">
+                  {item.blurb}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* STEP 1: LEVEL */}
