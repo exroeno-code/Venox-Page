@@ -68,18 +68,35 @@ function Scene() {
 
 const interestLink = `${SITE.whatsappUrl}?text=${encodeURIComponent("Hello VEXVANO LABS, I'm interested in your trading education classes. Please share more details.")}`;
 
-const LIVE_MARKETS = [
-  { symbol: "OANDA:EURUSD", label: "EUR / USD", interval: "60" },
-  { symbol: "OANDA:GBPUSD", label: "GBP / USD", interval: "60" },
-  { symbol: "OANDA:USDJPY", label: "USD / JPY", interval: "60" },
-  { symbol: "OANDA:XAUUSD", label: "Gold / USD", interval: "60" },
+const MARKET_GROUPS = [
+  {
+    title: "Forex pairs & metals",
+    markets: [
+      { symbol: "OANDA:EURUSD", label: "EUR / USD", interval: "60" },
+      { symbol: "OANDA:GBPUSD", label: "GBP / USD", interval: "60" },
+      { symbol: "OANDA:USDJPY", label: "USD / JPY", interval: "60" },
+      { symbol: "OANDA:AUDUSD", label: "AUD / USD", interval: "60" },
+      { symbol: "OANDA:USDCAD", label: "USD / CAD", interval: "60" },
+      { symbol: "OANDA:USDCHF", label: "USD / CHF", interval: "60" },
+      { symbol: "OANDA:NZDUSD", label: "NZD / USD", interval: "60" },
+      { symbol: "OANDA:EURGBP", label: "EUR / GBP", interval: "60" },
+      { symbol: "OANDA:AUDJPY", label: "AUD / JPY", interval: "60" },
+      { symbol: "OANDA:XAUUSD", label: "Gold / USD", interval: "60" },
+    ],
+  },
+  {
+    title: "Crypto markets",
+    markets: [
+      { symbol: "COINBASE:BTCUSD", label: "Bitcoin / USD", interval: "60" },
+      { symbol: "COINBASE:ETHUSD", label: "Ethereum / USD", interval: "60" },
+      { symbol: "COINBASE:SOLUSD", label: "Solana / USD", interval: "60" },
+    ],
+  },
 ] as const;
 
-function TradingViewChart({
-  symbol,
-  label,
-  interval,
-}: (typeof LIVE_MARKETS)[number]) {
+type Market = (typeof MARKET_GROUPS)[number]["markets"][number];
+
+function TradingViewChart({ symbol, label, interval }: Market) {
   const query = new URLSearchParams({
     symbol,
     interval,
@@ -208,17 +225,27 @@ function Trading() {
             Educational display only
           </span>
         </div>
-        <div className="grid gap-4 lg:grid-cols-2">
-          {LIVE_MARKETS.map((market) => (
-            <TradingViewChart key={market.symbol} {...market} />
+        <div className="space-y-10">
+          {MARKET_GROUPS.map((group) => (
+            <div key={group.title}>
+              <h3 className="mb-4 font-mono text-xs uppercase tracking-[0.22em] text-muted-foreground">
+                [ {group.title} ]
+              </h3>
+              <div className="grid gap-4 lg:grid-cols-2">
+                {group.markets.map((market) => (
+                  <TradingViewChart key={market.symbol} {...market} />
+                ))}
+              </div>
+            </div>
           ))}
         </div>
         <p className="mt-5 max-w-3xl font-mono text-[0.68rem] leading-relaxed text-muted-foreground">
           Charts are embedded from TradingView and show provider market data.
           Real-time availability and timing can vary by symbol, feed, market
-          hours, and provider. VEXVANO LABS does not provide signals, forecasts,
-          trade execution, or investment advice. Never treat this display as a
-          recommendation to buy or sell.
+          hours, and provider. Crypto assets can be especially volatile and
+          carry a high risk of loss. VEXVANO LABS does not provide signals,
+          forecasts, trade execution, or investment advice. Never treat this
+          display as a recommendation to buy or sell.
         </p>
       </section>
 
