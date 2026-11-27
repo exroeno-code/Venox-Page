@@ -22,7 +22,7 @@ describe("FormShell", () => {
     );
     expect(screen.getByText("Get updates by email.")).toBeInTheDocument();
     expect(screen.getByText("Takes about 30 seconds")).toBeInTheDocument();
-    const mark = container.querySelector('img[src="/vexon-circuit-v.png"]');
+    const mark = container.querySelector('img[src="/brand/vexvano-labs-v.png"]');
     expect(mark).toBeInTheDocument();
     expect(mark).toHaveAttribute("alt", "V");
   });
