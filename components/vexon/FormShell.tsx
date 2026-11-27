@@ -9,7 +9,7 @@ type FormShellProps = {
   className?: string;
 };
 
-/** Consistent, accessible presentation for public VEXON forms. */
+/** Consistent, accessible presentation for public VEXVANO LABS forms. */
 export function FormShell({
   title,
   reason,

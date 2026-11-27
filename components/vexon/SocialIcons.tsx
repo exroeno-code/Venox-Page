@@ -92,7 +92,7 @@ export function SocialLinks({ className = "" }: { className?: string }) {
           href={SITE.instagram.url}
           target="_blank"
           rel="noreferrer noopener"
-          aria-label={`VEXON TECH on Instagram (@${SITE.instagram.handle})`}
+          aria-label={`VEXVANO LABS on Instagram (@${SITE.instagram.handle})`}
           className={ITEM}
         >
           <InstagramIcon className="size-5" />
@@ -103,7 +103,7 @@ export function SocialLinks({ className = "" }: { className?: string }) {
           href={SITE.whatsappUrl}
           target="_blank"
           rel="noreferrer noopener"
-          aria-label="Message VEXON TECH on WhatsApp"
+          aria-label="Message VEXVANO LABS on WhatsApp"
           className={ITEM}
         >
           <WhatsAppIcon className="size-5" />
@@ -112,7 +112,7 @@ export function SocialLinks({ className = "" }: { className?: string }) {
       <li>
         <a
           href={`mailto:${SITE.emails[0]}`}
-          aria-label="Email VEXON TECH"
+          aria-label="Email VEXVANO LABS"
           className={ITEM}
         >
           <Mail className="size-5" />

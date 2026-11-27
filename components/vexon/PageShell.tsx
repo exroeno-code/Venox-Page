@@ -29,7 +29,7 @@ export function PageShell({
       <footer className="relative z-10 mt-16 flex flex-col gap-6 border-t pt-8 md:flex-row md:items-center md:justify-between">
         <SocialLinks />
         <p className="font-mono text-[0.7rem] leading-relaxed text-muted-foreground">
-          © 2026 VEXON TECH — proposed brand. Name, structure and launch timing remain subject to founder confirmation.{" "}
+          © 2026 VEXVANO LABS — proposed brand. Name, structure and launch timing remain subject to founder confirmation.{" "}
           <Link to="/privacy" className="underline underline-offset-2 transition-colors hover:text-foreground">Privacy</Link>
         </p>
       </footer>

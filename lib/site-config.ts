@@ -1,5 +1,5 @@
 /**
- * Public VEXON TECH contact details. These are shown on the site, so only put details here
+ * Public VEXVANO LABS contact details. These are shown on the site, so only put details here
  * that the founders want public. Change them here and every page updates.
  */
 export const SITE = {

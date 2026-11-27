@@ -205,7 +205,7 @@ function makeFakeSupabase(opts: { confirmEmails: boolean }) {
 
 const flush = () => new Promise((r) => setTimeout(r, 0));
 
-describe("Vexon accounts (Supabase)", () => {
+describe("Vexvano Labs accounts (Supabase)", () => {
   let fake: ReturnType<typeof makeFakeSupabase>;
   beforeEach(() => {
     fake = makeFakeSupabase({ confirmEmails: false });

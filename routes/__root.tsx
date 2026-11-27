@@ -88,10 +88,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       meta: [
         { charSet: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1" },
-        { title: "VEXON TECH" },
+        { title: "VEXVANO LABS" },
         {
           name: "description",
-          content: "VEXON TECH — useful ideas, real-world progress.",
+          content: "VEXVANO LABS — useful ideas, real-world progress.",
         },
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },

@@ -1,5 +1,5 @@
 /*
- * VEXON accounts — core logic (no React, SSR-safe).
+ * VEXVANO LABS accounts — core logic (no React, SSR-safe).
  *
  * Backed by Supabase Auth (email + password, optional Google) and a `profiles` table
  * (see supabase/migrations). The Supabase client is loaded lazily in the browser only, so
@@ -78,7 +78,7 @@ async function init() {
   if (!supabase) {
     if (!ACCOUNTS_CONFIGURED) {
       console.warn(
-        "Vexon accounts are off: set VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY.",
+        "Vexvano Labs accounts are off: set VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY.",
       );
     }
     setState({ status: "signed-out" });
@@ -244,7 +244,7 @@ export async function signIn(input: {
 }
 /**
  * Redirects to Google, which lets the person pick one of the Google accounts on their device.
- * On return, their Google name, email and picture become the Vexon account identity.
+ * On return, their Google name, email and picture become the Vexvano Labs account identity.
  */
 export async function signInWithGoogle(): Promise<void> {
   const supabase = await requireClient();

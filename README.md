@@ -1,12 +1,12 @@
-# VEXON TECH — Internal Site Overview
+# VEXVANO LABS — Internal Site Overview
 
-This repository contains the VEXON TECH information website. The site explains the brand, its workstreams, and ways visitors can express interest or get in touch. It is not itself a software product for public installation or reuse.
+This repository contains the VEXVANO LABS information website. The site explains the brand, its workstreams, and ways visitors can express interest or get in touch. It is not itself a software product for public installation or reuse.
 
 ## Current positioning
 
-VEXON TECH is a builder-led venture in concept development, based in Kenya. Its focus is useful ideas and real-world progress. The roadmap is the source of truth for the status of each workstream; do not describe an idea or planned offering as live.
+VEXVANO LABS is a builder-led venture in concept development, based in Kenya. Its focus is useful ideas and real-world progress. The roadmap is the source of truth for the status of each workstream; do not describe an idea or planned offering as live.
 
-The foreign exchange trading workstream is at **Idea** stage. VEXON TECH does not currently provide a foreign exchange trading platform or brokerage, trading accounts, deposits, trade execution, signals, money management, broker endorsements, or personalized financial advice. Foreign exchange trading and CFDs carry a high risk of loss. The separate `/trading` page describes proposed trading education and is not financial advice.
+The foreign exchange trading workstream is at **Idea** stage. VEXVANO LABS does not currently provide a foreign exchange trading platform or brokerage, trading accounts, deposits, trade execution, signals, money management, broker endorsements, or personalized financial advice. Foreign exchange trading and CFDs carry a high risk of loss. The separate `/trading` page describes proposed trading education and is not financial advice.
 
 ## Main routes
 
@@ -20,13 +20,13 @@ The foreign exchange trading workstream is at **Idea** stage. VEXON TECH does no
 | Learning             | `/learning`         | Computing programmes and applications of interest; fees, accreditation, and dates are unconfirmed.                                                                                                               |
 | Trading              | `/trading`          | Proposed trading education, with risk notice; no personalized investment advice.                                                                                                                                 |
 | Community            | `/community`        | WhatsApp community group, official channel, and trading group.                                                                                                                                                   |
-| Leadership           | `/leadership`       | People behind VEXON TECH.                                                                                                                                                                                        |
+| Leadership           | `/leadership`       | People behind VEXVANO LABS.                                                                                                                                                                                        |
 | Contact              | `/contact`          | Enquiry form and public channels.                                                                                                                                                                                |
 | Accounts             | `/auth`, `/profile` | Supabase-backed email/password sign-up and sign-in (no email verification code), optional Google and WhatsApp sign-in, profile, and onboarding. Preferences are stored in the user's RLS-protected Supabase row. |
 
 ## Guide and onboarding
 
-The VEXON TECH guide uses curated local answers first for common site questions, including page navigation, foreign exchange trading concept status, trading education, learning, roadmap, community, and contact details. Only unmatched questions call the configured NVIDIA chat service; that request has an 8-second timeout and falls back to the local answer set. The prompt is grounded in the current site facts and must not invent product details or provide investment advice.
+The VEXVANO LABS guide uses curated local answers first for common site questions, including page navigation, foreign exchange trading concept status, trading education, learning, roadmap, community, and contact details. Only unmatched questions call the configured NVIDIA chat service; that request has an 8-second timeout and falls back to the local answer set. The prompt is grounded in the current site facts and must not invent product details or provide investment advice.
 
 The welcome tour is step-by-step and dismissible. Hovering the golden V may play a sound but must not open the guide; click or tap opens it. Keep the launcher comfortable to use with touch input.
 

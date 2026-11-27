@@ -28,9 +28,9 @@ export function AccountButton() {
       <DropdownMenu>
         <DropdownMenuTrigger
           className="group flex items-center gap-3 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[#f0cc70]/60"
-          aria-label={`Vexon account menu for ${user.name}`}
+          aria-label={`Vexvano Labs account menu for ${user.name}`}
         >
-          <span className={LABEL}>Vexon account</span>
+          <span className={LABEL}>Vexvano Labs account</span>
           <UserAvatar user={user} className="size-11 text-sm" />
         </DropdownMenuTrigger>
         <DropdownMenuContent
@@ -42,7 +42,7 @@ export function AccountButton() {
               {user.name}
             </div>
             <div className="mt-0.5 truncate font-mono text-xs text-muted-foreground">
-              {user.email || user.phone || "Vexon account"}
+              {user.email || user.phone || "Vexvano Labs account"}
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
@@ -61,10 +61,10 @@ export function AccountButton() {
   return (
     <Link
       to="/auth"
-      aria-label="Vexon account: sign in or create an account"
+      aria-label="Vexvano Labs account: sign in or create an account"
       className="group flex items-center gap-3 rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[#f0cc70]/60"
     >
-      <span className={LABEL}>Vexon account</span>
+      <span className={LABEL}>Vexvano Labs account</span>
       <span className={CIRCLE}>
         <User className="size-5" />
       </span>

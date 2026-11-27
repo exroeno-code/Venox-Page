@@ -10,9 +10,9 @@ import { Wordmark } from "@/components/vexon/Wordmark";
 import { SITE } from "@/lib/site-config";
 import { ogImageMeta } from "@/lib/seo";
 
-const TITLE = "VEXON TECH — Useful ideas, made practical";
+const TITLE = "VEXVANO LABS — Useful ideas, made practical";
 const DESC =
-  "VEXON TECH is a Kenya-based, builder-led venture in concept development, exploring useful technology and a foreign exchange trading idea with clear status and risks.";
+  "VEXVANO LABS is a Kenya-based, builder-led venture in concept development, exploring useful technology and a foreign exchange trading idea with clear status and risks.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -176,7 +176,7 @@ function Index() {
               </span>
             </div>
             <p className="mt-8 max-w-md text-base leading-relaxed text-muted-foreground">
-              VEXON TECH is a Kenya-based, builder-led venture in concept
+              VEXVANO LABS is a Kenya-based, builder-led venture in concept
               development. We’re exploring practical software, responsible
               AI-enabled workflows, and a foreign exchange trading idea—with
               clear risks and no hype.
@@ -321,7 +321,7 @@ function Index() {
           ))}
         </div>
         <p className="mt-10 font-mono text-xs leading-relaxed text-muted-foreground">
-          Foreign exchange trading is an early idea only. VEXON TECH does not
+          Foreign exchange trading is an early idea only. VEXVANO LABS does not
           provide a broker, platform, accounts, deposits, trade execution,
           signals, money management, broker endorsements, or personalized
           financial advice. Foreign exchange trading and CFDs carry a high risk
@@ -499,7 +499,7 @@ function Index() {
               Enosh &amp; Vince
             </p>
             <p className="mt-2 text-sm text-muted-foreground">
-              The people building the VEXON TECH concept.
+              The people building the VEXVANO LABS concept.
             </p>
             <span className="mt-6 flex items-center gap-1 font-mono text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground transition-colors group-hover:text-foreground">
               Meet the leadership
@@ -533,7 +533,7 @@ function Index() {
               />
             </h2>
             <p className="reveal mx-auto mt-8 max-w-xl text-muted-foreground">
-              We’re still developing the VEXON TECH concept. Have a question, an
+              We’re still developing the VEXVANO LABS concept. Have a question, an
               idea, or want to work with us? We’d like to hear from you.
             </p>
             <div className="reveal mt-10 flex justify-center">
@@ -557,7 +557,7 @@ function Index() {
             <div className="flex flex-col gap-6 md:items-end">
               <SocialLinks />
               <p className="max-w-sm font-mono text-[0.7rem] leading-relaxed text-muted-foreground md:text-right">
-                © 2026 VEXON TECH — proposed brand. The name, structure, and
+                © 2026 VEXVANO LABS — proposed brand. The name, structure, and
                 launch timing still need founder confirmation.{" "}
                 <Link
                   to="/privacy"

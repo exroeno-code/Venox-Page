@@ -10,8 +10,8 @@ import {
 } from "@/lib/auth-core";
 import { ParticleField } from "@/components/vexon/ParticleField";
 
-const TITLE = "Choose a new password — VEXON TECH";
-const DESC = "Choose a new password for your VEXON TECH account.";
+const TITLE = "Choose a new password — VEXVANO LABS";
+const DESC = "Choose a new password for your VEXVANO LABS account.";
 
 export const Route = createFileRoute("/auth/reset")({
   validateSearch: (search: Record<string, unknown>) => ({

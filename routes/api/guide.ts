@@ -23,7 +23,7 @@ function json(body: unknown, status = 200): Response {
 
 type Msg = { role: "user" | "assistant"; content: string };
 
-/** Uses NVIDIA's hosted chat API. Returns null on any problem so the local VEXON answers can take over. */
+/** Uses NVIDIA's hosted chat API. Returns null on any problem so the local VEXVANO LABS answers can take over. */
 async function askNvidia(messages: Msg[]): Promise<string | null> {
   const key = process.env["NVIDIA_API_KEY"];
   if (!key) return null;

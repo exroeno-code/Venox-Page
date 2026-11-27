@@ -50,7 +50,7 @@ export function AvatarUploader({ user }: { user: VexonUser }) {
         <div className="min-w-0 flex-1">
           <div className="truncate font-display text-xl font-semibold">{user.name}</div>
           <div className="truncate font-mono text-xs text-muted-foreground">
-            {user.email || user.phone || "Vexon account"}
+            {user.email || user.phone || "Vexvano Labs account"}
           </div>
           <div className="mt-3 flex flex-wrap gap-2">
             <button

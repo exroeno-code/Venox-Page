@@ -1,6 +1,6 @@
 # Supabase account setup
 
-The `/auth` page uses the repository's Supabase Auth client. Email/password signup signs the person in immediately; email confirmation must therefore be disabled in the connected Supabase project. Google and WhatsApp sign-in remain optional providers and are shown only when each provider is enabled in Supabase and its `VITE_ENABLE_*_AUTH` flag is `true`. The connected Vexon project currently has email auth enabled and Google/phone auth disabled.
+The `/auth` page uses the repository's Supabase Auth client. Email/password signup signs the person in immediately; email confirmation must therefore be disabled in the connected Supabase project. Google and WhatsApp sign-in remain optional providers and are shown only when each provider is enabled in Supabase and its `VITE_ENABLE_*_AUTH` flag is `true`. The connected Vexvano Labs project currently has email auth enabled and Google/phone auth disabled.
 
 ## 1. Configure the site
 
@@ -25,13 +25,13 @@ Before applying changes, verify that the Supabase CLI/project link targets the i
 
 ## 3. Allow password-only signup (no email code)
 
-In the Supabase Dashboard, open **Authentication → Sign In / Providers → User Signups** and turn **Confirm email** off. With this setting disabled, Supabase returns a session after email/password signup, and the user is signed in immediately. The VEXON signup flow intentionally does not ask for or resend an email verification code.
+In the Supabase Dashboard, open **Authentication → Sign In / Providers → User Signups** and turn **Confirm email** off. With this setting disabled, Supabase returns a session after email/password signup, and the user is signed in immediately. The VEXVANO LABS signup flow intentionally does not ask for or resend an email verification code.
 
 If **Confirm email** is still on, Supabase may send a confirmation message and withhold the session; the app will show a setup error rather than pretending that the user is signed in. Disable the setting in the correct Supabase project and test a new account before launch.
 
 **Security tradeoff:** without email confirmation, users can register an email address they do not own, so do not rely on account email as a verified contact address. Password sign-in and the existing profile row-level security remain in place. Consider rate limits or abuse protection if account creation is exposed publicly. Password-reset emails still use Supabase's recovery link; this change removes signup verification codes, not account recovery.
 
-Set the Supabase **Site URL** to the deployed VEXON origin and add each intended local and production origin under **Redirect URLs** for OAuth and password-recovery links.
+Set the Supabase **Site URL** to the deployed VEXVANO LABS origin and add each intended local and production origin under **Redirect URLs** for OAuth and password-recovery links.
 
 ## 4. Optional social/phone providers
 
@@ -41,7 +41,7 @@ Set the Supabase **Site URL** to the deployed VEXON origin and add each intended
 
 ## 5. Verify before launch
 
-1. Confirm the VEXON origin is listed in Supabase Auth's site/redirect settings.
+1. Confirm the VEXVANO LABS origin is listed in Supabase Auth's site/redirect settings.
 2. Confirm all project migrations ran successfully and `public.profiles` has RLS enabled.
 3. Confirm **Confirm email** is off, then test email/password signup, immediate sign-in, sign-out, and password recovery. Test Google and WhatsApp only if enabled.
 4. Confirm the profile row is created for a new user and that the browser uses only the publishable key.

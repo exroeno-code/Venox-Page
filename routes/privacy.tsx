@@ -6,9 +6,9 @@ import { Words } from "@/components/vexon/Words";
 import { ogImageMeta } from "@/lib/seo";
 import { SITE } from "@/lib/site-config";
 
-const TITLE = "Your privacy — VEXON TECH";
+const TITLE = "Your privacy — VEXVANO LABS";
 const DESC =
-  "A clear guide to the personal information VEXON TECH collects through this website, why we use it, and how to ask us to delete it.";
+  "A clear guide to the personal information VEXVANO LABS collects through this website, why we use it, and how to ask us to delete it.";
 const UPDATED = "24 November 2026";
 
 export const Route = createFileRoute("/privacy")({
@@ -61,7 +61,7 @@ function Privacy() {
           <Words text="Privacy notice" className="text-chrome" />
         </h1>
         <p className="mt-8 leading-relaxed text-muted-foreground">
-          VEXON TECH is a Kenya-based proposed brand in concept development.
+          VEXVANO LABS is a Kenya-based proposed brand in concept development.
           Here is what personal information this website collects and how we use
           it. We collect only what each feature needs.
         </p>
@@ -103,7 +103,7 @@ function Privacy() {
                 optional note.
               </li>
               <li>
-                <strong className="text-foreground">VEXON Guide chat:</strong>{" "}
+                <strong className="text-foreground">VEXVANO LABS Guide chat:</strong>{" "}
                 the questions you type into the guide. Please do not put
                 personal or sensitive details in them.
               </li>
@@ -139,7 +139,7 @@ function Privacy() {
               Supabase (database and sign-in). Your onboarding answers are
               associated with your account, and database row-level security lets
               you read and update only your own onboarding row. Other visitors
-              cannot read it; authorized VEXON TECH project operators may access
+              cannot read it; authorized VEXVANO LABS project operators may access
               stored information when needed to operate or support the website.
               The website is hosted on Vercel. If Web Analytics is enabled for
               this project, Vercel processes the page views and contact-form
@@ -147,7 +147,7 @@ function Privacy() {
               Web Analytics does not use cookies to identify visitors and uses a
               short-lived, request-derived identifier for visitor sessions. The
               Analytics event does not contain your submitted form values. When
-              the VEXON Guide uses AI, your question and recent chat messages
+              the VEXVANO LABS Guide uses AI, your question and recent chat messages
               are sent to our AI provider (NVIDIA) to produce an answer. These
               providers may process data outside Kenya.
             </p>

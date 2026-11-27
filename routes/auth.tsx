@@ -18,9 +18,9 @@ import {
 } from "@/lib/auth-core";
 import { useAuth } from "@/lib/use-auth";
 
-const TITLE = "Your Vexon account — VEXON TECH";
+const TITLE = "Your Vexvano Labs account — VEXVANO LABS";
 const DESC =
-  "Create an account or sign in to follow what we’re building at VEXON TECH.";
+  "Create an account or sign in to follow what we’re building at VEXVANO LABS.";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
@@ -153,9 +153,9 @@ function AuthPage() {
     <main className="signup-flow">
       <section className="signup-flow__card" aria-labelledby="auth-title">
         <header className="signup-flow__top">
-          <Link to="/" aria-label="Vexon home" className="signup-flow__brand">
+          <Link to="/" aria-label="Vexvano Labs home" className="signup-flow__brand">
             <span className="signup-flow__mark">V</span>
-            <span>VEXON TECH</span>
+            <span>VEXVANO LABS</span>
           </Link>
           {stage !== "methods" && stage !== "success" ? (
             <button
@@ -168,7 +168,7 @@ function AuthPage() {
             </button>
           ) : (
             <Link to="/" className="signup-flow__home">
-              Back to VEXON TECH <ArrowUpRight size={14} aria-hidden="true" />
+              Back to VEXVANO LABS <ArrowUpRight size={14} aria-hidden="true" />
             </Link>
           )}
         </header>
@@ -196,7 +196,7 @@ function AuthPage() {
               <span>
                 <strong>{auth.user.name}</strong>
                 <small>
-                  {auth.user.email || auth.user.phone || "Vexon account"}
+                  {auth.user.email || auth.user.phone || "Vexvano Labs account"}
                 </small>
               </span>
             </div>
@@ -205,7 +205,7 @@ function AuthPage() {
               className="signup-flow__primary"
               onClick={() => void navigate({ to: "/" })}
             >
-              Continue to VEXON TECH
+              Continue to VEXVANO LABS
             </button>
             <button
               type="button"
@@ -229,7 +229,7 @@ function AuthPage() {
               className="signup-flow__primary"
               onClick={() => void navigate({ to: "/" })}
             >
-              Continue to VEXON TECH
+              Continue to VEXVANO LABS
             </button>
           </div>
         ) : stage === "methods" ? (
@@ -335,7 +335,7 @@ function AuthPage() {
             <p className="signup-flow__sub">
               {mode === "create"
                 ? "Use your email and a password to create your account."
-                : "Welcome back. Sign in to your Vexon account."}
+                : "Welcome back. Sign in to your Vexvano Labs account."}
             </p>
             {!ACCOUNTS_CONFIGURED && (
               <p
@@ -425,7 +425,7 @@ function AuthPage() {
             <p className="signup-flow__small">
               {mode === "create"
                 ? "Already have an account? "
-                : "New to Vexon? "}
+                : "New to Vexvano Labs? "}
               <button
                 type="button"
                 className="signup-flow__link"

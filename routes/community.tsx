@@ -7,9 +7,9 @@ import { Words } from "@/components/vexon/Words";
 import { SITE } from "@/lib/site-config";
 import { ogImageMeta } from "@/lib/seo";
 
-const TITLE = "Our community — VEXON TECH";
+const TITLE = "Our community — VEXVANO LABS";
 const DESC =
-  "Find your place in the VEXON TECH WhatsApp community: share ideas, follow updates or talk about trading with others.";
+  "Find your place in the VEXVANO LABS WhatsApp community: share ideas, follow updates or talk about trading with others.";
 
 export const Route = createFileRoute("/community")({
   head: () => ({
@@ -30,7 +30,7 @@ const SPACES = [
   {
     tag: "[ 01 ]",
     title: "Community group",
-    desc: "Meet people in the VEXON TECH community, swap ideas and ask questions.",
+    desc: "Meet people in the VEXVANO LABS community, swap ideas and ask questions.",
     cta: "Come join us",
     href: SITE.community.group,
   },
@@ -98,7 +98,7 @@ function Community() {
 
       <p className="max-w-xl pb-6 font-mono text-[0.7rem] leading-relaxed text-muted-foreground">
         Foreign exchange trading and CFDs carry a high risk of loss. Foreign
-        exchange trading is only at the idea stage: VEXON TECH does not provide
+        exchange trading is only at the idea stage: VEXVANO LABS does not provide
         a broker, platform, accounts, deposits, trade execution, signals, money
         management, broker endorsements or personalized financial advice.
         Trading education is proposed, not personalized advice. Nothing shared

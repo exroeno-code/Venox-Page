@@ -6,9 +6,9 @@ import { ParticleField } from "@/components/vexon/ParticleField";
 import { Words } from "@/components/vexon/Words";
 import { ogImageMeta } from "@/lib/seo";
 
-const TITLE = "Foreign exchange trading: an early idea — VEXON TECH";
+const TITLE = "Foreign exchange trading: an early idea — VEXVANO LABS";
 const DESC =
-  "VEXON TECH is exploring foreign exchange trading as an early idea. There is no live platform, broker service, account, deposit facility, or trade execution.";
+  "VEXVANO LABS is exploring foreign exchange trading as an early idea. There is no live platform, broker service, account, deposit facility, or trade execution.";
 
 export const Route = createFileRoute("/forex-trading")({
   head: () => ({
@@ -50,7 +50,7 @@ const CONSIDERATIONS = [
   },
   {
     title: "No trading service",
-    text: "VEXON TECH does not provide a broker or trading accounts, accept deposits, execute trades, manage money, sell signals, or endorse brokers.",
+    text: "VEXVANO LABS does not provide a broker or trading accounts, accept deposits, execute trades, manage money, sell signals, or endorse brokers.",
   },
   {
     title: "Important details are undecided",
@@ -78,7 +78,7 @@ function ForexTrading() {
         </h1>
         <p className="mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground">
           We’re exploring foreign exchange trading as a possible future project.
-          It’s only an idea for now: VEXON TECH does not offer a trading
+          It’s only an idea for now: VEXVANO LABS does not offer a trading
           platform, broker service, or financial service.
         </p>
         <div className="mt-10 flex flex-wrap gap-4">

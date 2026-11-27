@@ -747,7 +747,7 @@ html.lenis body {
   pointer-events: none;
 }
 
-/* VEXON authentication: mobile-first app surfaces with a clear desktop split. */
+/* VEXVANO LABS authentication: mobile-first app surfaces with a clear desktop split. */
 .auth-reference {
   --auth-ink: #1c1608;
   --auth-muted: #6f6551;
@@ -1603,7 +1603,7 @@ body:has(.auth-reference) .guide-widget-dock {
 }
 
 
-/* Supabase-backed Vexon account flow, based on the supplied dark/lime reference. */
+/* Supabase-backed Vexvano Labs account flow, based on the supplied dark/lime reference. */
 .signup-flow {
   --signup-bg: #09090b;
   --signup-card: #111114;

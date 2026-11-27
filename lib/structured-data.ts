@@ -49,16 +49,16 @@ export interface ProductSchema {
   };
 }
 
-/** Base organization info for VEXON TECH */
+/** Base organization info for VEXVANO LABS */
 export function getOrganizationSchema(siteUrl: string): OrganizationSchema {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "VEXON TECH",
+    name: "VEXVANO LABS",
     url: siteUrl,
     logo: `${siteUrl}/favicon.svg`,
     description:
-      "VEXON TECH — useful ideas, real-world progress. A builder-led venture exploring practical software, responsible AI-enabled workflows, and an early foreign exchange trading concept.",
+      "VEXVANO LABS — useful ideas, real-world progress. A builder-led venture exploring practical software, responsible AI-enabled workflows, and an early foreign exchange trading concept.",
     sameAs: [
       "https://github.com/exroeno-code/Venox-Page",
       "https://x.com/vexontech",
@@ -77,7 +77,7 @@ export function getWebSiteSchema(siteUrl: string): WebSiteSchema {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "VEXON TECH",
+    name: "VEXVANO LABS",
     url: siteUrl,
     potentialAction: {
       "@type": "SearchAction",
@@ -98,7 +98,7 @@ export function getAssistantFAQSchema(): FAQSchema {
     mainEntity: [
       {
         "@type": "Question",
-        name: "What is the VEXON AI assistant?",
+        name: "What is the VEXVANO LABS AI assistant?",
         acceptedAnswer: {
           "@type": "Answer",
           text: "An AI assistant that helps developers and everyday users move from a question or task toward a usable draft, solution, or next step. It is currently an idea under discussion — not yet built or validated.",
@@ -143,7 +143,7 @@ export function getTradingFAQSchema(): FAQSchema {
         name: "Is this investment advice?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "No. This is education only. VEXON TECH does not give investment advice, sell trade signals, manage anyone's money, take deposits, or recommend or endorse any broker.",
+          text: "No. This is education only. VEXVANO LABS does not give investment advice, sell trade signals, manage anyone's money, take deposits, or recommend or endorse any broker.",
         },
       },
       {
@@ -203,7 +203,7 @@ export function getConceptProductSchema(
     "@type": "Product",
     name,
     description,
-    brand: { "@type": "Brand", name: "VEXON TECH" },
+    brand: { "@type": "Brand", name: "VEXVANO LABS" },
     offers: {
       "@type": "Offer",
       availability: "https://schema.org/PreOrder",

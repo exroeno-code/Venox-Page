@@ -1,5 +1,5 @@
 /**
- * VEXON waitlist (AI assistant concept) — core logic (no React, SSR-safe).
+ * VEXVANO LABS waitlist (AI assistant concept) — core logic (no React, SSR-safe).
  * Sign-ups are stored in the Supabase `waitlist` table (see supabase/migrations).
  */
 import { getClient } from "./auth-core";

@@ -1,5 +1,5 @@
 /**
- * VEXON contact form — core logic (no React, SSR-safe).
+ * VEXVANO LABS contact form — core logic (no React, SSR-safe).
  * Messages are stored in the Supabase `contact_messages` table (see supabase/migrations).
  */
 import { ACCOUNTS_CONFIGURED, getClient } from "./auth-core";

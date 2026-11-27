@@ -1,4 +1,4 @@
--- VEXON waitlist: email sign-ups for the AI assistant concept (/assistant page).
+-- VEXVANO LABS waitlist: email sign-ups for the AI assistant concept (/assistant page).
 -- Run this once in Supabase: Dashboard > SQL Editor > New query > paste > Run.
 -- Read sign-ups in Dashboard > Table Editor > waitlist.
 

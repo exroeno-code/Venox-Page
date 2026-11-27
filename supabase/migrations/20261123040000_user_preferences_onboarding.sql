@@ -1,4 +1,4 @@
--- Optional VEXON TECH website onboarding/preferences.
+-- Optional VEXVANO LABS website onboarding/preferences.
 -- Existing accounts are marked completed so this migration does not interrupt returning users.
 -- New auth.users rows receive a pending preferences row through the trigger below.
 

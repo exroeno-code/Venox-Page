@@ -7,9 +7,9 @@ import { TopBar } from "@/components/vexon/TopBar";
 import { Words } from "@/components/vexon/Words";
 import { ogImageMeta } from "@/lib/seo";
 
-const TITLE = "Leadership — VEXON TECH";
+const TITLE = "Leadership — VEXVANO LABS";
 const DESC =
-  "Meet Enosh Yeswa, the founder leading VEXON TECH as it develops useful ideas from Nairobi and Kakamega, Kenya.";
+  "Meet Enosh Yeswa, the founder leading VEXVANO LABS as it develops useful ideas from Nairobi and Kakamega, Kenya.";
 
 export const Route = createFileRoute("/leadership")({
   head: () => ({
@@ -218,7 +218,7 @@ function Leadership() {
       <footer className="relative z-10 flex flex-col gap-6 border-t pt-8 md:flex-row md:items-center md:justify-between">
         <SocialLinks />
         <p className="font-mono text-[0.7rem] leading-relaxed text-muted-foreground">
-          © 2026 VEXON TECH — a proposed brand. Roles and structure still need
+          © 2026 VEXVANO LABS — a proposed brand. Roles and structure still need
           the founder’s confirmation.
         </p>
       </footer>

@@ -17,9 +17,9 @@ import { LEVELS, type LevelId } from "@/lib/programmes";
 import { SITE } from "@/lib/site-config";
 import { ogImageMeta } from "@/lib/seo";
 
-const TITLE = "Learning — Computing programmes — VEXON TECH";
+const TITLE = "Learning — Computing programmes — VEXVANO LABS";
 const DESC =
-  "Explore proposed online computing programmes from VEXON TECH and share your interest. Classes, fees, accreditation and start dates are not yet confirmed.";
+  "Explore proposed online computing programmes from VEXVANO LABS and share your interest. Classes, fees, accreditation and start dates are not yet confirmed.";
 
 export const Route = createFileRoute("/learning")({
   head: () => ({
@@ -63,7 +63,7 @@ function Scene() {
 }
 
 function whatsappApply(programme: string) {
-  const text = `Hello VEXON TECH, I'd like to apply for online classes: ${programme}.`;
+  const text = `Hello VEXVANO LABS, I'd like to apply for online classes: ${programme}.`;
   return `${SITE.whatsappUrl}?text=${encodeURIComponent(text)}`;
 }
 
@@ -436,7 +436,7 @@ function Learning() {
       </section>
 
       <p className="max-w-xl pb-6 pt-4 font-mono text-[0.7rem] leading-relaxed text-muted-foreground">
-        VEXON TECH is still developing this idea. Sending your details only
+        VEXVANO LABS is still developing this idea. Sending your details only
         shares your interest; it does not confirm a place. Classes, fees,
         accreditation and start dates are not yet confirmed.
       </p>

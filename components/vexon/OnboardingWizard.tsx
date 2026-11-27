@@ -514,7 +514,7 @@ export function OnboardingWizard({ userId }: { userId: string }) {
         >
           <fieldset>
             <legend className={LABEL}>
-              How would you like VEXON TECH to help?{" "}
+              How would you like VEXVANO LABS to help?{" "}
               <span className="normal-case tracking-normal">
                 (optional, choose any)
               </span>
@@ -546,7 +546,7 @@ export function OnboardingWizard({ userId }: { userId: string }) {
                 value={answers.helpOther}
                 onChange={(e) => change("helpOther", e.target.value)}
                 maxLength={100}
-                aria-label="Other way VEXON TECH could help"
+                aria-label="Other way VEXVANO LABS could help"
                 placeholder="Optional: what else would help?"
                 className={FIELD}
               />
@@ -648,7 +648,7 @@ function PreferenceSummary({ record }: { record: OnboardingRecord }) {
         </div>
       )}
       <div>
-        <dt className={LABEL}>Ways VEXON could help</dt>
+        <dt className={LABEL}>Ways VEXVANO LABS could help</dt>
         <dd>{topics.length ? topics.join(", ") : "Not specified"}</dd>
       </div>
       {record.description && (

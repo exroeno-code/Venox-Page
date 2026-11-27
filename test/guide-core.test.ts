@@ -75,7 +75,7 @@ describe("localAnswer", () => {
 
   it("answers common forex questions locally and makes the service status clear", () => {
     const answer = instantLocalAnswer(
-      "Is VEXON TECH a live online forex broker?",
+      "Is VEXVANO LABS a live online forex broker?",
     );
     expect(answer).toContain("not a live broker");
     expect(answer).toContain("foreign exchange trading concept");
@@ -91,12 +91,12 @@ describe("localAnswer", () => {
 });
 
 describe("company context", () => {
-  it("grounds the AI Guide in VEXON's company identity, principles, and current-stage boundaries", () => {
+  it("grounds the AI Guide in VEXVANO LABS's company identity, principles, and current-stage boundaries", () => {
     expect(SITE_FACTS).toContain("builder-led venture");
     expect(SITE_FACTS).toContain("foreign exchange trading");
     expect(SITE_FACTS).toContain("not a live broker");
     expect(SITE_FACTS).toContain("Nairobi and Kakamega");
-    expect(SYSTEM_PROMPT).toContain("company-aware VEXON TECH website guide");
+    expect(SYSTEM_PROMPT).toContain("company-aware VEXVANO LABS website guide");
     expect(SYSTEM_PROMPT).toContain("Do not imply planned services are live");
   });
 });

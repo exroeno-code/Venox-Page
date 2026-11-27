@@ -1,4 +1,4 @@
--- VEXON contact form: messages sent from the /contact page.
+-- VEXVANO LABS contact form: messages sent from the /contact page.
 -- Run this once in Supabase: Dashboard > SQL Editor > New query > paste > Run.
 -- Read the messages in Dashboard > Table Editor > contact_messages.
 

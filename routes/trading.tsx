@@ -8,9 +8,9 @@ import { Words } from "@/components/vexon/Words";
 import { ogImageMeta } from "@/lib/seo";
 import { SITE } from "@/lib/site-config";
 
-const TITLE = "Trading education — VEXON TECH";
+const TITLE = "Trading education — VEXVANO LABS";
 const DESC =
-  "VEXON TECH is exploring trading education in Kenya. Learn about markets and risk; this is a proposed learning program, not personalized financial advice.";
+  "VEXVANO LABS is exploring trading education in Kenya. Learn about markets and risk; this is a proposed learning program, not personalized financial advice.";
 
 export const Route = createFileRoute("/trading")({
   head: () => ({
@@ -66,7 +66,7 @@ function Scene() {
   );
 }
 
-const interestLink = `${SITE.whatsappUrl}?text=${encodeURIComponent("Hello VEXON TECH, I'm interested in your trading education classes. Please share more details.")}`;
+const interestLink = `${SITE.whatsappUrl}?text=${encodeURIComponent("Hello VEXVANO LABS, I'm interested in your trading education classes. Please share more details.")}`;
 
 function Trading() {
   return (
@@ -125,7 +125,7 @@ function Trading() {
             Learning only—not personalized financial advice.
           </p>
           <p>
-            Foreign exchange trading is at the Idea stage. VEXON TECH does not
+            Foreign exchange trading is at the Idea stage. VEXVANO LABS does not
             provide a broker, platform or accounts, and does not take deposits,
             execute trades, sell signals, manage money, recommend or endorse
             brokers, or provide personalized financial advice. Proposed trading

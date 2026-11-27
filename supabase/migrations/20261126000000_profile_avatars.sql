@@ -22,7 +22,7 @@ begin
         nullif(trim(new.raw_user_meta_data ->> 'full_name'), ''),
         nullif(trim(new.raw_user_meta_data ->> 'name'), ''),
         nullif(split_part(coalesce(new.email, ''), '@', 1), ''),
-        'Vexon member'
+        'Vexvano Labs member'
       ),
       60
     ),

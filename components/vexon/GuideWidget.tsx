@@ -17,20 +17,20 @@ import {
 } from "@/lib/guide-core";
 
 const GREETING =
-  "Hi, I'm the VEXON TECH site guide. I can explain what's on this site, what's only a concept, and where to find the right information or contact the team.";
+  "Hi, I'm the VEXVANO LABS site guide. I can explain what's on this site, what's only a concept, and where to find the right information or contact the team.";
 const LINK_RE = /\[([^\]]+)\]\(([^)\s]+)\)/g;
 const WELCOME_STEPS = [
   {
-    title: "Welcome to VEXON TECH",
+    title: "Welcome to VEXVANO LABS",
     text: "Useful ideas. Real-world progress. Explore practical technology and our early foreign exchange trading concept—shared with clear status, not hype.",
   },
   {
     title: "Foreign exchange trading is a concept, not a live service",
-    text: "Foreign exchange trading is at the Idea stage. VEXON TECH is not a broker; there are no trading accounts, deposits, or trades here.",
+    text: "Foreign exchange trading is at the Idea stage. VEXVANO LABS is not a broker; there are no trading accounts, deposits, or trades here.",
   },
   {
     title: "Find a clear next step",
-    text: "Ask about VEXON TECH, the foreign exchange trading concept, learning, or the roadmap. Tap or click the golden V to open the guide; hovering only plays a soft sound. Skip or close this tour whenever you like.",
+    text: "Ask about VEXVANO LABS, the foreign exchange trading concept, learning, or the roadmap. Tap or click the golden V to open the guide; hovering only plays a soft sound. Skip or close this tour whenever you like.",
   },
 ];
 
@@ -72,7 +72,7 @@ function renderReply(text: string, onNavigate: () => void): ReactNode[] {
   return out.map((n, k) => <Fragment key={k}>{n}</Fragment>);
 }
 
-/** Centered VEXON Guide launcher and chat panel, shown on every page. */
+/** Centered VEXVANO LABS Guide launcher and chat panel, shown on every page. */
 export function GuideWidget() {
   const [open, setOpen] = useState(false);
   const [showWelcome, setShowWelcome] = useState(false);
@@ -201,7 +201,7 @@ export function GuideWidget() {
       {open && (
         <section
           role="dialog"
-          aria-label="VEXON Guide"
+          aria-label="VEXVANO LABS Guide"
           className="pointer-events-auto mb-5 flex max-h-[min(34rem,calc(100dvh-8rem))] w-full max-w-[24rem] flex-col overflow-hidden rounded-[1.6rem] border border-[#e6b94a]/35 bg-[#111111]/90 text-foreground shadow-[0_24px_90px_-24px_rgba(0,0,0,.8),0_0_50px_-24px_rgba(230,185,74,.65)] backdrop-blur-2xl animate-in fade-in slide-in-from-bottom-4"
         >
           <header className="flex shrink-0 items-center justify-between border-b border-white/10 bg-white/[0.035] px-4 py-3">
@@ -214,7 +214,7 @@ export function GuideWidget() {
               </span>
               <div>
                 <h2 className="font-display text-sm font-semibold">
-                  VEXON TECH Guide
+                  VEXVANO LABS Guide
                 </h2>
                 <p className="font-mono text-[0.6rem] uppercase tracking-[0.2em] text-foreground/70">
                   Here to help you explore
@@ -296,8 +296,8 @@ export function GuideWidget() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               maxLength={MAX_CHARS}
-              placeholder="Ask about VEXON TECH, foreign exchange trading, or this website…"
-              aria-label="Ask the VEXON Guide"
+              placeholder="Ask about VEXVANO LABS, foreign exchange trading, or this website…"
+              aria-label="Ask the VEXVANO LABS Guide"
               className="min-h-11 min-w-0 flex-1 rounded-full border border-white/[0.14] bg-white/[0.045] px-4 py-2.5 text-base text-white outline-none transition-colors placeholder:text-white/45 focus:border-glow/70 focus-visible:ring-2 focus-visible:ring-glow/40"
             />
             <button
@@ -323,7 +323,7 @@ export function GuideWidget() {
             <X className="size-3.5" />
           </button>
           <p className="flex items-center justify-center gap-2 pr-3 font-mono text-[0.6rem] uppercase tracking-[0.2em] text-[#f0cc70]">
-            <Sparkles className="size-3.5" /> A quick VEXON tour
+            <Sparkles className="size-3.5" /> A quick VEXVANO LABS tour
           </p>
           <div
             aria-live="polite"
@@ -402,7 +402,7 @@ export function GuideWidget() {
             openGuide();
           }}
           aria-haspopup="dialog"
-          aria-label="Open the VEXON AI Guide"
+          aria-label="Open the VEXVANO LABS AI Guide"
           className="guide-v-launcher pointer-events-auto relative grid size-16 place-items-center rounded-full border border-[#f0cc70]/70 bg-[#100d08]/95 text-[#ffe7a2] shadow-[0_0_22px_2px_rgba(230,185,74,.32),inset_0_0_20px_rgba(230,185,74,.12)] transition-transform duration-300 hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ffe7a2] focus-visible:ring-offset-4 focus-visible:ring-offset-background sm:size-[4.25rem]"
         >
           <span

@@ -1,4 +1,4 @@
-/** Gold circuit V plus the VEXON TECH wordmark; size and weight come from the parent. */
+/** Gold circuit V plus the VEXVANO LABS wordmark; size and weight come from the parent. */
 export function Wordmark({ className = "" }: { className?: string }) {
   return (
     <span className={className}>
@@ -9,7 +9,7 @@ export function Wordmark({ className = "" }: { className?: string }) {
         height={512}
         className="mr-[0.04em] inline-block h-[0.95em] w-[0.95em] align-[-0.15em] object-contain"
       />
-      EXON <span className="text-chrome">TECH</span>
+      EXVANO <span className="text-chrome">LABS</span>
     </span>
   );
 }

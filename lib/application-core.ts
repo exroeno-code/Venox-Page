@@ -1,5 +1,5 @@
 /**
- * VEXON learning applications — core logic (no React, SSR-safe).
+ * VEXVANO LABS learning applications — core logic (no React, SSR-safe).
  * Applications are stored in the Supabase `course_applications` table (see supabase/migrations).
  */
 import { ACCOUNTS_CONFIGURED, getClient } from "./auth-core";

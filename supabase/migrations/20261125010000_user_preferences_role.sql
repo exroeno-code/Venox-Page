@@ -1,4 +1,4 @@
--- VEXON onboarding: add role column to user_preferences.
+-- VEXVANO LABS onboarding: add role column to user_preferences.
 -- Run this once in Supabase: Dashboard > SQL Editor > New query > paste > Run.
 
 -- Add role column with constrained values

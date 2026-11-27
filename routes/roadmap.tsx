@@ -5,9 +5,9 @@ import { PageShell } from "@/components/vexon/PageShell";
 import { Words } from "@/components/vexon/Words";
 import { ogImageMeta } from "@/lib/seo";
 
-const TITLE = "What we’re working on — VEXON TECH";
+const TITLE = "What we’re working on — VEXVANO LABS";
 const DESC =
-  "A clear look at where VEXON TECH ideas stand today: Idea, Prototype, Pilot or Live. We’ll update this page as things change.";
+  "A clear look at where VEXVANO LABS ideas stand today: Idea, Prototype, Pilot or Live. We’ll update this page as things change.";
 
 export const Route = createFileRoute("/roadmap")({
   head: () => ({
@@ -38,9 +38,9 @@ const ITEMS: {
   };
 }[] = [
   {
-    title: "VEXON TECH website",
+    title: "VEXVANO LABS website",
     stage: "Live",
-    note: "You’re here now: the website, leadership, contact and roadmap pages, and Vexon accounts are live.",
+    note: "You’re here now: the website, leadership, contact and roadmap pages, and Vexvano Labs accounts are live.",
     link: { to: "/leadership", label: "Meet our leadership" },
   },
   {
@@ -76,7 +76,7 @@ const UPDATES: { date: string; text: string }[] = [
   },
   {
     date: "November 2026",
-    text: "We added leadership and contact pages, along with Vexon accounts.",
+    text: "We added leadership and contact pages, along with Vexvano Labs accounts.",
   },
 ];
 

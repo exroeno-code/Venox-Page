@@ -1,4 +1,4 @@
--- VEXON accounts: one profile row per signed-up user.
+-- VEXVANO LABS accounts: one profile row per signed-up user.
 -- Run this once in Supabase: Dashboard > SQL Editor > New query > paste > Run.
 
 create table if not exists public.profiles (
@@ -43,7 +43,7 @@ begin
         nullif(trim(new.raw_user_meta_data ->> 'full_name'), ''),
         nullif(trim(new.raw_user_meta_data ->> 'name'), ''),
         nullif(split_part(coalesce(new.email, ''), '@', 1), ''),
-        'Vexon member'
+        'Vexvano Labs member'
       ),
       60
     )

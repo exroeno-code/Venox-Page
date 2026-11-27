@@ -8,9 +8,9 @@ import { ACCOUNTS_CONFIGURED } from "@/lib/auth-core";
 import { joinWaitlist, WaitlistError } from "@/lib/waitlist-core";
 import { ogImageMeta } from "@/lib/seo";
 
-const TITLE = "A practical AI assistant idea — VEXON TECH";
+const TITLE = "A practical AI assistant idea — VEXVANO LABS";
 const DESC =
-  "We're exploring an AI assistant to help turn questions and tasks into useful next steps. It's an idea, not built or validated yet. Follow along with VEXON TECH.";
+  "We're exploring an AI assistant to help turn questions and tasks into useful next steps. It's an idea, not built or validated yet. Follow along with VEXVANO LABS.";
 
 export const Route = createFileRoute("/assistant")({
   head: () => ({

@@ -17,9 +17,9 @@ import {
 import { SITE } from "@/lib/site-config";
 import { ogImageMeta } from "@/lib/seo";
 
-const TITLE = "Get in touch — VEXON TECH";
+const TITLE = "Get in touch — VEXVANO LABS";
 const DESC =
-  "Have a question or an idea? Reach VEXON TECH by message, email, WhatsApp or Instagram. Based in Nairobi and Kakamega, Kenya.";
+  "Have a question or an idea? Reach VEXVANO LABS by message, email, WhatsApp or Instagram. Based in Nairobi and Kakamega, Kenya.";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -43,7 +43,7 @@ const LABEL =
 const BUTTON =
   "form-btn bracket-btn w-full px-7 py-4 font-mono text-sm uppercase tracking-[0.2em] transition-colors hover:bg-foreground/5 disabled:opacity-60";
 const WHATSAPP_MESSAGE =
-  "Hello VEXON TECH, I have a question and would prefer to chat on WhatsApp.";
+  "Hello VEXVANO LABS, I have a question and would prefer to chat on WhatsApp.";
 const WHATSAPP_HREF = `${SITE.whatsappUrl}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
 
 type Channel = {

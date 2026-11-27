@@ -18,7 +18,7 @@ describe("FormShell", () => {
       screen.getByRole("heading", { name: "Join the list" }),
     ).toBeInTheDocument();
     expect(container.querySelector("span.font-display")?.textContent).toContain(
-      "EXON TECH",
+      "EXVANO LABS",
     );
     expect(screen.getByText("Get updates by email.")).toBeInTheDocument();
     expect(screen.getByText("Takes about 30 seconds")).toBeInTheDocument();
