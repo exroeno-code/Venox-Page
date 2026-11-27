@@ -3,7 +3,7 @@ export function Wordmark({ className = "" }: { className?: string }) {
   return (
     <span className={className}>
       <img
-        src="/vexon-circuit-v.png"
+        src="/brand/vexvano-labs-v.png"
         alt="V"
         width={512}
         height={512}

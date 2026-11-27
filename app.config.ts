@@ -1,3 +1,3 @@
 export default {
-  logoUrl: "/brand/vexvano-labs-logo-glow.png",
+  logoUrl: "/brand/vexvano-labs-v.png",
 };
