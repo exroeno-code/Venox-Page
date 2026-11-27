@@ -7,6 +7,7 @@ import { Words } from "@/components/vexon/Words";
 import { TopBar } from "@/components/vexon/TopBar";
 import { SocialLinks } from "@/components/vexon/SocialIcons";
 import { Wordmark } from "@/components/vexon/Wordmark";
+import { SITE } from "@/lib/site-config";
 import { ogImageMeta } from "@/lib/seo";
 
 const TITLE = "VEXON TECH — Useful ideas, made practical";
@@ -326,6 +327,71 @@ function Index() {
           financial advice. Foreign exchange trading and CFDs carry a high risk
           of loss.
         </p>
+      </section>
+
+      {/* FIRST COMMERCIAL OFFER */}
+      <section className="px-5 py-28 md:px-10">
+        <div className="rounded-lg border bg-card px-6 py-12 md:px-10 md:py-16">
+          <div className="grid gap-14 lg:grid-cols-[1.15fr_1fr] lg:items-end">
+            <div data-reveal>
+              <span className="font-mono text-xs tracking-[0.3em] text-muted-foreground">
+                [ FIRST COMMERCIAL OFFER ]
+              </span>
+              <h2 className="mt-4 max-w-3xl font-display text-5xl font-extrabold uppercase leading-[0.95] md:text-7xl">
+                <Words
+                  text="Make repetitive work easier with practical AI"
+                  className="text-chrome"
+                />
+              </h2>
+              <p className="reveal mt-8 max-w-xl text-lg leading-relaxed text-muted-foreground">
+                VEXON helps Kenyan small businesses set up human-reviewed AI
+                workflows for customer replies, documents, content, and daily
+                operations.
+              </p>
+              <div className="reveal mt-8 flex flex-wrap items-center gap-6">
+                <Link
+                  to="/contact"
+                  className="bracket-btn px-7 py-4 font-mono text-sm uppercase tracking-[0.2em] transition-colors hover:bg-foreground/5"
+                >
+                  Book an AI workflow audit
+                </Link>
+                <a
+                  href={`${SITE.whatsappUrl}?text=${encodeURIComponent("Hello VEXON TECH, I'd like to learn about the AI Workflow Sprint.")}`}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="group flex items-center gap-2 text-sm"
+                >
+                  Chat on WhatsApp
+                  <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                </a>
+              </div>
+            </div>
+            <div data-reveal className="reveal">
+              <div className="mb-6 flex items-center justify-between font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
+                <span>[ AI WORKFLOW SPRINT ]</span>
+                <span>From KES 20,000</span>
+              </div>
+              <ul className="divide-y border-y">
+                {[
+                  ["01", "Find the repetitive task costing you time"],
+                  ["02", "Set up a useful workflow with your team"],
+                  ["03", "Train, test, and improve it together"],
+                ].map(([number, text]) => (
+                  <li key={number} className="flex items-center gap-5 py-5">
+                    <span className="font-mono text-xs text-muted-foreground">
+                      {number}
+                    </span>
+                    <span className="text-sm leading-relaxed">{text}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-6 font-mono text-xs leading-relaxed text-muted-foreground">
+                Human-led setup. Clear scope. No guaranteed profits, financial
+                advice, or autonomous customer decisions.
+              </p>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* FIRST CONCEPT / STATUS */}
