@@ -22,9 +22,9 @@ import { Words } from "@/components/vexon/Words";
 import { SITE } from "@/lib/site-config";
 import { ogImageMeta } from "@/lib/seo";
 
-const TITLE = "What VEXON TECH does — VEXVANO LABS";
+const TITLE = "Services — VEXVANO LABS";
 const DESC =
-  "See what VEXON TECH offers now, what visitors can express interest in, and which practical business systems are still proposed.";
+  "See what VEXVANO LABS offers now, what visitors can express interest in, and which practical business systems are still proposed.";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
@@ -191,7 +191,7 @@ const GROUPS: { label: string; intro: string; statuses: Status[] }[] = [
   {
     label: "What we can discuss now",
     intro:
-      "These are the clearest ways to work with or express interest in VEXON TECH today.",
+      "These are the clearest ways to work with or express interest in VEXVANO LABS today.",
     statuses: ["Available now", "Expression of interest", "Idea stage"],
   },
   {
@@ -213,10 +213,10 @@ function Services() {
           <Words text="What we do" className="text-chrome" />
         </h1>
         <p className="mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-          VEXON TECH is the service direction within VEXVANO LABS: practical
-          digital systems, learning, automation, and responsible technology for
-          people and businesses. This page separates what is available, what is
-          open for interest, and what is still being explored.
+          VEXVANO LABS provides practical digital systems, learning, automation,
+          and responsible technology for people and businesses. This page
+          separates what is available, what is open for interest, and what is
+          still being explored.
         </p>
         <div className="mt-10 flex flex-wrap gap-4">
           <Link
@@ -328,10 +328,10 @@ function Services() {
             <p className="text-muted-foreground">
               The WhatsApp community, trading group, channel, and contact page
               are ways to ask questions, follow progress, or share interest.
-              They are not separate VEXON TECH services.
+              They are not separate VEXVANO LABS services.
             </p>
             <a
-              href={`${SITE.whatsappUrl}?text=${encodeURIComponent("Hello VEXON TECH, I'd like to discuss a service.")}`}
+              href={`${SITE.whatsappUrl}?text=${encodeURIComponent("Hello VEXVANO LABS, I'd like to discuss a service.")}`}
               target="_blank"
               rel="noreferrer noopener"
               className="mt-6 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] hover:text-glow"

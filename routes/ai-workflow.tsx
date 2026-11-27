@@ -13,7 +13,8 @@ import { Words } from "@/components/vexon/Words";
 import { SITE } from "@/lib/site-config";
 import { ogImageMeta } from "@/lib/seo";
 
-const TITLE = "AI Workflow Audit and Sprint for Kenyan Businesses | VEXON TECH";
+const TITLE =
+  "AI Workflow Audit and Sprint for Kenyan Businesses | VEXVANO LABS";
 const DESC =
   "Make repetitive business work easier with practical, human-led AI workflows for customer replies, documents, content, and daily operations.";
 
@@ -22,7 +23,10 @@ export const Route = createFileRoute("/ai-workflow")({
     meta: [
       { title: TITLE },
       { name: "description", content: DESC },
-      { property: "og:title", content: "VEXON AI Workflow Audit and Sprint" },
+      {
+        property: "og:title",
+        content: "VEXVANO LABS AI Workflow Audit and Sprint",
+      },
       { property: "og:description", content: DESC },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -32,7 +36,7 @@ export const Route = createFileRoute("/ai-workflow")({
   component: AIWorkflow,
 });
 
-const WHATSAPP_HREF = `${SITE.whatsappUrl}?text=${encodeURIComponent("Hello VEXON TECH, I'd like to learn about the AI Workflow Audit and Sprint.")}`;
+const WHATSAPP_HREF = `${SITE.whatsappUrl}?text=${encodeURIComponent("Hello VEXVANO LABS, I'd like to learn about the AI Workflow Audit and Sprint.")}`;
 
 const STEPS = [
   [
@@ -90,7 +94,7 @@ const FAQS = [
 
 function AIWorkflow() {
   return (
-    <PageShell tag="[ VEXON TECH · ACTIVE SERVICE ]">
+    <PageShell tag="[ VEXVANO LABS · ACTIVE SERVICE ]">
       <section className="pt-4 md:pt-8">
         <span className="inline-flex items-center gap-3 font-mono text-xs tracking-[0.3em] text-muted-foreground">
           <span className="live-dot size-2 rounded-full bg-glow" /> [ AI
@@ -110,7 +114,7 @@ function AIWorkflow() {
           </span>
         </h1>
         <p className="mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-          VEXON TECH helps Kenyan small businesses make customer replies,
+          VEXVANO LABS helps Kenyan small businesses make customer replies,
           documents, content, and daily operations easier with human-led AI
           workflows your team can actually use.
         </p>
@@ -332,7 +336,7 @@ function AIWorkflow() {
             to="/contact"
             className="bracket-btn inline-flex items-center gap-2 px-7 py-4 font-mono text-sm uppercase tracking-[0.18em]"
           >
-            Contact VEXON TECH <ArrowUpRight className="size-4" />
+            Contact VEXVANO LABS <ArrowUpRight className="size-4" />
           </Link>
           <a
             href={WHATSAPP_HREF}
