@@ -6,4 +6,4 @@
 - [x] Add the AI Workflow Sprint link to the shared menu and change the homepage audit CTA to `/ai-workflow`.
 - [x] Keep the static route manifest and route-generated metadata synchronized.
 - [x] Run focused lint on changed source files, all 84 tests, and the production build successfully. Full repository lint remains blocked by pre-existing formatting violations in untouched files.
-- [ ] Create a Vercel preview deployment only; do not promote to production.
+- [x] Create a Vercel preview deployment only; do not promote to production. Vercel reports the deployment successful for commit `c2539c8`; direct unauthenticated requests are gated by the project’s Vercel SSO protection.
