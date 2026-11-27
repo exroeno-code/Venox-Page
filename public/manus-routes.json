@@ -1,6 +1,7 @@
 {
   "routes": [
     { "path": "/", "title": "Home" },
+    { "path": "/ai-workflow", "title": "AI Workflow Sprint" },
     { "path": "/assistant", "title": "AI Assistant" },
     { "path": "/auth", "title": "Sign in" },
     { "path": "/auth/reset", "title": "Reset password" },

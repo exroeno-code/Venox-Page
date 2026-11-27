@@ -2051,3 +2051,82 @@ body:has(.signup-flow) .guide-widget-dock {
     animation: none;
   }
 }
+
+.workflow-page a {
+  transition:
+    color 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    filter 180ms ease;
+}
+.workflow-page a:hover {
+  color: var(--foreground);
+}
+.workflow-hero-glow {
+  background:
+    radial-gradient(
+      60% 50% at 20% 10%,
+      color-mix(in oklab, var(--primary) 20%, transparent),
+      transparent
+    ),
+    radial-gradient(
+      50% 50% at 90% 30%,
+      color-mix(in oklab, var(--accent) 18%, transparent),
+      transparent
+    );
+}
+.workflow-circuit-grid {
+  background-image:
+    linear-gradient(
+      color-mix(in oklab, var(--primary) 10%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in oklab, var(--primary) 10%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+}
+.workflow-logo-mark {
+  position: relative;
+  display: grid;
+  aspect-ratio: 1;
+  width: min(100%, 22rem);
+  place-items: center;
+  justify-self: center;
+  border: 1px solid color-mix(in oklab, var(--primary) 60%, transparent);
+  border-radius: 999px;
+  background: radial-gradient(
+    circle,
+    color-mix(in oklab, var(--primary) 24%, transparent),
+    transparent 64%
+  );
+  box-shadow: 0 0 90px color-mix(in oklab, var(--primary) 28%, transparent);
+}
+.workflow-logo-mark::before,
+.workflow-logo-mark::after {
+  position: absolute;
+  inset: 12%;
+  border: 1px solid color-mix(in oklab, var(--accent) 36%, transparent);
+  border-radius: 999px;
+  content: "";
+}
+.workflow-logo-mark::after {
+  inset: 25%;
+  border-color: color-mix(in oklab, var(--primary) 40%, transparent);
+}
+.workflow-logo-mark span {
+  font-family: var(--font-display);
+  font-size: 12rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--primary);
+  text-shadow: 0 0 34px color-mix(in oklab, var(--primary) 65%, transparent);
+}
+@media (prefers-reduced-motion: reduce) {
+  .workflow-page a {
+    transition: none;
+  }
+}

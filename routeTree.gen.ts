@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AiWorkflowRouteImport } from './routes/ai-workflow'
 import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CommunityRouteImport } from './routes/community'
@@ -31,6 +32,11 @@ import { Route as AuthResetRequestRouteImport } from './routes/auth.reset-reques
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AiWorkflowRoute = AiWorkflowRouteImport.update({
+  id: '/ai-workflow',
+  path: '/ai-workflow',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AssistantRoute = AssistantRouteImport.update({
@@ -121,6 +127,7 @@ const AuthResetRequestRoute = AuthResetRequestRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ai-workflow': typeof AiWorkflowRoute
   '/assistant': typeof AssistantRoute
   '/auth': typeof AuthRouteWithChildren
   '/community': typeof CommunityRoute
@@ -141,6 +148,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ai-workflow': typeof AiWorkflowRoute
   '/assistant': typeof AssistantRoute
   '/auth': typeof AuthRouteWithChildren
   '/community': typeof CommunityRoute
@@ -162,6 +170,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ai-workflow': typeof AiWorkflowRoute
   '/assistant': typeof AssistantRoute
   '/auth': typeof AuthRouteWithChildren
   '/community': typeof CommunityRoute
@@ -184,6 +193,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/ai-workflow'
     | '/assistant'
     | '/auth'
     | '/community'
@@ -204,6 +214,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/ai-workflow'
     | '/assistant'
     | '/auth'
     | '/community'
@@ -224,6 +235,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/ai-workflow'
     | '/assistant'
     | '/auth'
     | '/community'
@@ -245,6 +257,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AiWorkflowRoute: typeof AiWorkflowRoute
   AssistantRoute: typeof AssistantRoute
   AuthRoute: typeof AuthRouteWithChildren
   CommunityRoute: typeof CommunityRoute
@@ -269,6 +282,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ai-workflow': {
+      id: '/ai-workflow'
+      path: '/ai-workflow'
+      fullPath: '/ai-workflow'
+      preLoaderRoute: typeof AiWorkflowRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/assistant': {
@@ -407,6 +427,7 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AiWorkflowRoute: AiWorkflowRoute,
   AssistantRoute: AssistantRoute,
   AuthRoute: AuthRouteWithChildren,
   CommunityRoute: CommunityRoute,

@@ -8,6 +8,7 @@ import { SocialLinks } from "@/components/vexon/SocialIcons";
 import { Wordmark } from "@/components/vexon/Wordmark";
 
 const PAGES = [
+  { to: "/ai-workflow", label: "AI Workflow Sprint" },
   { to: "/assistant", label: "AI Assistant" },
   { to: "/roadmap", label: "Roadmap" },
   { to: "/forex-trading", label: "Foreign exchange trading" },

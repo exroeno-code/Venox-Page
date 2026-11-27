@@ -350,7 +350,7 @@ function Index() {
               </p>
               <div className="reveal mt-8 flex flex-wrap items-center gap-6">
                 <Link
-                  to="/contact"
+                  to="/ai-workflow"
                   className="bracket-btn px-7 py-4 font-mono text-sm uppercase tracking-[0.2em] transition-colors hover:bg-foreground/5"
                 >
                   Book an AI workflow audit
