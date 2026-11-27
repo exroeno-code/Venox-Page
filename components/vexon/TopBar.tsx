@@ -10,7 +10,7 @@ import { Wordmark } from "@/components/vexon/Wordmark";
 const PAGES = [
   { to: "/assistant", label: "AI Assistant" },
   { to: "/roadmap", label: "Roadmap" },
-  { to: "/forex-trading", label: "Online Forex" },
+  { to: "/forex-trading", label: "Foreign exchange trading" },
   { to: "/learning", label: "Learning" },
   { to: "/trading", label: "Trading" },
   { to: "/community", label: "Community" },

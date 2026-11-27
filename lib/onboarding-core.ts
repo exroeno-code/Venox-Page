@@ -44,7 +44,7 @@ export const HELP_TOPIC_LABELS: Record<HelpTopic, string> = {
   online_presence: "Online presence",
   business_training: "Business training",
   computing_classes: "Computing classes",
-  online_forex_trading: "Online forex trading concept",
+  online_forex_trading: "Foreign exchange trading concept",
   responsible_goods_trade: "Previous interest: goods trade",
   other: "Other",
 };

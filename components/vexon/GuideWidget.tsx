@@ -22,15 +22,15 @@ const LINK_RE = /\[([^\]]+)\]\(([^)\s]+)\)/g;
 const WELCOME_STEPS = [
   {
     title: "Welcome to VEXON TECH",
-    text: "Useful ideas. Real-world progress. Explore practical technology and our early online forex trading concept—shared with clear status, not hype.",
+    text: "Useful ideas. Real-world progress. Explore practical technology and our early foreign exchange trading concept—shared with clear status, not hype.",
   },
   {
-    title: "Forex is a concept, not a live service",
-    text: "The online forex idea is at the Idea stage. VEXON TECH is not a broker; there are no trading accounts, deposits, or trades here.",
+    title: "Foreign exchange trading is a concept, not a live service",
+    text: "Foreign exchange trading is at the Idea stage. VEXON TECH is not a broker; there are no trading accounts, deposits, or trades here.",
   },
   {
     title: "Find a clear next step",
-    text: "Ask about VEXON TECH, the forex concept, learning, or the roadmap. Tap or click the golden V to open the guide; hovering only plays a soft sound. Skip or close this tour whenever you like.",
+    text: "Ask about VEXON TECH, the foreign exchange trading concept, learning, or the roadmap. Tap or click the golden V to open the guide; hovering only plays a soft sound. Skip or close this tour whenever you like.",
   },
 ];
 
@@ -296,7 +296,7 @@ export function GuideWidget() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               maxLength={MAX_CHARS}
-              placeholder="Ask about VEXON TECH, forex, or this website…"
+              placeholder="Ask about VEXON TECH, foreign exchange trading, or this website…"
               aria-label="Ask the VEXON Guide"
               className="min-h-11 min-w-0 flex-1 rounded-full border border-white/[0.14] bg-white/[0.045] px-4 py-2.5 text-base text-white outline-none transition-colors placeholder:text-white/45 focus:border-glow/70 focus-visible:ring-2 focus-visible:ring-glow/40"
             />

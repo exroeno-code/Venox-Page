@@ -125,12 +125,13 @@ function Trading() {
             Learning only—not personalized financial advice.
           </p>
           <p>
-            Online forex is at the idea stage. VEXON TECH does not provide a
-            broker, platform or accounts, and does not take deposits, execute
-            trades, sell signals, manage money, recommend or endorse brokers, or
-            provide personalized financial advice. Proposed trading education is
-            for learning only. Forex and CFDs carry a high risk of loss. Only
-            use money you can afford to lose. If you use a broker, check the{" "}
+            Foreign exchange trading is at the Idea stage. VEXON TECH does not
+            provide a broker, platform or accounts, and does not take deposits,
+            execute trades, sell signals, manage money, recommend or endorse
+            brokers, or provide personalized financial advice. Proposed trading
+            education is for learning only. Foreign exchange trading and CFDs
+            carry a high risk of loss. Only use money you can afford to lose. If
+            you use a broker, check the{" "}
             <a
               href="https://licensees.cma.or.ke/licenses/5/"
               target="_blank"

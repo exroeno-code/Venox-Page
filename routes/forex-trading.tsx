@@ -6,9 +6,9 @@ import { ParticleField } from "@/components/vexon/ParticleField";
 import { Words } from "@/components/vexon/Words";
 import { ogImageMeta } from "@/lib/seo";
 
-const TITLE = "Online forex trading: an early idea — VEXON TECH";
+const TITLE = "Foreign exchange trading: an early idea — VEXON TECH";
 const DESC =
-  "VEXON TECH is exploring online forex trading as an early idea. There is no live platform, broker service, account, deposit facility, or trade execution.";
+  "VEXON TECH is exploring foreign exchange trading as an early idea. There is no live platform, broker service, account, deposit facility, or trade execution.";
 
 export const Route = createFileRoute("/forex-trading")({
   head: () => ({
@@ -60,21 +60,24 @@ const CONSIDERATIONS = [
 
 function ForexTrading() {
   return (
-    <PageShell tag="[ ONLINE FOREX TRADING ]" scene={<Scene />}>
+    <PageShell tag="[ FOREIGN EXCHANGE TRADING ]" scene={<Scene />}>
       <section className="pb-8 pt-4 md:pt-8">
         <span className="font-mono text-xs tracking-[0.3em] text-muted-foreground">
           [ IDEA STAGE · NOT A LIVE SERVICE ]
         </span>
-        <h1 className="mt-6 font-display text-5xl font-extrabold uppercase leading-[0.9] md:text-[7rem]">
+        <h1
+          aria-label="Foreign exchange trading"
+          className="mt-6 font-display text-5xl font-extrabold uppercase leading-[0.9] md:text-[7rem]"
+        >
           <span className="block">
-            <Words text="Online forex" className="text-chrome" />
+            <Words text="Foreign exchange" className="text-chrome" />
           </span>
           <span className="block">
             <Words text="trading" base={220} className="text-chrome" />
           </span>
         </h1>
         <p className="mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-          We’re exploring online forex trading as a possible future project.
+          We’re exploring foreign exchange trading as a possible future project.
           It’s only an idea for now: VEXON TECH does not offer a trading
           platform, broker service, or financial service.
         </p>
@@ -106,14 +109,14 @@ function ForexTrading() {
         />
         <div className="space-y-2 text-sm leading-relaxed text-amber-100/90">
           <p className="font-semibold uppercase tracking-wide text-amber-200">
-            Forex risk notice · not financial advice
+            Foreign exchange trading risk notice · not financial advice
           </p>
           <p>
-            Forex and CFDs carry a high risk of loss, and losses can happen
-            quickly. This page is about an idea that has not launched; it is not
-            a recommendation, an invitation to trade, or financial advice.
-            Please consider whether you understand the risks and seek
-            independent professional advice where appropriate.
+            Foreign exchange trading and CFDs carry a high risk of loss, and
+            losses can happen quickly. This page is about an idea that has not
+            launched; it is not a recommendation, an invitation to trade, or
+            financial advice. Please consider whether you understand the risks
+            and seek independent professional advice where appropriate.
           </p>
         </div>
       </section>

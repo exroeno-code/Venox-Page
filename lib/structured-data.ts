@@ -58,7 +58,7 @@ export function getOrganizationSchema(siteUrl: string): OrganizationSchema {
     url: siteUrl,
     logo: `${siteUrl}/favicon.svg`,
     description:
-      "VEXON TECH — useful ideas, real-world progress. A builder-led venture exploring practical software, responsible AI-enabled workflows, and an early online forex trading concept.",
+      "VEXON TECH — useful ideas, real-world progress. A builder-led venture exploring practical software, responsible AI-enabled workflows, and an early foreign exchange trading concept.",
     sameAs: [
       "https://github.com/exroeno-code/Venox-Page",
       "https://x.com/vexontech",

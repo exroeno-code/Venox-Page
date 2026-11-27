@@ -7,7 +7,7 @@
     { "path": "/auth/reset-request", "title": "Request password reset" },
     { "path": "/community", "title": "Community" },
     { "path": "/contact", "title": "Contact" },
-    { "path": "/forex-trading", "title": "Online Forex Trading" },
+    { "path": "/forex-trading", "title": "Foreign exchange trading" },
     { "path": "/goods-trade", "title": "Legacy Goods Trade redirect" },
     { "path": "/leadership", "title": "Leadership" },
     { "path": "/learning", "title": "Learning" },

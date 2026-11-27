@@ -78,6 +78,7 @@ describe("localAnswer", () => {
       "Is VEXON TECH a live online forex broker?",
     );
     expect(answer).toContain("not a live broker");
+    expect(answer).toContain("foreign exchange trading concept");
     expect(answer).toContain("(/forex-trading)");
     expect(answer).toContain("high risk");
   });
@@ -92,7 +93,7 @@ describe("localAnswer", () => {
 describe("company context", () => {
   it("grounds the AI Guide in VEXON's company identity, principles, and current-stage boundaries", () => {
     expect(SITE_FACTS).toContain("builder-led venture");
-    expect(SITE_FACTS).toContain("online forex trading");
+    expect(SITE_FACTS).toContain("foreign exchange trading");
     expect(SITE_FACTS).toContain("not a live broker");
     expect(SITE_FACTS).toContain("Nairobi and Kakamega");
     expect(SYSTEM_PROMPT).toContain("company-aware VEXON TECH website guide");

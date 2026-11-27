@@ -6,7 +6,7 @@ This repository contains the VEXON TECH information website. The site explains t
 
 VEXON TECH is a builder-led venture in concept development, based in Kenya. Its focus is useful ideas and real-world progress. The roadmap is the source of truth for the status of each workstream; do not describe an idea or planned offering as live.
 
-The online forex trading workstream is at **Idea** stage. VEXON TECH does not currently provide a forex platform or brokerage, trading accounts, deposits, trade execution, signals, money management, broker endorsements, or personalized financial advice. Forex and CFDs carry a high risk of loss. The separate `/trading` page describes proposed trading education and is not financial advice.
+The foreign exchange trading workstream is at **Idea** stage. VEXON TECH does not currently provide a foreign exchange trading platform or brokerage, trading accounts, deposits, trade execution, signals, money management, broker endorsements, or personalized financial advice. Foreign exchange trading and CFDs carry a high risk of loss. The separate `/trading` page describes proposed trading education and is not financial advice.
 
 ## Main routes
 
@@ -14,7 +14,7 @@ The online forex trading workstream is at **Idea** stage. VEXON TECH does not cu
 | -------------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Home                 | `/`                 | Brand, foundation, principles, and workstreams.                                                                                                                                                                  |
 | AI Assistant         | `/assistant`        | Concept page and waitlist; the future assistant is not yet a live offering.                                                                                                                                      |
-| Online Forex Trading | `/forex-trading`    | Idea-stage concept page with explicit no-broker/no-live-service boundaries and a risk notice.                                                                                                                    |
+| Foreign exchange trading | `/forex-trading`    | Idea-stage concept page with explicit no-broker/no-live-service boundaries and a risk notice.                                                                                                                    |
 | Legacy URL           | `/goods-trade`      | Redirects to `/forex-trading` so old bookmarks remain usable.                                                                                                                                                    |
 | Roadmap              | `/roadmap`          | Initiatives labelled Idea, Prototype, Pilot, or Live; keep status aligned with reality.                                                                                                                          |
 | Learning             | `/learning`         | Computing programmes and applications of interest; fees, accreditation, and dates are unconfirmed.                                                                                                               |
@@ -26,11 +26,11 @@ The online forex trading workstream is at **Idea** stage. VEXON TECH does not cu
 
 ## Guide and onboarding
 
-The VEXON TECH guide uses curated local answers first for common site questions, including page navigation, forex concept status, trading education, learning, roadmap, community, and contact details. Only unmatched questions call the configured NVIDIA chat service; that request has an 8-second timeout and falls back to the local answer set. The prompt is grounded in the current site facts and must not invent product details or provide investment advice.
+The VEXON TECH guide uses curated local answers first for common site questions, including page navigation, foreign exchange trading concept status, trading education, learning, roadmap, community, and contact details. Only unmatched questions call the configured NVIDIA chat service; that request has an 8-second timeout and falls back to the local answer set. The prompt is grounded in the current site facts and must not invent product details or provide investment advice.
 
 The welcome tour is step-by-step and dismissible. Hovering the golden V may play a sound but must not open the guide; click or tap opens it. Keep the launcher comfortable to use with touch input.
 
-The onboarding form offers online forex as a current interest. Existing `responsible_goods_trade` selections are retained as a legacy preference and remain editable; do not silently convert that historical value to a forex interest. The additive SQL change is in `supabase/migrations/20261126010000_online_forex_interest.sql`.
+The onboarding form offers foreign exchange trading as an interest category. Existing `responsible_goods_trade` selections are retained as a legacy preference and remain editable; do not silently convert that historical value to a foreign exchange trading interest. The additive SQL change is in `supabase/migrations/20261126010000_online_forex_interest.sql`.
 
 ## Development
 

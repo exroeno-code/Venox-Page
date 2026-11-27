@@ -97,12 +97,12 @@ function Community() {
       </section>
 
       <p className="max-w-xl pb-6 font-mono text-[0.7rem] leading-relaxed text-muted-foreground">
-        Forex and CFDs carry a high risk of loss. Online forex is only at the
-        idea stage: VEXON TECH does not provide a broker, platform, accounts,
-        deposits, trade execution, signals, money management, broker
-        endorsements or personalized financial advice. Trading education is
-        proposed, not personalized advice. Nothing shared in our groups is
-        financial advice. Do your own research.
+        Foreign exchange trading and CFDs carry a high risk of loss. Foreign
+        exchange trading is only at the idea stage: VEXON TECH does not provide
+        a broker, platform, accounts, deposits, trade execution, signals, money
+        management, broker endorsements or personalized financial advice.
+        Trading education is proposed, not personalized advice. Nothing shared
+        in our groups is financial advice. Do your own research.
       </p>
     </PageShell>
   );

@@ -50,10 +50,13 @@ const ITEMS: {
     link: { to: "/assistant", label: "See the idea and join the waitlist" },
   },
   {
-    title: "Online forex trading concept",
+    title: "Foreign exchange trading concept",
     stage: "Idea",
-    note: "This is an early idea to explore online forex trading and make the risks clear. There is no live platform or brokerage. Product scope, markets, regulatory status, operators and timing are not confirmed.",
-    link: { to: "/forex-trading", label: "Read about the forex idea" },
+    note: "This is an early idea to explore foreign exchange trading and make the risks clear. There is no live platform or brokerage. Product scope, markets, regulatory status, operators and timing are not confirmed.",
+    link: {
+      to: "/forex-trading",
+      label: "Read about the foreign exchange trading idea",
+    },
   },
 ];
 
@@ -61,7 +64,7 @@ const ITEMS: {
 const UPDATES: { date: string; text: string }[] = [
   {
     date: "November 2026",
-    text: "We replaced the goods-commerce idea with an online forex trading concept. It’s still at Idea stage; no brokerage or trading service is live.",
+    text: "We replaced the goods-commerce idea with a foreign exchange trading concept. It’s still at Idea stage; no brokerage or trading service is live.",
   },
   {
     date: "November 2026",

@@ -11,7 +11,7 @@ import { ogImageMeta } from "@/lib/seo";
 
 const TITLE = "VEXON TECH — Useful ideas, made practical";
 const DESC =
-  "VEXON TECH is a Kenya-based, builder-led venture in concept development, exploring useful technology and an online forex idea with clear status and risks.";
+  "VEXON TECH is a Kenya-based, builder-led venture in concept development, exploring useful technology and a foreign exchange trading idea with clear status and risks.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -62,7 +62,7 @@ const FOUNDATION = [
   ],
   [
     "Mission",
-    "Explore and improve useful digital technology—software, digital products, and responsible AI-enabled workflows—while considering online forex trading as an early idea.",
+    "Explore and improve useful digital technology—software, digital products, and responsible AI-enabled workflows—while considering foreign exchange trading as an early idea.",
   ],
   [
     "Positioning",
@@ -177,8 +177,8 @@ function Index() {
             <p className="mt-8 max-w-md text-base leading-relaxed text-muted-foreground">
               VEXON TECH is a Kenya-based, builder-led venture in concept
               development. We’re exploring practical software, responsible
-              AI-enabled workflows, and an online forex idea—with clear risks
-              and no hype.
+              AI-enabled workflows, and a foreign exchange trading idea—with
+              clear risks and no hype.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-6">
               <Link
@@ -275,12 +275,12 @@ function Index() {
             },
             {
               k: "B",
-              t: "Online forex trading",
-              d: "Online forex is only an idea we’re considering. It is at the Idea stage—not a broker, platform, or financial service.",
+              t: "Foreign exchange trading",
+              d: "Foreign exchange trading is only an idea we’re considering. It is at the Idea stage—not a broker, platform, or financial service.",
               rot: 2,
               v: "field" as const,
               to: "/forex-trading" as const,
-              more: "Read about the forex idea",
+              more: "Read about the foreign exchange trading idea",
             },
           ].map((c) => (
             <article
@@ -320,10 +320,11 @@ function Index() {
           ))}
         </div>
         <p className="mt-10 font-mono text-xs leading-relaxed text-muted-foreground">
-          Online forex is an early idea only. VEXON TECH does not provide a
-          broker, platform, accounts, deposits, trade execution, signals, money
-          management, broker endorsements, or personalized financial advice.
-          Forex and CFDs carry a high risk of loss.
+          Foreign exchange trading is an early idea only. VEXON TECH does not
+          provide a broker, platform, accounts, deposits, trade execution,
+          signals, money management, broker endorsements, or personalized
+          financial advice. Foreign exchange trading and CFDs carry a high risk
+          of loss.
         </p>
       </section>
 
