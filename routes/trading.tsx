@@ -68,6 +68,55 @@ function Scene() {
 
 const interestLink = `${SITE.whatsappUrl}?text=${encodeURIComponent("Hello VEXVANO LABS, I'm interested in your trading education classes. Please share more details.")}`;
 
+const LIVE_MARKETS = [
+  { symbol: "OANDA:EURUSD", label: "EUR / USD", interval: "60" },
+  { symbol: "OANDA:GBPUSD", label: "GBP / USD", interval: "60" },
+  { symbol: "OANDA:USDJPY", label: "USD / JPY", interval: "60" },
+  { symbol: "OANDA:XAUUSD", label: "Gold / USD", interval: "60" },
+] as const;
+
+function TradingViewChart({
+  symbol,
+  label,
+  interval,
+}: (typeof LIVE_MARKETS)[number]) {
+  const query = new URLSearchParams({
+    symbol,
+    interval,
+    hidesidetoolbar: "1",
+    hidetoptoolbar: "1",
+    hidelegend: "0",
+    saveimage: "0",
+    timezone: "Etc/UTC",
+    theme: "dark",
+    style: "1",
+    locale: "en",
+    hideideas: "1",
+    withdateranges: "1",
+  });
+
+  return (
+    <article className="overflow-hidden rounded-lg border bg-card/60 backdrop-blur-md">
+      <div className="flex items-center justify-between border-b px-4 py-3">
+        <h3 className="font-mono text-xs uppercase tracking-[0.2em]">
+          {label}
+        </h3>
+        <span className="flex items-center gap-2 font-mono text-[0.6rem] uppercase tracking-[0.15em] text-muted-foreground">
+          <span className="live-dot size-1.5 rounded-full bg-glow" /> Live feed
+        </span>
+      </div>
+      <iframe
+        title={`${label} live market chart`}
+        src={`https://www.tradingview.com/widgetembed/?${query.toString()}`}
+        className="block h-[360px] w-full border-0 md:h-[420px]"
+        loading="lazy"
+        referrerPolicy="origin"
+        allowFullScreen
+      />
+    </article>
+  );
+}
+
 function Trading() {
   return (
     <PageShell tag="[ TRADING ]" scene={<Scene />}>
@@ -143,6 +192,34 @@ function Trading() {
             .
           </p>
         </div>
+      </section>
+
+      <section className="py-10">
+        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <span className="font-mono text-xs tracking-[0.3em] text-muted-foreground">
+              [ LIVE MARKET VIEW · UTC ]
+            </span>
+            <h2 className="mt-3 font-display text-4xl font-extrabold uppercase leading-[0.95] md:text-6xl">
+              Watch how markets move.
+            </h2>
+          </div>
+          <span className="font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
+            Educational display only
+          </span>
+        </div>
+        <div className="grid gap-4 lg:grid-cols-2">
+          {LIVE_MARKETS.map((market) => (
+            <TradingViewChart key={market.symbol} {...market} />
+          ))}
+        </div>
+        <p className="mt-5 max-w-3xl font-mono text-[0.68rem] leading-relaxed text-muted-foreground">
+          Charts are embedded from TradingView and show provider market data.
+          Real-time availability and timing can vary by symbol, feed, market
+          hours, and provider. VEXVANO LABS does not provide signals, forecasts,
+          trade execution, or investment advice. Never treat this display as a
+          recommendation to buy or sell.
+        </p>
       </section>
 
       <section className="py-6">
